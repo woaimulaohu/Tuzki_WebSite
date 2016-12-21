@@ -1,0 +1,57 @@
+﻿    .blog-twitter-block{
+    margin-bottom: 10px;
+    padding: 5px;
+    position: relative;
+    width: 310px;
+}
+
+.blog-twitter-block p {
+    font-family: 'Microsoft YaHei';
+    font-size: small;
+    font-weight: lighter;
+}
+
+.blog-twitter-block a em {
+    font-size: x-small;
+    font-weight: lighter;
+    font-style: italic;
+    font-family: 'Microsoft YaHei';
+}
+
+.blog-twitter-block span {
+    font-size: x-small;
+    font-weight: lighter;
+    font-style: italic;
+    font-family: 'Microsoft YaHei';
+    color: darkgray;
+}
+
+.row img {
+    width: 54px;
+    height: 54px;
+    float: right;
+    margin-right: 8px;
+}
+
+.pagination-small {
+    border-radius: 4px;
+    display: inline-block;
+    margin: 20px 0;
+    padding-left: 0;
+}
+
+    .pagination-small > li {
+        display: inline;
+    }
+
+        .pagination-small > li > a, .pagination-small > li > span {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #337ab7;
+            float: left;
+            line-height: 1.42857;
+            margin-left: 0px;
+            padding: 2px 6px;
+            position: relative;
+            text-decoration: none;
+        }

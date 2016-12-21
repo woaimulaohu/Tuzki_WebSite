@@ -1,0 +1,95 @@
+﻿ <!--博客摘要页start-->
+<div>
+    <div class="col-md-8">
+        <br>
+        <div class="row">
+            <div id="snippetContent" class="col-md-12 welcome-left">
+                <h3>CSS 派生选择器</h3>
+                <h4>通过依据元素在其位置的上下文关系来定义样式，你可以使标记更加简洁。</h4>
+                <p>
+                    在 CSS1 中，通过这种方式来应用规则的选择器被称为上下文选择器 (contextual selectors)，这是由于它们依赖于上下文关系来应用或者避免某项规则。在 CSS2 中，它们称为派生选择器，但是无论你如何称呼它们，它们的作用都是相同的。
+                    派生选择器允许你根据文档的上下文关系来确定某个标签的样式。通过合理地使用派生选择器，我们可以使 HTML 代码变得更加整洁。......
+                </p>
+                <ul class="list-inline">
+                    <li>
+                        <span class="label label-primary">CSS</span>
+                        <span class="label label-primary">派生选择器</span>
+                    </li>
+                    <li>
+                        <p>2016-01-01 12:01:59</p>
+                    </li>
+                    <li>
+                        <p>阅读次数:100</p>
+                    </li>
+                </ul>
+                <div class="w-btn">
+                    <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial($(this).next().attr('postId'))">查看</a>
+                    <input style="visibility:collapse" postId="3" />
+                </div>
+            </div>
+            <hr style="color:black" />
+        </div>
+        <div class="row">
+            <ul id="snippetPage" class="pagination"></ul>
+        </div>
+    </div>
+    <br>
+    <div class="col-md-1"></div>
+    <!--留言板start-->
+    <div class="col-md-3" id="MsgBoardArea"></div>
+    <!--留言板end-->
+</div>
+<!--博客摘要页end-->
+<script>
+    //更新页码同时只进行摘要的局部更新
+    function getSnippet(pageStartNum, pageSize) {
+        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
+            pageStartNum = 1;
+        }
+        if (isNullOrEmpty(pageSize)) {
+            pageSize = 5;
+        }
+        $.post('Blog/SnippetPaging', {
+            'pageStartNum': pageStartNum,
+            'pageSize': pageSize
+        }, function (data) {
+            $("#snippetContent").html(data);
+            getPaging(pageStartNum, pageSize);
+        });
+    }
+    //获取页码同时更新摘要
+    function getPaging(pageStartNum, pageSize) {
+        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
+            pageStartNum = 1;
+        }
+        if (isNullOrEmpty(pageSize)) {
+            pageSize = 5;
+        }
+        var pageEndNum = pageSize + pageStartNum;
+        //生成当前页码
+        var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
+        var html = '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startBack) + ',' + parseInt(pageSize) + ')"><<</a></li>';
+        for (var i = pageStartNum; i < pageEndNum; i++) {
+            html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + i + ',' + parseInt(pageSize) + ')">' + i + '</a></li>';
+        }
+        var startForward = parseInt(pageStartNum) + parseInt(pageSize);
+        html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startForward) + ',' + parseInt(pageSize) + ')">>></a></li>';
+        $('#snippetPage').html(html);
+    }
+
+    //获取正文
+    function getDetial(id) {
+        $.post('Blog/Detial?id=' + id, function (data) {
+            $("#content").html(data);
+            getMessageBoard();
+        });
+    }
+    //首次加载摘要整个页面布局
+    function MessageBoardOnLoad() {
+        $.post('Blog/MsgBoard', function (data) {
+            $('#MsgBoardArea').html(data);
+            getBoardPaging();
+        });
+    }
+    MessageBoardOnLoad();
+</script>

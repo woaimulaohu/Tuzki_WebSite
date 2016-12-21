@@ -1,0 +1,137 @@
+﻿<style>
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+</style>
+<!--此文章留言区-->
+<div class="row">
+    <h2 style="text-align:right;vertical-align:top;margin-top:0;">留言板</h2>
+</div>
+<div class="row" id="boardContent">
+    <div class="row">
+        <div class="row" style="border-right: 2px solid #ddd;">
+            <img class="img-circle" alt="" src="https://s.gravatar.com/avatar/394c57af99397c032ce21c3c33faf7a4?s=80">
+            <div class="blog-twitter-block">
+                <a href=""></a>
+                <div>
+                    <p>今天天气不错来讲个笑话吧</p>
+                </div>
+                <a href="#">
+                    <em>刘德华</em>
+                </a>
+                <span>2 hours ago</span>
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="border-right: 2px solid #ddd;">
+            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
+            <div class="blog-twitter-block" style="margin-left:10px">
+                <a href=""></a>
+                <div>
+                    <p>今天天气不错来讲个笑话吧</p>
+                </div>
+                <a href="#">
+                    <em>刘德华</em>
+                </a>
+                <span>2 hours ago</span>
+                <a href="#">
+                    <em>回复</em>
+                </a>
+            </div>
+        </div>
+
+        <div class="row" style="border-right: 2px solid #ddd;">
+            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
+            <div class="blog-twitter-block" style="margin-left:40px">
+                <a href=""></a>
+                <div>
+                    <p>今天天气不错来讲个笑话吧</p>
+                </div>
+                <a href="#">
+                    <em>刘德华</em>
+                </a>
+                <span>2 hours ago</span>
+                <a href="#">
+                    <em>回复</em>
+                </a>
+            </div>
+        </div>
+        <hr style="color:black" />
+    </div>
+    <div class="row">
+        <div class="row" style="border-right: 2px solid #ddd;">
+            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
+            <div class="blog-twitter-block" style="margin-left:10px">
+                <a href=""></a>
+                <div>
+                    <p>今天天气不错来讲个笑话吧</p>
+                </div>
+                <a href="#">
+                    <em>刘德华</em>
+                </a>
+                <span>2 hours ago</span>
+                <a href="#">
+                    <em>回复</em>
+                </a>
+            </div>
+        </div>
+        <hr style="color:black" />
+    </div>
+</div>
+<div class="row" style="text-align:right;margin-right:5px;">
+    <ul class="pagination-small" id="boardPage"></ul>
+</div>
+<div class="row">
+    <form role="form" style="margin-bottom:10px">
+        <div class="form-group">
+            <input type="email" class="form-control" id="email" placeholder="你的email">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="nickName" placeholder="你的昵称">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" id="comment" placeholder="我有话说"></textarea>
+        </div>
+        <button type="submit" class="btn btn-info">说完了</button>
+    </form>
+</div>
+<script>
+    //更新页码同时只进行留言板的局部更新
+    function getBoard(pageStartNum, pageSize) {
+        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
+            pageStartNum = 1;
+        }
+        if (isNullOrEmpty(pageSize)) {
+            pageSize = 5;
+        }
+        $.post('Blog/MsgBoard', {
+            'pageStartNum': pageStartNum,
+            'pageSize': pageSize
+        }, function (data) {
+            $("#boardContent").html(data);
+            getBoardPaging(pageStartNum, pageSize);
+        });
+    }
+    //获取页码同时更新摘要
+    function getBoardPaging(pageStartNum, pageSize) {
+        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
+            pageStartNum = 1;
+        }
+        if (isNullOrEmpty(pageSize)) {
+            pageSize = 5;
+        }
+        var pageEndNum = pageSize + pageStartNum;
+        //生成当前页码
+        var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
+        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ')"><<</a></li>';
+        for (var i = pageStartNum; i < pageEndNum; i++) {
+            html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ')">' + i + '</a></li>';
+        }
+        var startForward = parseInt(pageStartNum) + parseInt(pageSize);
+        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ')">>></a></li>';
+        $('#boardPage').html(html);
+    }
+</script>
+
+
