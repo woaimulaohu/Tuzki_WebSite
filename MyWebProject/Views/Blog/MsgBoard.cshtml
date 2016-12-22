@@ -97,7 +97,7 @@
     </form>
 </div>
 <script>
-    //更新页码同时只进行留言板的局部更新
+    //更新留言板
     function getBoard(pageStartNum, pageSize) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
@@ -113,7 +113,7 @@
             getBoardPaging(pageStartNum, pageSize);
         });
     }
-    //获取页码同时更新摘要
+    //获取页码
     function getBoardPaging(pageStartNum, pageSize) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;

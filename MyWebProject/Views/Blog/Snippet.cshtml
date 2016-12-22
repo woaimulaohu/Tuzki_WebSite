@@ -4,38 +4,35 @@
         <br>
         <div class="row">
             <div id="snippetContent" class="col-md-12 welcome-left">
-                @using MyWebProject.Models.Entity;
-                @{List<POST_INFO> list = Model as List<POST_INFO>;
-                    foreach (POST_INFO p in list)
+                @using MyWebProject.Models.QueryResult;
+                @{List<SnippetResult> list = Model as List<SnippetResult>;
+                    foreach (SnippetResult s in list)
                     {
-                        <h3>@p.TITLE</h3>
-                        <h4>@p.POST_ID</h4>
-                        <p>
-                            在 CSS1 中，通过这种方式来应用规则的选择器被称为上下文选择器 (contextual selectors)，这是由于它们依赖于上下文关系来应用或者避免某项规则。在 CSS2 中，它们称为派生选择器，但是无论你如何称呼它们，它们的作用都是相同的。
-                            派生选择器允许你根据文档的上下文关系来确定某个标签的样式。通过合理地使用派生选择器，我们可以使 HTML 代码变得更加整洁。......
-                        </p>
+                        <h3>@s.TITLE</h3>
+                        <h4>@s.POST_ID</h4>
+                        @System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT);
                         <ul class="list-inline">
                             <li>
                                 <span class="label label-primary">CSS</span>
                                 <span class="label label-primary">派生选择器</span>
                             </li>
                             <li>
-                                <p>@p.DATE</p>
+                                <p>@s.DATE</p>
                             </li>
                             <li>
-                                <p>阅读次数:@p.VIEW_COUNT</p>
+                                <p>阅读次数:@s.VIEW_COUNT</p>
                             </li>
                             <li>
-                                <p>点赞次数:@p.PRAISE_COUNT</p>
+                                <p>点赞次数:@s.PRAISE_COUNT</p>
                             </li>
                             <li>
-                                <p>转载次数:@p.REPRODUCED_COUNT</p>
-                    </li>
-                </ul>
-                <div class="w-btn">
-                    <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial($(this).next().attr('postId'))">查看</a>
-                    <input style="visibility:collapse" postId="3" />
-                </div>}
+                                <p>转载次数:@s.REPRODUCED_COUNT</p>
+                            </li>
+                        </ul>
+                        <div class="w-btn">
+                            <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial($(this).next().attr('postId'))">查看</a>
+                            <input style="visibility:collapse" postId="3" />
+                        </div>}
                 }
 
             </div>
@@ -53,7 +50,7 @@
 </div>
 <!--博客摘要页end-->
 <script>
-    //更新页码同时只进行摘要的局部更新
+    //更新摘要
     function getSnippet(pageStartNum, pageSize) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
@@ -69,7 +66,7 @@
             getPaging(pageStartNum, pageSize);
         });
     }
-    //获取页码同时更新摘要
+    //获取页码
     function getPaging(pageStartNum, pageSize) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
@@ -89,14 +86,15 @@
         $('#snippetPage').html(html);
     }
 
-    //获取正文
+    //获取文章正文
     function getDetial(id) {
         $.post('Blog/Detial?id=' + id, function (data) {
             $("#content").html(data);
+            //获取文章内留言
             getMessageBoard();
         });
     }
-    //首次加载摘要整个页面布局
+    //加载留言板布局
     function MessageBoardOnLoad() {
         $.post('Blog/MsgBoard', function (data) {
             $('#MsgBoardArea').html(data);

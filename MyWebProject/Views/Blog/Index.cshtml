@@ -1,5 +1,4 @@
-﻿
-<div class="container" style="width:68%">
+﻿<div class="container" style="width:68%">
     <!--博客内部导航栏和搜索框start-->
     <br />
     <div class="col-md-8">
@@ -30,15 +29,21 @@
 
     </div>
 </div>
+
 <script type="text/javascript">
     //首次加载摘要整个页面布局
     function SnippetOnLoad() {
-        $.post('Blog/Snippet', function (data) {
+        $.post('Blog/Snippet', {
+            "content": '<h1 style="font-size: 32px; font-weight: bold; border-bottom: 2px solid rgb(204, 204, 204); padding: 0px 4px 0px 0px; text-align: center; margin: 0px 0px 20px;">    文章标题1</h1><p>    测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/>测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/>测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/>测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/>测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/>测试测试<img src="http://img.baidu.com/hi/jx2/j_0028.gif"/></p><pre class="brush:c#;toolbar:false">int a=1+1;</pre><p>    <img src="http://img.baidu.com/hi/jx2/j_0064.gif"/></p>'
+        }, function (data) {
             $("#content").html(data);
+            uParse('.snippetContent', {
+                rootPath: '../Content/js/UEditor/third-party'
+            })
             getPaging();
         });
     }
-    
+
     //根据关键词查找文章
     function searchPost(keyWords) {
         if (isNullOrEmpty(keyWords)) {
