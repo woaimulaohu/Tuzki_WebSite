@@ -33,6 +33,8 @@ namespace MyWebProject.Controllers
 			int pageStartNum = 0;
 			int pageSize = 5;
 			var aaa=Request["content"].ToString();
+			string ccc=HttpUtility.UrlDecode(aaa);
+		
 			if (Request["pageStartNum"] != null && Request["pageSize"] != null)
 			{
 				int.TryParse(Request["pageStartNum"].ToString(), out pageStartNum);
@@ -55,11 +57,10 @@ namespace MyWebProject.Controllers
 				   "FROM " +
 				   "POST_INFO " +
 				   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
-				   "AND POST_CONTENT.POST_ID IN({0},{1})";
+				   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
 					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, pageStartNum * pageSize, pageStartNum * pageSize + pageSize)).ToList();
 					foreach (SnippetResult p in queryResult)
 					{
-						p.POST_CONTENT = System.Web.HttpUtility.HtmlDecode(p.POST_CONTENT);
 						list.Add(p);
 					}
 					string a = JsonConvert.SerializeObject(queryResult);
