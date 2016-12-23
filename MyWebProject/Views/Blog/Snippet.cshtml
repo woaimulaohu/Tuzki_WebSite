@@ -10,7 +10,9 @@
                     {
                         <h3>@s.TITLE</h3>
                         <h4>@s.POST_ID</h4>
-                        @System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT);
+                        <div class="row">
+                            @Html.Raw(System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT));
+                        </div>
                         <ul class="list-inline">
                             <li>
                                 <span class="label label-primary">CSS</span>

@@ -55,7 +55,7 @@ namespace MyWebProject.Controllers
 				   "FROM " +
 				   "POST_INFO " +
 				   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
-				   "AND POST_CONTENT.POST_ID IN({0},{1})";
+				   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
 					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, pageStartNum * pageSize, pageStartNum * pageSize + pageSize)).ToList();
 					foreach (SnippetResult p in queryResult)
 					{
