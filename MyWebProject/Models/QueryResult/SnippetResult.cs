@@ -20,5 +20,7 @@ namespace MyWebProject.Models.QueryResult
 		public int? REPRODUCED_COUNT { get; set; }
 
 		public int? PRAISE_COUNT { get; set; }
+
+		public string TAG_ID { get; set; }
 	}
 }

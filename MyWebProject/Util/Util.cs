@@ -35,7 +35,7 @@ namespace MyWebProject.Util
 			{
 				HttpRuntime.Cache.Remove(key);
 			}
-			public static object GetCashe(string key)
+			public static object GetCashe<T>(string key)
 			{
 				return HttpRuntime.Cache.Get(key);
 			}

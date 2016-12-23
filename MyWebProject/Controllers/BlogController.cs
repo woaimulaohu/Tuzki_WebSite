@@ -23,20 +23,23 @@ namespace MyWebProject.Controllers
 			return View();
 		}
 
+		public ActionResult Snippet()
+		{
+			return View();
+		}
 		/// <summary>
 		/// 获取摘要
 		/// </summary>
 		/// <returns></returns>
 		[ValidateInput(false)]
-		public ActionResult Snippet()
+		public ActionResult SnippetContent()
 		{
-			int pageStartNum = 0;
+			int pageStartNum = 1;
 			int pageSize = 5;
-			var aaa=Request["content"].ToString();
 			if (Request["pageStartNum"] != null && Request["pageSize"] != null)
 			{
 				int.TryParse(Request["pageStartNum"].ToString(), out pageStartNum);
-				int.TryParse(Request["pageSize"].ToString(), out pageStartNum);
+				int.TryParse(Request["pageSize"].ToString(), out pageSize);
 			}
 
 			List<SnippetResult> list = new List<SnippetResult>();
@@ -51,14 +54,16 @@ namespace MyWebProject.Controllers
 				   "POST_INFO.PRAISE_COUNT," +
 				   "POST_INFO.REPRODUCED_COUNT," +
 				   "POST_INFO.TITLE," +
-				   "POST_INFO.VIEW_COUNT " +
+				   "POST_INFO.VIEW_COUNT, " +
+				   "POST_INFO.TAG_ID " +
 				   "FROM " +
 				   "POST_INFO " +
 				   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
 				   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
-					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, pageStartNum * pageSize, pageStartNum * pageSize + pageSize)).ToList();
+					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
 					foreach (SnippetResult p in queryResult)
 					{
+						string cc = p.TAG_ID;
 						p.POST_CONTENT = System.Web.HttpUtility.HtmlDecode(p.POST_CONTENT);
 						list.Add(p);
 					}
@@ -82,48 +87,6 @@ namespace MyWebProject.Controllers
 		}
 		public ActionResult MsgBoard()
 		{
-			return View();
-		}
-		public ActionResult SnippetPaging()
-		{
-			int pageStartNum = 0;
-			int pageSize = 0;
-			int.TryParse(Request["pageStartNum"].ToString(), out pageStartNum);
-			int.TryParse(Request["pageSize"].ToString(), out pageStartNum);
-
-			List<POST_INFO> list = new List<POST_INFO>();
-			try
-			{
-				using (EntityConnection conn = new EntityConnection())
-				{
-					conn.Open();
-					EntityCommand comm = new EntityCommand();
-					string sql = "SELECT" +
-				   "POST_CONTENT.POST_CONTENT," +
-				   "POST_INFO.DATE," +
-				   "POST_INFO.PRAISE_COUNT," +
-				   "POST_INFO.REPRODUCED_COUNT," +
-				   "POST_INFO.TITLE," +
-				   "POST_INFO.VIEW_COUNT" +
-				   "FROM" +
-				   "POST_INFO" +
-				   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID" +
-				   "AND POST_CONTENT.POST_ID IN({0},{1})";
-					comm.CommandText = string.Format(sql, pageStartNum, pageStartNum * pageSize);
-					DbDataReader reader = comm.ExecuteReader();
-					//foreach (POST_INFO p in result)
-					//{
-					//	logger.Info(p.TITLE);
-					//	list.Add(p);
-					//}
-					string a = JsonConvert.SerializeObject(reader);
-					return View(list);
-				}
-			}
-			catch (Exception ex)
-			{
-				logger.Error(ex);
-			}
 			return View();
 		}
 	}
