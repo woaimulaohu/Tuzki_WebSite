@@ -22,5 +22,12 @@ namespace MyWebProject
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 		}
+		/// <summary>
+		/// 程序启动需要加载的数据
+		/// </summary>
+		private void OnLoad()
+		{
+			PorgramInit.CacheInit();
+		}
 	}
 }

@@ -27,5 +27,7 @@ namespace MyWebProject.Models.Entity
         public int? REPRODUCED_COUNT { get; set; }
 
         public int? PRAISE_COUNT { get; set; }
+
+        public int? TAG_ID { get; set; }
     }
 }

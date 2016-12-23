@@ -101,5 +101,12 @@
 <!--预留右侧功能区域-->
 <div class="col-md-3"></div>
 <script>
-
+    //加载留言板布局
+    function MessageBoardOnLoad() {
+        $.post('Blog/MsgBoard', function (data) {
+            $('#MsgBoardArea').html(data);
+            getBoardPaging();
+        });
+    }
+    MessageBoardOnLoad();
 </script>

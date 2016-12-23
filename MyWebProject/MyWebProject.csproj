@@ -514,7 +514,9 @@
     <Compile Include="Models\Entity\POST_INFO.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
     <Compile Include="Models\QueryResult\SnippetResult.cs" />
+    <Compile Include="Models\ResultObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\PorgramInit.cs" />
     <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -536,6 +538,7 @@
     <Content Include="Views\Blog\Detial.cshtml" />
     <Content Include="Views\Blog\Snippet.cshtml" />
     <Content Include="Views\Blog\MsgBoard.cshtml" />
+    <Content Include="Views\Blog\SnippetContent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,34 @@
+﻿@using MyWebProject.Models.QueryResult;
+@{List<SnippetResult> list = Model as List<SnippetResult>;
+    foreach (SnippetResult s in list)
+    {
+        <h3>@s.TITLE</h3>
+        <h4>@s.POST_ID</h4>
+        <div class="row">
+            @Html.Raw(System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT));
+        </div>
+        <ul class="list-inline">
+            <li>
+                <span class="label label-primary">TAG_NAME</span>
+                <span class="label label-primary">派生选择器</span>
+            </li>
+            <li>
+                <p>@s.DATE</p>
+            </li>
+            <li>
+                <p>阅读次数:@s.VIEW_COUNT</p>
+            </li>
+            <li>
+                <p>点赞次数:@s.PRAISE_COUNT</p>
+            </li>
+            <li>
+                <p>转载次数:@s.REPRODUCED_COUNT</p>
+            </li>
+        </ul>
+        <div class="w-btn">
+            <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial($(this).next().attr('postId'))">查看</a>
+            <input style="visibility:collapse" postId="3" />
+        </div>
+    }
+}
+

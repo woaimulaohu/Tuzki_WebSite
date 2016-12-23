@@ -4,6 +4,7 @@
         <br>
         <div class="row">
             <div id="snippetContent" class="col-md-12 welcome-left">
+<<<<<<< HEAD
                 @using MyWebProject.Models.QueryResult;
                 @{List<SnippetResult> list = Model as List<SnippetResult>;
                     foreach (SnippetResult s in list)
@@ -37,6 +38,9 @@
                         </div>}
                 }
 
+=======
+              
+>>>>>>> ea2b833760afa196e94045b5f7bcf793e9f6d595
             </div>
             <hr style="color:black" />
         </div>
@@ -60,16 +64,16 @@
         if (isNullOrEmpty(pageSize)) {
             pageSize = 5;
         }
-        $.post('Blog/SnippetPaging', {
+        $.post('Blog/SnippetContent', {
             'pageStartNum': pageStartNum,
             'pageSize': pageSize
         }, function (data) {
             $("#snippetContent").html(data);
-            getPaging(pageStartNum, pageSize);
+            getSnippetPaging(pageStartNum, pageSize);
         });
     }
     //获取页码
-    function getPaging(pageStartNum, pageSize) {
+    function getSnippetPaging(pageStartNum, pageSize) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
         }
@@ -96,12 +100,4 @@
             getMessageBoard();
         });
     }
-    //加载留言板布局
-    function MessageBoardOnLoad() {
-        $.post('Blog/MsgBoard', function (data) {
-            $('#MsgBoardArea').html(data);
-            getBoardPaging();
-        });
-    }
-    MessageBoardOnLoad();
 </script>
