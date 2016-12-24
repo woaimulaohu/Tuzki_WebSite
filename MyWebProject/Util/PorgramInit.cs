@@ -27,7 +27,7 @@ namespace MyWebProject.Util
 			/// <returns></returns>
 			public static ResultObj DB_Init()
 			{
-				
+				return null;
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyWebProject.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace MyWebProject
 		/// </summary>
 		private void OnLoad()
 		{
-			PorgramInit.CacheInit();
+			PorgramInit.Cache.CacheInit();
 		}
 	}
 }
