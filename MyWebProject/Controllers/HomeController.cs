@@ -22,5 +22,9 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
+		public ActionResult ErrorPage()
+		{
+			return View("~/Views/ErrorPage.cshtml");
+		}
 	}
 }

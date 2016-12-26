@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>500 Page </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <script src="Content/js/jquery.min.js"></script>
+    <style>
+        .page-404 {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .btn.blue {
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857;
+            margin-bottom: 0;
+            padding: 6px 12px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            background-color: #5bc0de;
+            border-color: #46b8da;
+            color: #fff;
+        }
+
+        .m-wrap {
+            width: 206px;
+            height: 36px;
+            position: relative;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            margin-top: 0px;
+            margin-right: 1px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            color: #333333;
+            display: inline-block;
+            visibility: visible;
+        }
+
+        .page-404 .number {
+            color: #7bbbd6;
+            display: inline-block;
+            font-size: 158px;
+            font-weight: 300;
+            letter-spacing: -10px;
+            line-height: 128px;
+            margin-top: 0;
+            text-align: right;
+        }
+
+        .page-404 .details {
+            display: inline-block;
+            margin-left: 40px;
+            padding-top: 0;
+            text-align: left;
+        }
+
+        .page-500 {
+            text-align: center;
+        }
+
+            .page-500 .number {
+                color: #ec8c8c;
+                display: inline-block;
+                font-size: 158px;
+                font-weight: 300;
+                letter-spacing: -10px;
+                line-height: 128px;
+                text-align: right;
+            }
+
+            .page-500 .details {
+                display: inline-block;
+                margin-left: 40px;
+                text-align: left;
+            }
+
+        .page-404-full-page {
+            background-color: #fafafa !important;
+            padding: 20px;
+        }
+
+            .page-404-full-page .details input {
+                background-color: #ffffff;
+            }
+
+            .page-404-full-page .page-404 {
+                margin-top: 100px;
+            }
+
+        .page-500-full-page {
+            background-color: #fafafa !important;
+            padding: 20px;
+        }
+
+            .page-500-full-page .details input {
+                background-color: #ffffff;
+            }
+
+            .page-500-full-page .page-500 {
+                margin-top: 100px;
+            }
+
+        .page-404-3 {
+            background: #000 none repeat scroll 0 0 !important;
+        }
+
+            .page-404-3 .page-inner img {
+                bottom: 0;
+                position: absolute;
+                right: 0;
+                z-index: -1;
+            }
+
+            .page-404-3 .error-404 {
+                color: #fff;
+                padding: 70px 20px 0;
+                text-align: left;
+            }
+
+            .page-404-3 h1 {
+                color: #fff;
+                font-size: 130px;
+                line-height: 160px;
+            }
+
+            .page-404-3 h2 {
+                color: #fff;
+                font-size: 30px;
+                margin-bottom: 30px;
+            }
+
+            .page-404-3 p {
+                color: #fff;
+                font-size: 16px;
+            }
+
+        @media (max-width: 480px) {
+            .page-404 .number, .page-500 .number, .page-404 .details, .page-500 .details {
+                margin-left: 0;
+                text-align: center;
+            }
+
+            .page-404-full-page .page-404 {
+                margin-top: 30px;
+            }
+
+            .page-404-3 .error-404 {
+                padding-top: 10px;
+                text-align: left;
+            }
+
+            .page-404-3 .page-inner img {
+                bottom: 0;
+                position: fixed;
+                right: 0;
+                z-index: -1;
+            }
+        }
+    </style>
+</head>
+
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="span12 page-404">
+    <div class="row-fluid">
+        <div class="span12 page-404">
+            <div class="number">
+                500
+            </div>
+            <div class="details">
+                <h3>Sorry,站点出现问题,请稍后再试</h3>
+                <p>
+                    Sorry Internal Server Error.<br />
+                    <a href="Javascript:void(0)" onclick="getHome()" style="color: #005580;font-size:13px">返回首页</a> 或者搜索相关帮助
+                </p>
+                <form action="http://www.baidu.com/baidu" target="_blank">
+                    <input name=tn type=hidden value=baidu>
+                    <input class="m-wrap" size="16" type="text" name="word" value="HTTP 500" placeholder="keyword..." />
+                    <input type="submit" value="Search" class="btn blue">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        jQuery(document).ready(function () {
+            App.init();
+        });
+        function getHome() {
+            location.href = 'Home';
+        }
+    </script>
+    <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

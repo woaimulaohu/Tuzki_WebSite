@@ -135,6 +135,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="500.html" />
     <Content Include="Content\css\blogStyle.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\flexslider.css" />
@@ -473,6 +474,7 @@
     <Content Include="Content\js\UEditor\ueditor.config.js" />
     <Content Include="Content\js\UEditor\ueditor.parse.js" />
     <Content Include="Content\js\UEditor\ueditor.parse.min.js" />
+    <Content Include="404.html" />
     <Content Include="Global.asax" />
     <Content Include="Models\script.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -541,6 +543,7 @@
     <Content Include="Views\Blog\MsgBoard.cshtml" />
     <Content Include="Views\Blog\SnippetContent.cshtml" />
     <Content Include="Views\Blog\MsgBoardContent.cshtml" />
+    <Content Include="Views\ErrorPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

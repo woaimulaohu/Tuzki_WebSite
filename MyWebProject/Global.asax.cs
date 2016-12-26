@@ -30,5 +30,11 @@ namespace MyWebProject
 		{
 			PorgramInit.Cache.CacheInit();
 		}
+		//protected void Application_Error(object sender, EventArgs e)
+		//{
+		//	var ex = Server.GetLastError();
+		//	logger.Error(ex); //记录日志信息  
+		
+		//}
 	}
 }

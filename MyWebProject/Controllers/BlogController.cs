@@ -67,10 +67,10 @@ namespace MyWebProject.Controllers
 					foreach (SnippetResult p in queryResult)
 					{
 						p.POST_CONTENT = System.Web.HttpUtility.HtmlDecode(p.POST_CONTENT);
+						//把摘要中标签属性获取出来
 						p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
 						list.Add(p);
 					}
-					string a = JsonConvert.SerializeObject(queryResult);
 					return View(list);
 				}
 			}

@@ -1,4 +1,5 @@
-﻿using MyWebProject.Models.Entity;
+﻿using MyWebProject.Controllers;
+using MyWebProject.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Caching;
+using System.Web.Mvc;
 
 namespace MyWebProject.Util
 {
