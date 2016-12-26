@@ -66,8 +66,8 @@ namespace MyWebProject.Controllers
 					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
 					foreach (SnippetResult p in queryResult)
 					{
-						string cc = p.TAG_ID;
 						p.POST_CONTENT = System.Web.HttpUtility.HtmlDecode(p.POST_CONTENT);
+						p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
 						list.Add(p);
 					}
 					string a = JsonConvert.SerializeObject(queryResult);

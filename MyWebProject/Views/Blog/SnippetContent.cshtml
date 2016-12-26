@@ -1,5 +1,7 @@
 ﻿@using MyWebProject.Models.QueryResult;
-@{List<SnippetResult> list = Model as List<SnippetResult>;
+@using MyWebProject.Models.Entity;
+@{
+    List<SnippetResult> list = Model as List<SnippetResult>;
     foreach (SnippetResult s in list)
     {
         <h3>@s.TITLE</h3>
@@ -9,8 +11,10 @@
         </div>
         <ul class="list-inline">
             <li>
-                <span class="label label-primary">TAG_NAME</span>
-                <span class="label label-primary">派生选择器</span>
+                @foreach (TAG_INFO t in s.tag_info)
+                {
+                    <span class="label label-primary">@t.TAG_NAME</span>
+}
             </li>
             <li>
                 <p>@s.DATE</p>
