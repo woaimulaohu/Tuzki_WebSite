@@ -17,5 +17,7 @@ namespace MyWebProject.Models.Entity
         [Column(Order = 1)]
         [StringLength(50)]
         public string TAG_NAME { get; set; }
+
+        public int? COUNT { get; set; }
     }
 }

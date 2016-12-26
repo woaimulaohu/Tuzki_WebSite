@@ -9,75 +9,7 @@
     <h2 style="text-align:right;vertical-align:top;margin-top:0;">留言板</h2>
 </div>
 <div class="row" id="boardContent">
-    <div class="row">
-        <div class="row" style="border-right: 2px solid #ddd;">
-            <img class="img-circle" alt="" src="https://s.gravatar.com/avatar/394c57af99397c032ce21c3c33faf7a4?s=80">
-            <div class="blog-twitter-block">
-                <a href=""></a>
-                <div>
-                    <p>今天天气不错来讲个笑话吧</p>
-                </div>
-                <a href="#">
-                    <em>刘德华</em>
-                </a>
-                <span>2 hours ago</span>
-            </div>
-        </div>
-        <hr />
-        <div class="row" style="border-right: 2px solid #ddd;">
-            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
-            <div class="blog-twitter-block" style="margin-left:10px">
-                <a href=""></a>
-                <div>
-                    <p>今天天气不错来讲个笑话吧</p>
-                </div>
-                <a href="#">
-                    <em>刘德华</em>
-                </a>
-                <span>2 hours ago</span>
-                <a href="#">
-                    <em>回复</em>
-                </a>
-            </div>
-        </div>
-
-        <div class="row" style="border-right: 2px solid #ddd;">
-            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
-            <div class="blog-twitter-block" style="margin-left:40px">
-                <a href=""></a>
-                <div>
-                    <p>今天天气不错来讲个笑话吧</p>
-                </div>
-                <a href="#">
-                    <em>刘德华</em>
-                </a>
-                <span>2 hours ago</span>
-                <a href="#">
-                    <em>回复</em>
-                </a>
-            </div>
-        </div>
-        <hr style="color:black" />
-    </div>
-    <div class="row">
-        <div class="row" style="border-right: 2px solid #ddd;">
-            <img class="img-circle" alt="" src="~/Content/images/blog/9.jpg">
-            <div class="blog-twitter-block" style="margin-left:10px">
-                <a href=""></a>
-                <div>
-                    <p>今天天气不错来讲个笑话吧</p>
-                </div>
-                <a href="#">
-                    <em>刘德华</em>
-                </a>
-                <span>2 hours ago</span>
-                <a href="#">
-                    <em>回复</em>
-                </a>
-            </div>
-        </div>
-        <hr style="color:black" />
-    </div>
+   
 </div>
 <div class="row" style="text-align:right;margin-right:5px;">
     <ul class="pagination-small" id="boardPage"></ul>
@@ -105,7 +37,7 @@
         if (isNullOrEmpty(pageSize)) {
             pageSize = 5;
         }
-        $.post('Blog/MsgBoard', {
+        $.post('Blog/MsgBoardContent', {
             'pageStartNum': pageStartNum,
             'pageSize': pageSize
         }, function (data) {
@@ -132,6 +64,7 @@
         html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ')">>></a></li>';
         $('#boardPage').html(html);
     }
+    getBoard();
 </script>
 
 

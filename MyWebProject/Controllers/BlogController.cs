@@ -22,13 +22,16 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
-
+		/// <summary>
+		/// 获取留言板框架
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Snippet()
 		{
 			return View();
 		}
 		/// <summary>
-		/// 获取摘要
+		/// 获取摘要内容
 		/// </summary>
 		/// <returns></returns>
 		[ValidateInput(false)]
@@ -85,9 +88,63 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
+		/// <summary>
+		/// 获取留言板框架页面
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult MsgBoard()
 		{
 			return View();
+		}
+		/// <summary>
+		/// 获取留言板内容
+		/// </summary>
+		/// <returns></returns>
+		public ActionResult MsgBoardContent()
+		{
+			int postId = 0;//没有正确的文章ID情况下,返回全部留言内容
+			int pageStartNum = 1;
+			int pageSize = 5;
+			if (Request["pageStartNum"] != null && Request["pageSize"] != null)
+			{
+				int.TryParse(Request["postId"], out postId);
+				int.TryParse(Request["pageStartNum"].ToString(), out pageStartNum);
+				int.TryParse(Request["pageSize"].ToString(), out pageSize);
+			}
+			List<COMMENTS> commentsNotReplies = new List<COMMENTS>();
+			List<MsgBoardResult> listResult = new List<MsgBoardResult>();
+			using (Entity entity = new Entity())
+			{
+				if (postId > 0)//目前postId>0的情况为查看文章详情
+				{
+					//获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条
+					commentsNotReplies = entity.COMMENTS.Where(c => c.POST_ID == postId && c.BEFOR_COMMENTS_ID == 0 && c.POST_ID >= (pageStartNum - 1) * pageSize).Take(pageSize).OrderByDescending(c => c.DATE).ToList();
+				}
+				else
+				{
+					//TOP10最近留言,获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条(不考虑文章ID)
+					commentsNotReplies = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == 0 && c.POST_ID >= (pageStartNum - 1) * pageSize).Take(pageSize).OrderByDescending(c => c.DATE).ToList();
+				}
+				foreach (COMMENTS commentsNotReply in commentsNotReplies)
+				{
+					List<COMMENTS> replyInComment = new List<COMMENTS>();
+					//检查是否有对应的回复记录
+					replyInComment = entity.COMMENTS.Where(c => c.POST_ID == commentsNotReply.POST_ID).OrderBy(c => c.DATE).ToList();
+					listResult.Add(new MsgBoardResult
+					{
+						COMMENTS_ID = commentsNotReply.COMMENTS_ID,
+						DATE = commentsNotReply.DATE,
+						NICK_NAME = commentsNotReply.NICK_NAME,
+						TEXT = commentsNotReply.TEXT,
+						EMAIL = commentsNotReply.EMAIL,
+						POST_ID = commentsNotReply.POST_ID,
+						BEFOR_COMMENTS_ID = commentsNotReply.BEFOR_COMMENTS_ID,
+						REPLY = replyInComment.Count > 0 ? replyInComment : null,
+						AVATAR_URL = commentsNotReply.AVATAR_URL
+					});
+				}
+			}
+			return View(listResult);
 		}
 	}
 }

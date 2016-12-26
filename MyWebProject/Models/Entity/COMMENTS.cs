@@ -15,7 +15,6 @@ namespace MyWebProject.Models.Entity
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int COMMENTS_ID { get; set; }
 
         [Column(TypeName = "date")]
@@ -31,10 +30,12 @@ namespace MyWebProject.Models.Entity
         [StringLength(100)]
         public string EMAIL { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int POST_ID { get; set; }
 
         public int? BEFOR_COMMENTS_ID { get; set; }
+
+        [Column(TypeName = "text")]
+        public string AVATAR_URL { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMMENTS> COMMENTS1 { get; set; }
