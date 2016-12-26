@@ -1,4 +1,5 @@
-﻿using MyWebProject.Models.Entity;
+﻿using MyWebProject.Models;
+using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
 using Newtonsoft.Json;
 using System;
