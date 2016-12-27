@@ -164,19 +164,28 @@
                 !
             </div>
             <div class="details">
-                    <h3>Sorry,站点出现问题,请稍后再试</h3>
-                @{      ResultObj ro = Model == null ? null : Model as ResultObj;
-                    <p>
-                        @ro==null?Server.GetLastError().Message: ro.Msg;
-                        <br />
-                        <a href="javascript:history.go(-1)" style="color: #005580;font-size:13px">返回首页</a> 或者搜索相关帮助
-                    </p>
-                    <form action="http://www.baidu.com/baidu" target="_blank">
-                        <input name=tn type=hidden value=baidu>
-                        <input class="m-wrap" size="16" type="text" name="word" value="@ro.Msg" />
-                        <input type="submit" value="Search" class="btn blue">
-                    </form>
+                <h3>Sorry,站点出现问题,请稍后再试</h3>
+                @{  string tips = string.Empty;
+                    if (Model != null)
+                    {
+                        ResultObj ro = Model as ResultObj;
+                        tips = ro.Msg;
+                    }
+                    else
+                    {
+                        tips = Server.GetLastError().Message;
+                    }
                 }
+                <p>
+                    @tips
+                    <br />
+                    <a href="javascript:history.go(-1)" style="color: #005580;font-size:13px">返回上一页</a> 或者搜索相关帮助
+                </p>
+                <form action="http://www.baidu.com/baidu" target="_blank">
+                    <input name=tn type=hidden value=baidu>
+                    <input class="m-wrap" size="16" type="text" name="word" value="@tips" />
+                    <input type="submit" value="Search" class="btn blue">
+                </form>
             </div>
         </div>
     </div>

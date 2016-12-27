@@ -20,15 +20,15 @@ namespace MyWebProject.Controllers
 		protected override void HandleUnknownAction(string actionName)
 		{
 			logger.Error(string.Format("Action_Name :{0} 出现异常", actionName));
-			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false,Msg = "请求访问路径非法"});
+			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false, Msg = "请求访问路径非法" });
 		}
 		/// <summary>
-		///   在调用操作方法前调用。
+		/// 在调用操作方法前调用。
 		/// </summary>
 		/// <param name="filterContext"></param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			logger.Error("OnActionExecuting");
+			
 		}
 		/// <summary>
 		/// 当操作中发生未经处理的异常时调用。
@@ -37,6 +37,7 @@ namespace MyWebProject.Controllers
 		protected override void OnException(ExceptionContext filterContext)
 		{
 			logger.Error(string.Format("执行Action出现异常 :{0} ", filterContext.Exception));
+			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false, Msg = "程序出现异常" });
 		}
 	}
 }

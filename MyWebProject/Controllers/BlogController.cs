@@ -47,43 +47,65 @@ namespace MyWebProject.Controllers
 			}
 
 			List<SnippetResult> list = new List<SnippetResult>();
-			try
+			using (Entity entity = new Entity())
 			{
-				using (Entity entity = new Entity())
+				//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
+				string sql = "SELECT " +
+			   "POST_CONTENT.POST_CONTENT," +
+			   "POST_INFO.DATE," +
+			   "POST_INFO.POST_ID," +
+			   "POST_INFO.PRAISE_COUNT," +
+			   "POST_INFO.REPRODUCED_COUNT," +
+			   "POST_INFO.TITLE," +
+			   "POST_INFO.VIEW_COUNT, " +
+			   "POST_INFO.TAG_ID " +
+			   "FROM " +
+			   "POST_INFO " +
+			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
+			   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
+				var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
+				foreach (SnippetResult p in queryResult)
 				{
-					//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
-					string sql = "SELECT " +
-				   "POST_CONTENT.POST_CONTENT," +
-				   "POST_INFO.DATE," +
-				   "POST_INFO.PRAISE_COUNT," +
-				   "POST_INFO.REPRODUCED_COUNT," +
-				   "POST_INFO.TITLE," +
-				   "POST_INFO.VIEW_COUNT, " +
-				   "POST_INFO.TAG_ID " +
-				   "FROM " +
-				   "POST_INFO " +
-				   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
-				   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
-					var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
-					foreach (SnippetResult p in queryResult)
-					{
-						p.POST_CONTENT = System.Web.HttpUtility.HtmlDecode(p.POST_CONTENT);
-						//把摘要中标签属性获取出来
-						p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
-						list.Add(p);
-					}
-					return View(list);
+					string content = HttpUtility.HtmlDecode(p.POST_CONTENT);
+					p.POST_CONTENT = content.Substring(content.IndexOf("<p>"), content.IndexOf("</p>", content.IndexOf("<p>") + 1) - content.IndexOf("<p>") + 4);
+					p.POST_CONTENT = p.POST_CONTENT.Length > 1000 ? p.POST_CONTENT.Substring(1000) + "</p>" : p.POST_CONTENT;
+					//把摘要中标签属性获取出来
+					p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
+					list.Add(p);
 				}
+				return View(list);
 			}
-			catch (Exception ex)
-			{
-				logger.Error(ex);
-			}
-			return View();
 		}
 		public ActionResult Detial()
 		{
-			return View();
+			int postId = int.Parse(Request["postId"].ToString());
+			List<SnippetResult> list = new List<SnippetResult>();
+			using (Entity entity = new Entity())
+			{
+				//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
+				string sql = "SELECT " +
+			   "POST_CONTENT.POST_CONTENT," +
+			   "POST_INFO.DATE," +
+			   "POST_INFO.PRAISE_COUNT," +
+			   "POST_INFO.REPRODUCED_COUNT," +
+			   "POST_INFO.TITLE," +
+			   "POST_INFO.VIEW_COUNT, " +
+			   "POST_INFO.TAG_ID " +
+			   "FROM " +
+			   "POST_INFO " +
+			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
+			   "AND POST_CONTENT.POST_ID ={0}";
+				var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, postId)).ToList();
+				foreach (SnippetResult p in queryResult)
+				{
+					string content = HttpUtility.HtmlDecode(p.POST_CONTENT);
+					p.POST_CONTENT = content;
+					//把摘要中标签属性获取出来
+					p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
+					list.Add(p);
+				}
+				return View(list);
+			}
 		}
 		public ActionResult Search()
 		{
@@ -95,7 +117,12 @@ namespace MyWebProject.Controllers
 		/// <returns></returns>
 		public ActionResult MsgBoard()
 		{
-			return View();
+			int postId = 0;
+			if (Request["postId"] != null)
+			{
+				int.TryParse(Request["postId"].ToString(), out postId);
+			}
+			return View(postId);
 		}
 		/// <summary>
 		/// 获取留言板内容

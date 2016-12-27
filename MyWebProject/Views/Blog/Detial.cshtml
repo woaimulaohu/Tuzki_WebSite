@@ -1,95 +1,42 @@
 ﻿<!--blog正文区域-->
+@using MyWebProject.Models.QueryResult;
+@using MyWebProject.Models.Entity;
+
 <div class="col-md-8">
     <!--blog正文-->
     <div class="row">
         <div class="row">
             <div class="col-md-12 welcome-left">
-                <h3>CSS</h3>
-                <h4>CSS 指层叠样式表（Cascading Style Sheets）。</h4>
-                <ul class="list-inline">
-                    <li>
-                        <span class="label label-primary">CSS</span>
-                        <span class="label label-primary">派生选择器</span>
-                    </li>
-                    <li>
-                        <p>2016-01-01 12:01:59</p>
-                    </li>
-                    <li>
-                        <p>阅读次数:100</p>
-                    </li>
-                </ul>
-                <hr style="color:black" />
-                <p>
-                    在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！在我们的 CSS 教程中，您将学习如何使用 CSS 同时控制整个站点的样式和布局。
-
-                    通过与 XHTML 结合，CSS 可以帮助我们实行表现与结构分离的开发模式。
-
-                    通过使用 CSS 来提升工作效率！......
-                </p>
+                @{List<SnippetResult> list = Model as List<SnippetResult>;
+                    foreach (SnippetResult s in list)
+                    {
+                        <h3>@s.TITLE</h3>
+                        <h4>@s.POST_ID</h4>
+                        <ul class="list-inline">
+                            <li>
+                                @foreach (TAG_INFO t in s.tag_info)
+                                {
+                                    <a href="javascript:void(0)" onclick="searchPost('@t.TAG_NAME')"><span class="label label-primary">@t.TAG_NAME</span></a> }
+                            </li>
+                            <li>
+                                <p>@s.DATE</p>
+                            </li>
+                            <li>
+                                <p>阅读次数:@s.VIEW_COUNT</p>
+                            </li>
+                            <li>
+                                <p>点赞次数:@s.PRAISE_COUNT</p>
+                            </li>
+                            <li>
+                                <p>转载次数:@s.REPRODUCED_COUNT</p>
+                            </li>
+                        </ul>
+                        <hr style="color:black" />
+                        <p>
+                            @Html.Raw(System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT));
+                            <input style="visibility:collapse" id="postId" value="@s.POST_ID" />
+                        </p>}
+                }
             </div>
         </div>
         <hr style="color:black" />
@@ -101,12 +48,12 @@
 <!--预留右侧功能区域-->
 <div class="col-md-3"></div>
 <script>
-    //加载留言板布局
-    function MessageBoardOnLoad() {
-        $.post('Blog/MsgBoard', function (data) {
+    function getBoardInDetial() {
+        var postId = parseInt($('#postId').val());
+        alert(postId);
+        $.get('Blog/MsgBoard?postId=' + postId, function (data) {
             $('#MsgBoardArea').html(data);
-            getBoardPaging();
         });
     }
-    MessageBoardOnLoad();
+    getBoardInDetial();
 </script>

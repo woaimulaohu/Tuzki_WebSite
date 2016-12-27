@@ -57,10 +57,8 @@
 
     //获取文章正文
     function getDetial(id) {
-        $.post('Blog/Detial?id=' + id, function (data) {
+        $.post('Blog/Detial', { 'postId': id }, function (data) {
             $("#content").html(data);
-            //获取文章内留言
-            getMessageBoard();
-        });
+        });           
     }
 </script>

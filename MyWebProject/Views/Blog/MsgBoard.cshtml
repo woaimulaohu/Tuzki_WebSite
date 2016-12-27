@@ -1,4 +1,9 @@
-﻿<style>
+﻿@{
+    int postId = 0;
+
+    int.TryParse(Model.ToString(),out postId);
+}
+<style>
     .row {
         margin-left: 0;
         margin-right: 0;
@@ -9,7 +14,7 @@
     <h2 style="text-align:right;vertical-align:top;margin-top:0;">留言板</h2>
 </div>
 <div class="row" id="boardContent">
-   
+
 </div>
 <div class="row" style="text-align:right;margin-right:5px;">
     <ul class="pagination-small" id="boardPage"></ul>
@@ -30,7 +35,7 @@
 </div>
 <script>
     //更新留言板
-    function getBoard(pageStartNum, pageSize) {
+    function getBoard(pageStartNum, pageSize, postId) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
         }
@@ -39,7 +44,8 @@
         }
         $.post('Blog/MsgBoardContent', {
             'pageStartNum': pageStartNum,
-            'pageSize': pageSize
+            'pageSize': pageSize,
+            'postId': postId
         }, function (data) {
             $("#boardContent").html(data);
             getBoardPaging(pageStartNum, pageSize);
@@ -56,15 +62,13 @@
         var pageEndNum = pageSize + pageStartNum;
         //生成当前页码
         var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
-        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ')"><<</a></li>';
+        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ',' +@postId +')"><<</a></li>';
         for (var i = pageStartNum; i < pageEndNum; i++) {
-            html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ')">' + i + '</a></li>';
+            html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ',' +@postId +')">' + i + '</a></li>';
         }
         var startForward = parseInt(pageStartNum) + parseInt(pageSize);
-        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ')">>></a></li>';
+        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' +@postId + ')">>></a></li>';
         $('#boardPage').html(html);
     }
-    getBoard();
+    getBoard('','','@postId');
 </script>
-
-

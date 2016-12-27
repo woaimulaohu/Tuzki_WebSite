@@ -1,5 +1,6 @@
 ﻿@using MyWebProject.Models.QueryResult;
 @using MyWebProject.Models.Entity;
+
 @{
     List<SnippetResult> list = Model as List<SnippetResult>;
     foreach (SnippetResult s in list)
@@ -13,8 +14,7 @@
             <li>
                 @foreach (TAG_INFO t in s.tag_info)
                 {
-                    <span class="label label-primary">@t.TAG_NAME</span>
-}
+                    <a href="javascript:void(0)" onclick="searchPost('@t.TAG_NAME')"><span class="label label-primary">@t.TAG_NAME</span></a> }
             </li>
             <li>
                 <p>@s.DATE</p>
@@ -30,8 +30,7 @@
             </li>
         </ul>
         <div class="w-btn">
-            <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial($(this).next().attr('postId'))">查看</a>
-            <input style="visibility:collapse" postId="3" />
+            <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial('@s.POST_ID')">查看</a>
         </div>
     }
 }
