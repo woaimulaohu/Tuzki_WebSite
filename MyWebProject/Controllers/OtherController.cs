@@ -6,8 +6,8 @@ using System.Web.Mvc;
 
 namespace MyWebProject.Controllers
 {
-    public class OtherController : Controller
-    {
+    public class OtherController : BaseController
+	{
         // GET: Other
         public ActionResult Index()
         {

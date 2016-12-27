@@ -29,11 +29,6 @@ namespace MyWebProject
 		{
 			PorgramInit.Cache.CacheInit();
 		}
-
-		protected void Application_End(object sender, EventArgs e)
-		{
-			logger.Info("app_close");
-		}
 		protected void Application_Error(object sender, EventArgs e)
 		{
 			var ex = Server.GetLastError();
@@ -41,13 +36,14 @@ namespace MyWebProject
 			Server.ClearError();//处理后要清除本次异常记录
 
 		}
-		void Session_Start(object sender, EventArgs e)
+		protected void Session_Start(object sender, EventArgs e)
+
 		{
-			// 在新会话启动时运行的代码
+
 
 		}
 
-		void Session_End(object sender, EventArgs e)
+		protected void Session_End(object sender, EventArgs e)
 		{
 			// 在会话结束时运行的代码。 
 			// 注意: 只有在 Web.config 文件中的 sessionstate 模式设置为

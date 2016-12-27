@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace MyWebProject.Controllers
 {
-	public class BlogController : Controller
+	public class BlogController : BaseController
 	{
 		log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		// GET: Blog

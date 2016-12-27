@@ -503,6 +503,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
@@ -543,7 +544,9 @@
     <Content Include="Views\Blog\MsgBoard.cshtml" />
     <Content Include="Views\Blog\SnippetContent.cshtml" />
     <Content Include="Views\Blog\MsgBoardContent.cshtml" />
-    <Content Include="Views\ErrorPage.cshtml" />
+    <Content Include="Views\ErrorPage.cshtml">
+      <BrowseToURL>~/ErrorPage.cshtml</BrowseToURL>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
