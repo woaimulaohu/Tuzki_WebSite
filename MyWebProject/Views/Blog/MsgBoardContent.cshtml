@@ -2,20 +2,24 @@
 @using MyWebProject.Models.Entity;
 @{
     List<MsgBoardResult> list = Model as List<MsgBoardResult>;
+    if (list.Count==0)
+    {
+        <span style="color:#808080;float:right">没有更多留言啦</span>
+    }
     foreach (MsgBoardResult comment in list)
     {
-        <div class="row" style="border-right: 2px solid #ddd;">
+        <div class="row" id="@comment.POST_ID.ToString()@comment.COMMENTS_ID.ToString()" style="border-right: 2px solid #ddd;">
             @*https://s.gravatar.com/avatar/394c57af99397c032ce21c3c33faf7a4?s=80*@
             <img class="img-circle" alt="" src="@comment.AVATAR_URL">
             <div class="blog-twitter-block">
                 <div>
-                    <p>@comment.TEXT</p>
+                    <p style="word-break:break-all;width:280px">@comment.TEXT</p>
                 </div>
                 <a href="javascript:void(0)">
                     <em>@comment.NICK_NAME</em>
                 </a>
                 <a href="#">
-                    <em>回复</em>
+                    <em id="" onclick="reply(@comment.POST_ID, @comment.COMMENTS_ID)">回复</em>
                 </a>
                 <span>@comment.DATE</span>
             </div>
@@ -28,19 +32,79 @@
                     <img class="img-circle" alt="" src="@m.AVATAR_URL">
                     <div class="blog-twitter-block" style="margin-left:40px;">
                         <div>
-                            <p>@m.TEXT</p>
+                            <p style="word-break:break-all;width:200px">@m.TEXT</p>
                         </div>
                         <a href="#">
                             <em>@m.NICK_NAME</em>
                         </a>
-                        <span>@DateTime.Now.Subtract(m.DATE).TotalDays.ToString().Split('.')[0] 天前</span>
+                        @{  double day = DateTime.Now.Subtract(m.DATE).TotalDays;
+                            if (day > 1.0)
+                            {
+                                <span>@day.ToString().Split('.')[0] 天前</span>
+}
+                            else
+                            {
+                                double hour = Math.Round(DateTime.Now.Subtract(m.DATE).TotalMinutes, 0);
+                                <span>@hour 分钟前</span>
+}
+                        }
                     </div>
-                </div>
+                </div>     }
+                            }
+                            <hr style="border-bottom:1px solid #ddd;border-top:none" />}
 }
-        }
-        <hr style="border-bottom:1px solid #ddd;border-top:none" />
+<script>
+    function reply(postId, beforCommentsId) {
+        var id = '#' + postId + '' + beforCommentsId;
+        $(id + '_r').remove();
+        $(id).append('<div class="row" id=' + postId + '' + beforCommentsId + '_r>' +
+    '<form role="form" id="boardForm_r" style="margin-bottom:10px">' +
+       ' <div class="form-group">' +
+         '   <input type="email" class="form-control" id="email_r" placeholder="你的email">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '    <input type="text" class="form-control" id="nickName_r" placeholder="你的昵称">' +
+       ' </div>' +
+       ' <div class="form-group">' +
+        '    <textarea class="form-control" id="comment_r" placeholder="我有话说"></textarea>' +
+       ' </div>' +
+     '   <button type="submit" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ')">说完了</button>' +
+   ' </form>' +
+'</div>');
     }
-}
+    function leaveReply(postId, beforCommentsId) {
+        if ($('#nickName_r').val().length > 30) {
+            tips('boardForm_r', "昵称过长", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#nickName_r').val().length == 0) {
+            tips('boardForm_r', "不想给自己来个炫酷的昵称么", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#comment_r').val().length == 0) {
+            tips('boardForm_r', "不想说点什么么", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#email_r').val().length == 0) {
+            tips('boardForm_r', "支持gravatar头像功能,可以访问http://cn.gravatar.com/设置头像", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        $('#tips').remove();
 
-
-
+        $.post('Blog/leaveComment', {
+            'email': $('#email_r').val(),
+            'nickName': $('#nickName_r').val(),
+            'comment': $('#comment_r').val(),
+            'beforCommentsId': beforCommentsId,
+            'postId': postId,
+        }, function (data) {
+            getBoard('', '', postId);
+            tips('boardForm_r', "感谢你的留言", 'success');
+            setTimeout("$('#tips').remove()", 5000);
+        });
+    }
+</script>

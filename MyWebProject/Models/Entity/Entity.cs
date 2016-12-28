@@ -27,11 +27,6 @@ namespace MyWebProject.Models.Entity
 				.Property(e => e.AVATAR_URL)
 				.IsUnicode(false);
 
-			modelBuilder.Entity<COMMENTS>()
-				.HasMany(e => e.COMMENTS1)
-				.WithRequired(e => e.COMMENTS2)
-				.HasForeignKey(e => e.POST_ID);
-
 			modelBuilder.Entity<POST_CONTENT>()
 				.Property(e => e.POST_CONTENT1)
 				.IsUnicode(false);
@@ -39,6 +34,10 @@ namespace MyWebProject.Models.Entity
 			modelBuilder.Entity<POST_INFO>()
 				.Property(e => e.TAG_ID)
 				.IsUnicode(false);
+
+			modelBuilder.Entity<POST_INFO>()
+				.Property(e => e.SECOND_TITLE)
+				.IsFixedLength();
 		}
 	}
 }

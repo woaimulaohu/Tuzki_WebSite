@@ -1,6 +1,7 @@
 ﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
+using MyWebProject.Util_Pro;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,8 @@ namespace MyWebProject.Controllers
 			   "POST_INFO.POST_ID," +
 			   "POST_INFO.PRAISE_COUNT," +
 			   "POST_INFO.REPRODUCED_COUNT," +
-			   "POST_INFO.TITLE," +
+			   "POST_INFO.MAIN_TITLE," +
+			   "POST_INFO.SECOND_TITLE," +
 			   "POST_INFO.VIEW_COUNT, " +
 			   "POST_INFO.TAG_ID " +
 			   "FROM " +
@@ -88,9 +90,11 @@ namespace MyWebProject.Controllers
 			   "POST_INFO.DATE," +
 			   "POST_INFO.PRAISE_COUNT," +
 			   "POST_INFO.REPRODUCED_COUNT," +
-			   "POST_INFO.TITLE," +
+			   "POST_INFO.MAIN_TITLE," +
+			   "POST_INFO.SECOND_TITLE," +
 			   "POST_INFO.VIEW_COUNT, " +
-			   "POST_INFO.TAG_ID " +
+			   "POST_INFO.TAG_ID, " +
+			   "POST_INFO.POST_ID " +
 			   "FROM " +
 			   "POST_INFO " +
 			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
@@ -145,19 +149,25 @@ namespace MyWebProject.Controllers
 			{
 				if (postId > 0)//目前postId>0的情况为查看文章详情
 				{
-					//获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条
-					commentsNotReplies = entity.COMMENTS.Where(c => c.POST_ID == postId && c.BEFOR_COMMENTS_ID == 0 && c.POST_ID >= (pageStartNum - 1) * pageSize).Take(pageSize).OrderByDescending(c => c.DATE).ToList();
+					//获取文章明细中显示当前文章相关的留言的集合(BEFOR_COMMENTS_ID == 0不包含回复的)最近pageSize条
+					commentsNotReplies = entity.COMMENTS.Where(c => c.POST_ID == postId  && c.BEFOR_COMMENTS_ID == 0).OrderByDescending(c => c.DATE).ToList();
 				}
 				else
 				{
-					//TOP10最近留言,获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条(不考虑文章ID)
-					commentsNotReplies = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == 0 && c.POST_ID >= (pageStartNum - 1) * pageSize).Take(pageSize).OrderByDescending(c => c.DATE).ToList();
+					//TOP10最近留言,获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条(文章ID为0的表示大厅留言)
+					commentsNotReplies = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == 0 && c.POST_ID == 0).OrderByDescending(c => c.DATE).ToList();
 				}
+				if ((pageStartNum - 1) * pageSize>0)
+				{
+					//本页前的跳过
+					commentsNotReplies=commentsNotReplies.Skip((pageStartNum - 1) * pageSize).ToList();
+				}
+				commentsNotReplies = commentsNotReplies.Take(pageSize).ToList();
 				foreach (COMMENTS commentsNotReply in commentsNotReplies)
 				{
 					List<COMMENTS> replyInComment = new List<COMMENTS>();
 					//检查是否有对应的回复记录
-					replyInComment = entity.COMMENTS.Where(c => c.POST_ID == commentsNotReply.POST_ID).OrderBy(c => c.DATE).ToList();
+					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderBy(c => c.DATE).ToList();
 					listResult.Add(new MsgBoardResult
 					{
 						COMMENTS_ID = commentsNotReply.COMMENTS_ID,
@@ -173,6 +183,37 @@ namespace MyWebProject.Controllers
 				}
 			}
 			return View(listResult);
+		}
+		/// <summary>
+		/// 将留言信息插入数据库
+		/// </summary>
+		/// <returns></returns>
+		public string leaveComment()
+		{
+			string nickName = Request["nickName"];
+			int postId = 0;
+			int.TryParse(Request["postId"], out postId);
+			string email = Request["email"];
+			int beforCommentsId = 0;
+			int.TryParse(Request["beforCommentsId"], out beforCommentsId);
+			string comment = Request["comment"];
+			using (Entity entity = new Entity())
+			{
+				entity.COMMENTS.Add(new COMMENTS
+				{
+					COMMENTS_ID = -1,
+					POST_ID = postId,
+					NICK_NAME = nickName,
+					EMAIL = email,
+					DATE = DateTime.Now,
+					TEXT = comment,
+					BEFOR_COMMENTS_ID = beforCommentsId,
+					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80",
+				});
+				DbChangeTracker d = entity.ChangeTracker;
+				entity.SaveChanges();
+			}
+			return "success";
 		}
 	}
 }

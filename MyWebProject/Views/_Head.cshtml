@@ -27,3 +27,23 @@
     </nav>
 </div>
 <!--end-header-->
+<script>
+    function tips(elementId, msg, alertLevel) {
+        var html;
+        elementId = '#' + elementId;
+        if ("danger"==alertLevel) {
+            html = ' <div class="alert alert-danger" id="tips" role="alert"><strong>错误!</strong>' + msg + '</div>';
+        }
+        if ("warning" == alertLevel) {
+            html = ' <div class="alert alert-warning" id="tips" role="alert"><strong>警告!</strong>' + msg + '</div>';
+        }
+        if ("success" == alertLevel) {
+            html = ' <div class="alert alert-success" id="tips" role="alert"><strong>成功!</strong>' + msg + '</div>';
+        }
+        if ("info" == alertLevel) {
+            html = ' <div class="alert alert-info" id="tips" role="alert"><strong>提示!</strong>' + msg + '</div>';
+        }
+        $('#tips').remove();
+        $(elementId).append(html);
+    }
+</script>

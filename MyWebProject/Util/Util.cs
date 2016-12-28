@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
 
-namespace MyWebProject.Util
+namespace MyWebProject.Util_Pro
 {
 	public static class Util
 	{
@@ -87,6 +88,10 @@ namespace MyWebProject.Util
 					logger.Error(ex);
 					return null;
 				}
+			}
+			public static string MD5_Encode(string Sourcein)
+			{
+				return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Sourcein, "MD5").ToLower();
 			}
 		}
 

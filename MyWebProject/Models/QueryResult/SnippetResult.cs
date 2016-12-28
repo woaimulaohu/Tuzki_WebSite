@@ -13,7 +13,9 @@ namespace MyWebProject.Models.QueryResult
 
 		public DateTime DATE { get; set; }
 
-		public string TITLE { get; set; }
+		public string MAIN_TITLE { get; set; }
+
+		public string SECOND_TITLE { get; set; }
 
 		public int? VIEW_COUNT { get; set; }
 

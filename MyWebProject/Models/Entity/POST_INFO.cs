@@ -9,18 +9,14 @@ namespace MyWebProject.Models.Entity
     public partial class POST_INFO
     {
         [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int POST_ID { get; set; }
 
-        [Key]
-        [Column(Order = 1, TypeName = "date")]
+        [Column(TypeName = "date")]
         public DateTime DATE { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        [Required]
         [StringLength(50)]
-        public string TITLE { get; set; }
+        public string MAIN_TITLE { get; set; }
 
         public int? VIEW_COUNT { get; set; }
 
@@ -30,5 +26,8 @@ namespace MyWebProject.Models.Entity
 
         [StringLength(50)]
         public string TAG_ID { get; set; }
+
+        [StringLength(100)]
+        public string SECOND_TITLE { get; set; }
     }
 }

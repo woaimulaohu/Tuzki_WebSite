@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MyWebProject.Util
+namespace MyWebProject.Util_Pro
 {
 	public static class PorgramInit
 	{

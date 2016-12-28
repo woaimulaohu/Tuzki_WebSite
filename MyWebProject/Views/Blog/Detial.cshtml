@@ -10,8 +10,8 @@
                 @{List<SnippetResult> list = Model as List<SnippetResult>;
                     foreach (SnippetResult s in list)
                     {
-                        <h3>@s.TITLE</h3>
-                        <h4>@s.POST_ID</h4>
+                        <h3>@s.MAIN_TITLE</h3>
+                        <h4>@s.SECOND_TITLE</h4>
                         <ul class="list-inline">
                             <li>
                                 @foreach (TAG_INFO t in s.tag_info)
@@ -40,17 +40,16 @@
             </div>
         </div>
         <hr style="color:black" />
+        <div class="row" style="height:200px"></div>
     </div>
-    <div class="row" id="MsgBoardArea"></div>
 </div>
-<!--预留空列用于布局-->
 <div class="col-md-1"></div>
-<!--预留右侧功能区域-->
-<div class="col-md-3"></div>
+<!--留言板start-->
+<div class="col-md-3" id="MsgBoardArea"></div>
+<!--留言板end-->
 <script>
     function getBoardInDetial() {
         var postId = parseInt($('#postId').val());
-        alert(postId);
         $.get('Blog/MsgBoard?postId=' + postId, function (data) {
             $('#MsgBoardArea').html(data);
         });

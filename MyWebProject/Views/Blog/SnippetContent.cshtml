@@ -5,8 +5,8 @@
     List<SnippetResult> list = Model as List<SnippetResult>;
     foreach (SnippetResult s in list)
     {
-        <h3>@s.TITLE</h3>
-        <h4>@s.POST_ID</h4>
+        <h3>@s.MAIN_TITLE</h3>
+        <h4>@s.SECOND_TITLE</h4>
         <div class="row">
             @Html.Raw(System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT));
         </div>
@@ -32,6 +32,7 @@
         <div class="w-btn">
             <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial('@s.POST_ID')">查看</a>
         </div>
+        <hr />
     }
 }
 

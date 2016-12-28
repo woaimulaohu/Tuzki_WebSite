@@ -1,7 +1,8 @@
 ﻿@{
     int postId = 0;
-
-    int.TryParse(Model.ToString(),out postId);
+    string boardName = string.Empty;
+    int.TryParse(Model.ToString(), out postId);
+    boardName = postId == 0 ? "留言板" : "评论";
 }
 <style>
     .row {
@@ -11,7 +12,7 @@
 </style>
 <!--此文章留言区-->
 <div class="row">
-    <h2 style="text-align:right;vertical-align:top;margin-top:0;">留言板</h2>
+    <h2 style="text-align:right;vertical-align:top;margin-top:0;">@boardName</h2>
 </div>
 <div class="row" id="boardContent">
 
@@ -20,20 +21,54 @@
     <ul class="pagination-small" id="boardPage"></ul>
 </div>
 <div class="row">
-    <form role="form" style="margin-bottom:10px">
+    <form role="form" id="boardForm" style="margin-bottom:10px">
         <div class="form-group">
             <input type="email" class="form-control" id="email" placeholder="你的email">
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" id="nickName" placeholder="你的昵称">
+            <input type="text" class="form-control" id="nickName" placeholder="你的昵称">
         </div>
         <div class="form-group">
             <textarea class="form-control" id="comment" placeholder="我有话说"></textarea>
         </div>
-        <button type="submit" class="btn btn-info">说完了</button>
+        <button type="button" class="btn btn-info" onclick="leaveComment('@postId','0')">说完了</button>
     </form>
 </div>
 <script>
+    function leaveComment(postId, beforCommentsId) {
+        if ($('#nickName').val().length > 30) {
+            tips('boardForm', "昵称过长", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#nickName').val().length == 0) {
+            tips('boardForm', "不想给自己来个炫酷的昵称么", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#comment').val().length == 0) {
+            tips('boardForm', "不想说点什么么", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#email').val().length == 0) {
+            tips('boardForm', "支持gravatar头像功能,可以访问http://cn.gravatar.com/设置头像", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        $('#tips').remove();
+        $.post('Blog/leaveComment', {
+            'email': $('#email').val(),
+            'nickName': $('#nickName').val(),
+            'comment': $('#comment').val(),
+            'beforCommentsId': beforCommentsId,
+            'postId': postId,
+        }, function (data) {
+            getBoard('', '', postId);
+            tips('boardForm', "感谢你的留言", 'success');
+            setTimeout("$('#tips').remove()", 5000);
+        });
+    }
     //更新留言板
     function getBoard(pageStartNum, pageSize, postId) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
@@ -48,11 +83,11 @@
             'postId': postId
         }, function (data) {
             $("#boardContent").html(data);
-            getBoardPaging(pageStartNum, pageSize);
+            getBoardPaging(pageStartNum, pageSize, postId);
         });
     }
     //获取页码
-    function getBoardPaging(pageStartNum, pageSize) {
+    function getBoardPaging(pageStartNum, pageSize, postId) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
         }
@@ -62,13 +97,13 @@
         var pageEndNum = pageSize + pageStartNum;
         //生成当前页码
         var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
-        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ',' +@postId +')"><<</a></li>';
+        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ',' + postId + ')"><<</a></li>';
         for (var i = pageStartNum; i < pageEndNum; i++) {
-            html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ',' +@postId +')">' + i + '</a></li>';
+            html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ',' + postId + ')">' + i + '</a></li>';
         }
         var startForward = parseInt(pageStartNum) + parseInt(pageSize);
-        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' +@postId + ')">>></a></li>';
+        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' + postId + ')">>></a></li>';
         $('#boardPage').html(html);
     }
-    getBoard('','','@postId');
+    getBoard('', '', '@postId');
 </script>
