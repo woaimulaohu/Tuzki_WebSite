@@ -17,7 +17,7 @@ namespace MyWebProject
 		{
 			log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
 #if !DEBUG
-			Util.Util.DBUtil.checkDB();
+			Util.DBUtil.checkDB();
 #endif
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
