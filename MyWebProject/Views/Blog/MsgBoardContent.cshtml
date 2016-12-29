@@ -2,7 +2,7 @@
 @using MyWebProject.Models.Entity;
 @{
     List<MsgBoardResult> list = Model as List<MsgBoardResult>;
-    if (list.Count==0)
+    if (list.Count == 0)
     {
         <span style="color:#808080;float:right">没有更多留言啦</span>
     }
@@ -44,9 +44,17 @@
 }
                             else
                             {
-                                double hour = Math.Round(DateTime.Now.Subtract(m.DATE).TotalMinutes, 0);
-                                <span>@hour 分钟前</span>
+                                double hours = Math.Round(DateTime.Now.Subtract(m.DATE).TotalHours, 0);
+                                if (hours > 1)
+                                {
+                                    <span>@hours 小时前</span>
 }
+                                else
+                                {
+                                    double minutes = Math.Round(DateTime.Now.Subtract(m.DATE).TotalMinutes, 0);
+                                    <span>@minutes 分钟前</span>
+}
+                            }
                         }
                     </div>
                 </div>     }
