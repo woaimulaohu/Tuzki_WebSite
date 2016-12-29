@@ -16,6 +16,7 @@ namespace MyWebProject.Models.Entity
 		public virtual DbSet<POST_CONTENT> POST_CONTENT { get; set; }
 		public virtual DbSet<POST_INFO> POST_INFO { get; set; }
 		public virtual DbSet<TAG_INFO> TAG_INFO { get; set; }
+		public virtual DbSet<CONFIG> CONFIG { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
@@ -37,6 +38,14 @@ namespace MyWebProject.Models.Entity
 
 			modelBuilder.Entity<POST_INFO>()
 				.Property(e => e.SECOND_TITLE)
+				.IsFixedLength();
+
+			modelBuilder.Entity<CONFIG>()
+				.Property(e => e.KEY_NAME)
+				.IsFixedLength();
+
+			modelBuilder.Entity<CONFIG>()
+				.Property(e => e.VALUE)
 				.IsFixedLength();
 		}
 	}

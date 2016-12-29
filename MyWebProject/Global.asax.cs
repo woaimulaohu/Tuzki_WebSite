@@ -16,17 +16,18 @@ namespace MyWebProject
 		protected void Application_Start()
 		{
 			log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
-#if !DEBUG
-			Util.DBUtil.checkDB();
-#endif
 			AreaRegistration.RegisterAllAreas();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
+			OnLoad();
 		}
 		/// <summary>
 		/// 程序启动需要加载的数据
 		/// </summary>
 		private void OnLoad()
 		{
+#if !DEBUG
+			Util.DBUtil.checkDB();
+#endif
 			PorgramInit.Cache.CacheInit();
 		}
 		protected void Application_Error(object sender, EventArgs e)
@@ -37,7 +38,6 @@ namespace MyWebProject
 
 		}
 		protected void Session_Start(object sender, EventArgs e)
-
 		{
 
 

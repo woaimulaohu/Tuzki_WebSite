@@ -71,12 +71,12 @@
     function contactMe() {
 
         if ($('#Message').val().length == 0) {
-            tips('leftForm', "不可以发空消息", 'warning');
+            tips('leftForm', "不可以发空消息", 'info');
             setTimeout("$('#tips').remove()", 5000);
             return;
         }
         if ($('#email').val().length == 0) {
-            tips('leftForm', "请填写邮箱地址", 'warning');
+            tips('leftForm', "请填写邮箱地址", 'info');
             setTimeout("$('#tips').remove()", 5000);
             return;
         }

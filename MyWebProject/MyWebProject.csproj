@@ -515,6 +515,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\COMMENTS.cs" />
+    <Compile Include="Models\Entity\CONFIG.cs" />
     <Compile Include="Models\Entity\Entity.cs" />
     <Compile Include="Models\Entity\POST_CONTENT.cs" />
     <Compile Include="Models\Entity\POST_INFO.cs" />

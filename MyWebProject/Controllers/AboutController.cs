@@ -22,7 +22,7 @@ namespace MyWebProject.Controllers
 				MailMessage mail = new MailMessage();
 				mail.From = new MailAddress("tuzkiwebmanager@163.com"); //发送人邮箱地址
 				mail.To.Add("crazytuzki@vip.qq.com");   //收件人邮箱地址
-				mail.Subject = Request["WebSite联系留言"];    //主题
+				mail.Subject = "TuzkiWebSite_Email留言";    //主题
 				mail.Body = "发件人名称 : " + Request["name"] + "\n 发件人邮箱 : " + Request["email"] + "\n 联系方式 : " + Request["customContact"] + "\n 正文 : " + Request["Message"] + "\n";    //正文
 				SmtpClient smtp = new SmtpClient();
 				smtp.Host = "smtp.163.com";         //smtp服务器名称
