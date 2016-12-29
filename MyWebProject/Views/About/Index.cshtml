@@ -1,1 +1,103 @@
-﻿about
+﻿<div class="row" style="height:80px"></div>
+<!--start-contact-->
+<div class="contact">
+    <div class="container">
+        <div class="contact-top heading">
+            <div class="col-md-2" style="align-self:center">
+                <img class="img-rounded center-block" alt="" src="https://s.gravatar.com/avatar/394c57af99397c032ce21c3c33faf7a4?s=120">
+                <p style="text-align:center">野生码农一名</p>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <dl>
+                    <dt style="color:#EF6286">
+                        介绍:
+                    </dt>
+                    <dd>
+                        项目中使用了一些没有接触过的技术,作为学习和研究.</br>
+                        涉及到.net Razor,Bootstrap,EntityFramework,JavaScript,JQuery,Linq,CSS,SQL SERVER </br>
+                        使用第三方头像系统 Gravatar </br>
+                        前端页面参考了他人模板,重新进行了分部,按需重新制作了自己期望的布局和样式</br>
+                    </dd>
+                    <dt>
+                        </br>
+                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                        <a href="https://github.com/woaimulaohu" target="_blank">
+                            <img class="img-rounded img-circle" alt="" style="width:40px" src="~/Content/images/icon/github.png">
+                            GitHub
+                        </a>
+                        @*&nbsp;&nbsp;    &nbsp;&nbsp;    &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                            <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=eBsKGQIBDA0CExE4DhEIVgkJVhsXFQ" style="text-decoration:none;">
+                            <img class="img-rounded img-circle" style="width:40px" alt="" src="~/Content/images/icon/icon_email.png">
+                                Mail
+                            </a>*@
+                    </dt>
+                </dl>
+            </div>
+            <div class="row" style="height:10px"></div>
+        </div>
+    </div>
+    <div class="row" style="height:30px"></div>
+    <div class="container">
+        <div class="contact-top heading">
+            <h2>联系:</h2>
+            <p>如果你有什么好的意见或建议,请给我留言</p>
+        </div>
+        <div class="contact-bottom">
+            <div class="col-md-6 contact-left">
+                <form id="leftForm">
+                    <input type="text" id="name" name="name" placeholder="姓名" required="">
+                    <input type="text" id="email" name="email" placeholder="E-mail" required="">
+                    <input type="text" id="customContact" name="customContact" placeholder="你的联系方式" required="">
+                </form>
+            </div>
+            <div class="col-md-6 contact-left">
+                <form>
+                    <textarea id="Message" name="Message" placeholder="留言"></textarea>
+                    <input class="btn btn-info" type="button" style="width:80px" onclick="contactMe()" value="确认">
+                </form>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!--end-contact-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $().UItoTop({ easingType: 'easeOutQuart' });
+    });
+
+    function contactMe() {
+
+        if ($('#Message').val().length == 0) {
+            tips('leftForm', "不可以发空消息", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if ($('#email').val().length == 0) {
+            tips('leftForm', "请填写邮箱地址", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        if (/^\w+([-+.]\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test($('#email').val()) == false) {
+            tips('leftForm', "邮箱格式不正确", 'warning');
+            setTimeout("$('#tips').remove()", 5000);
+            return;
+        }
+        $.post('About/contactMe', {
+            'Message': $('#Message').val(),
+            'customContact': $('#customContact').val(),
+            'email': $('#email').val(),
+            'name': $('#name').val()
+        }, function (data) {
+            if (data == 'success') {
+                tips('leftForm', "感谢你的留言", 'success');
+                setTimeout("$('#tips').remove()", 5000);
+            } else {
+                tips('leftForm', "发送失败", 'danger');
+                setTimeout("$('#tips').remove()", 5000);
+            }
+        });
+    }
+</script>

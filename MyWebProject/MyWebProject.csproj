@@ -176,6 +176,7 @@
     <Content Include="Content\images\HomeImg\t-4.jpg" />
     <Content Include="Content\images\HomeImg\t-5.jpg" />
     <Content Include="Content\images\HomeImg\top-arrow.png" />
+    <Content Include="Content\images\icon\github.png" />
     <Content Include="Content\images\icon\icon_anzhuo.png" />
     <Content Include="Content\images\icon\icon_douban.png" />
     <Content Include="Content\images\icon\icon_email.png" />

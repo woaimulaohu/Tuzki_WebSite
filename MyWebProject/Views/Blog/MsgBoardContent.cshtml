@@ -18,7 +18,7 @@
                 <a href="javascript:void(0)">
                     <em>@comment.NICK_NAME</em>
                 </a>
-                <a href="#">
+                <a href="javascript:void(0)">
                     <em id="" onclick="reply(@comment.POST_ID, @comment.COMMENTS_ID)">回复</em>
                 </a>
                 <span>@comment.DATE</span>
@@ -78,7 +78,7 @@
        ' <div class="form-group">' +
         '    <textarea class="form-control" id="comment_r" placeholder="我有话说"></textarea>' +
        ' </div>' +
-     '   <button type="submit" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ')">说完了</button>' +
+     '   <button type="button" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ')">说完了</button>' +
    ' </form>' +
 '</div>');
         $("#lastReplyId").val(id);
