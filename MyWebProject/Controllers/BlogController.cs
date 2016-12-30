@@ -32,6 +32,11 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
+		public ActionResult DetialDirect()
+		{
+			object postId = Request["postId"].ToString();
+			return View(postId);
+		}
 		/// <summary>
 		/// 获取摘要内容
 		/// </summary>
@@ -150,17 +155,17 @@ namespace MyWebProject.Controllers
 				if (postId > 0)//目前postId>0的情况为查看文章详情
 				{
 					//获取文章明细中显示当前文章相关的留言的集合(BEFOR_COMMENTS_ID == 0不包含回复的)最近pageSize条
-					commentsNotReplies = entity.COMMENTS.Where(c => c.POST_ID == postId  && c.BEFOR_COMMENTS_ID == 0).OrderByDescending(c => c.DATE).ToList();
+					commentsNotReplies = entity.COMMENTS.Where(c => c.POST_ID == postId && c.BEFOR_COMMENTS_ID == 0).OrderByDescending(c => c.DATE).ToList();
 				}
 				else
 				{
 					//TOP10最近留言,获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条(文章ID为0的表示大厅留言)
 					commentsNotReplies = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == 0 && c.POST_ID == 0).OrderByDescending(c => c.DATE).ToList();
 				}
-				if ((pageStartNum - 1) * pageSize>0)
+				if ((pageStartNum - 1) * pageSize > 0)
 				{
 					//本页前的跳过
-					commentsNotReplies=commentsNotReplies.Skip((pageStartNum - 1) * pageSize).ToList();
+					commentsNotReplies = commentsNotReplies.Skip((pageStartNum - 1) * pageSize).ToList();
 				}
 				commentsNotReplies = commentsNotReplies.Take(pageSize).ToList();
 				foreach (COMMENTS commentsNotReply in commentsNotReplies)

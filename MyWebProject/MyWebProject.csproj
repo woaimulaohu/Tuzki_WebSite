@@ -552,6 +552,7 @@
     <Content Include="Views\ErrorPage.cshtml">
       <BrowseToURL>~/ErrorPage.cshtml</BrowseToURL>
     </Content>
+    <Content Include="Views\Blog\DetialDirect.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

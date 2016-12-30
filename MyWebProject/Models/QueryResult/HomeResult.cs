@@ -7,16 +7,12 @@ namespace MyWebProject.Models.QueryResult
 {
 	public class HomeResult
 	{
-		public MsgBoard msgBoard { get; set; }
-		HomeResult()
+		public List<MsgBoardResult> msgBoards { get; set; }
+		public List<SnippetResult> snipeetResults { get; set; }
+		public HomeResult()
 		{
+			this.msgBoards = new List<MsgBoardResult>();
+			this.snipeetResults = new List<SnippetResult>();
 		}
-		private	class MsgBoard : MsgBoardResult
-		{
-		}
-		class Snippet : SnippetResult
-		{
-		}
-
 	}
 }

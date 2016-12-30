@@ -1,0 +1,56 @@
+﻿<div class="container" style="width:68%">
+    <!--博客内部导航栏和搜索框start-->
+    <br />
+    <div class="col-md-8">
+        <ul class="breadcrumb">
+            <li>
+                <a href="javascript:void(0)" onclick="SnippetOnLoad()">摘要</a>
+            </li>
+            <li>
+                <a href="#">相册</a>
+            </li>
+            <li class="active">
+                <a href="#">目录</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input id="searchWords" class="form-control" placeholder="输入搜索关键词" type="text" />
+            </div>
+            <button type="submit" class="btn btn-info" onclick="searchPost($('#searchWords').val())">搜索</button>
+        </form>
+    </div>
+    <!--博客内部导航栏和搜索框end-->
+    <!--套用博客详细内容和博客日志摘要-->
+    <div class="row" id="content">
+
+    </div>
+    @{ string id = Model as string;
+        <input id="postIdHidden" style="visibility:collapse" value="@id" />
+    }
+</div>
+
+<script type="text/javascript">
+    //根据关键词查找文章
+    function searchPost(keyWords) {
+        if (isNullOrEmpty(keyWords)) {
+            return;
+        }
+        $.post('Blog/Search', {
+            'keyWords': keyWords
+        }, function (data) {
+            $('#content').html(data);
+        });
+
+    }
+    //获取文章正文
+    function load(id) {
+        $.post('Blog/Detial', { 'postId': id }, function (data) {
+            $("#content").html(data);
+        });
+    }
+    load($("#postIdHidden").val());
+</script>

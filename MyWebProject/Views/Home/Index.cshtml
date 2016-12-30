@@ -1,39 +1,24 @@
-﻿<!--start-banner-->
+﻿@using MyWebProject.Models.QueryResult;
+<!--start-banner-->
 <div class="banner">
     <div class="container">
         <section class="slider">
             <div class="flexslider">
                 <ul class="slides">
-                    <li>
-                        <div class="banner-top">
-                            <h1>Quisque ante ipsum</h1>
-                            <h2>Phasellus quis nunc odio</h2>
-                            <p>Sed mattis ipsum eget felis suscipit lacinia. Etiam semper semper nisi, nec tincidunt diam aliquet vel. Aliquam sit amet tellus nec lectus faucibus pharetra. Mauris ultrices sit amet mauris quis pulvinar. Fusce sit amet viverra mi, sit amet sollicitudin erat.</p>
-                            <div class="bnr-btn">
-                                <a href="#" class="hvr-shutter-out-horizontal">Read More</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="banner-top">
-                            <h1>Phasellus quis nunc</h1>
-                            <h2>Phasellus quis nunc odio</h2>
-                            <p>Maecenas molestie ultrices ante sit amet consectetur. Donec vel leo sit amet dolor interdum ultrices a consequat dolor.Sed mattis ipsum eget felis suscipit lacinia. Etiam semper semper nisi, nec tincidunt diam aliquet vel. Aliquam sit amet tellus nec lectus.</p>
-                            <div class="bnr-btn">
-                                <a href="#" class="hvr-shutter-out-horizontal">Read More</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="banner-top">
-                            <h1>Donec aliquet lacinia</h1>
-                            <h2>Phasellus quis nunc odio</h2>
-                            <p>Maecenas molestie ultrices ante sit amet consectetur. Donec vel leo sit amet dolor interdum ultrices a consequat dolor. Etiam id ex tristique metus facilisis suscipit. Praesent efficitur nibh eget sem sodales, sit amet elementum libero pellentesque.</p>
-                            <div class="bnr-btn">
-                                <a href="#" class="hvr-shutter-out-horizontal">Read More</a>
-                            </div>
-                        </div>
-                    </li>
+                    @{  HomeResult homeResult = Model as HomeResult;
+                        foreach (SnippetResult snippets in homeResult.snipeetResults)
+                        {
+                            <li>
+                                <div class="banner-top">
+                                    <h1>@snippets.MAIN_TITLE</h1>
+                                    <h2>@snippets.SECOND_TITLE</h2>
+                                    <p>@Html.Raw(System.Web.HttpUtility.HtmlDecode(snippets.POST_CONTENT))</p>
+                                    <div class="bnr-btn">
+                                        <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial('@snippets.POST_ID')">查看</a>
+                                    </div>
+                                </div>
+                            </li>}
+                    }
                 </ul>
             </div>
         </section>
@@ -227,3 +212,10 @@
     </div>
 </div>
 <!--end-teacher-->
+<script>
+    function getDetial(id) {
+        $.post('Blog/DetialDirect', { 'postId': id }, function (data) {
+            $("#MiddleContent").html(data);
+        });
+    }
+</script>
