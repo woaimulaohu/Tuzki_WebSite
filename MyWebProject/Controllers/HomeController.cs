@@ -1,4 +1,5 @@
 ﻿using MyWebProject.Models;
+using MyWebProject.Models.QueryResult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace MyWebProject.Controllers
 		// GET: Home
 		public ActionResult Index()
 		{
+			HomeResult homeResult = new HomeResult();
+			
 			return View();
 		}
 

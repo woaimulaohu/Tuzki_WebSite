@@ -520,6 +520,7 @@
     <Compile Include="Models\Entity\POST_CONTENT.cs" />
     <Compile Include="Models\Entity\POST_INFO.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
+    <Compile Include="Models\QueryResult\HomeResult.cs" />
     <Compile Include="Models\QueryResult\MsgBoardResult.cs" />
     <Compile Include="Models\QueryResult\SnippetResult.cs" />
     <Compile Include="Models\ResultObj.cs" />
