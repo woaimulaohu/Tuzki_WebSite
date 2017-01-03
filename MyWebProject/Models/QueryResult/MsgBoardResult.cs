@@ -23,5 +23,6 @@ namespace MyWebProject.Models.QueryResult
 		public int? BEFOR_COMMENTS_ID { get; set; }
 		public List<COMMENTS> REPLY { get; set; }
 		public string AVATAR_URL { get; set; }
+		public int replyCount { get; set; }
 	}
 }

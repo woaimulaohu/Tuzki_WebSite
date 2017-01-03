@@ -44,26 +44,20 @@
 <!--End-slider-script-->
 <!--start-provide-->
 <div class="provide">
-    <div class="col-md-3 provide-left provide-one">
-        <h5>Vestibulum</h5>
-        <h3>Ullamcorper </h3>
-        <p>Praesent aliquam tortor non quam ornare volutpat. Integer at vehicula turpis.</p>
-    </div>
-    <div class="col-md-3 provide-left provide-two">
-        <h5>faucibus</h5>
-        <h3>Condimentum</h3>
-        <p>Praesent aliquam tortor non quam ornare volutpat. Integer at vehicula turpis.</p>
-    </div>
-    <div class="col-md-3 provide-left provide-tre">
-        <h5>pulvinar</h5>
-        <h3>Fermentum</h3>
-        <p>Praesent aliquam tortor non quam ornare volutpat. Integer at vehicula turpis.</p>
-    </div>
-    <div class="col-md-3 provide-left provide-four">
-        <h5>sagittis</h5>
-        <h3>Pellentesque</h3>
-        <p> Praesent aliquam tortor non quam ornare volutpat. Integer at vehicula turpis.</p>
-    </div>
+    @{ 
+        string[] strs = { "provide-one", "provide-two", "provide-tre", "provide-four" };
+        for (int i = 0; i < homeResult.msgBoards.Count; i++)
+        {
+    <a href="javascript:void(0)" onclick="getDetial('@homeResult.msgBoards[i].POST_ID')">
+        <div class="col-md-3 provide-left @strs[i]">
+            <h5>@homeResult.msgBoards[i].EMAIL <span class="badge badge-info" style="float:right">@homeResult.msgBoards[i].replyCount</span></h5>
+            <h3>@homeResult.msgBoards[i].NICK_NAME </h3>
+            <p>@homeResult.msgBoards[i].TEXT</p>
+        </div>
+    </a>
+        }
+    }
+   
     <div class="clearfix"></div>
 </div>
 <!--end-provide-->
@@ -121,7 +115,6 @@
     </div>
 </div>
 <!--end-join-->
-<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>
 <!--start-news-->
 <div class="news">
     <div class="container">
