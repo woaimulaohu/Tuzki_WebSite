@@ -23,7 +23,7 @@ namespace MyWebProject.Controllers
 			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false, Msg = "请求访问路径非法" });
 		}
 		/// <summary>
-		/// 在调用操作方法前调用。
+		/// 在调用action前调用。
 		/// </summary>
 		/// <param name="filterContext"></param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)

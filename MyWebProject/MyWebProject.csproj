@@ -176,14 +176,18 @@
     <Content Include="Content\images\HomeImg\t-4.jpg" />
     <Content Include="Content\images\HomeImg\t-5.jpg" />
     <Content Include="Content\images\HomeImg\top-arrow.png" />
+    <Content Include="Content\images\icon\gitcode.png" />
     <Content Include="Content\images\icon\github.png" />
     <Content Include="Content\images\icon\icon_anzhuo.png" />
     <Content Include="Content\images\icon\icon_douban.png" />
     <Content Include="Content\images\icon\icon_email.png" />
+    <Content Include="Content\images\icon\icon_email_white.png" />
     <Content Include="Content\images\icon\icon_facebook.png" />
+    <Content Include="Content\images\icon\icon_github_white.png" />
     <Content Include="Content\images\icon\icon_Google.png" />
     <Content Include="Content\images\icon\icon_linkedin.png" />
     <Content Include="Content\images\icon\icon_QQ.png" />
+    <Content Include="Content\images\icon\icon_QQ_white.png" />
     <Content Include="Content\images\icon\icon_Qzone.png" />
     <Content Include="Content\images\icon\icon_renren.png" />
     <Content Include="Content\images\icon\icon_Skye.png" />
@@ -191,6 +195,7 @@
     <Content Include="Content\images\icon\icon_tenxun_weibo.png" />
     <Content Include="Content\images\icon\icon_twitter.png" />
     <Content Include="Content\images\icon\icon_weichat.png" />
+    <Content Include="Content\images\icon\icon_wx_white.png" />
     <Content Include="Content\images\icon\icon_xinlang.png" />
     <Content Include="Content\images\icon\icon_Yahoo.png" />
     <Content Include="Content\images\icon\icon_yamaxun.png" />
@@ -198,6 +203,8 @@
     <Content Include="Content\images\icon\icon_YouTube.png" />
     <Content Include="Content\images\icon\icon_zhifubao.png" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\icon\qqcode.png" />
+    <Content Include="Content\images\icon\wxcode.png" />
     <Content Include="Content\js\commonFunc.js" />
     <Content Include="Content\js\UEditor\asp\action_config.asp" />
     <Content Include="Content\js\UEditor\asp\action_crawler.asp" />

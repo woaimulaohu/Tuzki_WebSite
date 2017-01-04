@@ -3,9 +3,6 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8" />
     <title>Tips Page </title>
@@ -16,7 +13,7 @@
     <style>
         .page-404 {
             text-align: center;
-            margin-top:100px;
+            padding-top:100px;
         }
 
         .btn.blue {
@@ -157,43 +154,37 @@
 
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="span12 page-404">
-    <div class="row-fluid">
-        <div class="span12 page-404">
-            <div class="number">
-                !
-            </div>
-            <div class="details">
-                <h3>Sorry,站点出现问题,请稍后再试</h3>
-                @{  string tips = string.Empty;
-                    if (Model != null)
-                    {
-                        ResultObj ro = Model as ResultObj;
-                        tips = ro.Msg;
-                    }
-                    else
-                    {
-                        tips = Server.GetLastError().Message;
-                    }
-                }
-                <p>
-                    @tips
-                    <br />
-                    <a href="javascript:history.go(-1)" style="color: #005580;font-size:13px">返回上一页</a> 或者搜索相关帮助
-                </p>
-                <form action="http://www.baidu.com/baidu" target="_blank">
-                    <input name=tn type=hidden value=baidu>
-                    <input class="m-wrap" size="16" type="text" name="word" value="@tips" />
-                    <input type="submit" value="Search" class="btn blue">
-                </form>
-            </div>
-        </div>
+<div class="span12 page-404">
+    <div class="number">
+        !
     </div>
-
-    <script>
-    </script>
-    <!-- END JAVASCRIPTS -->
-</body>
-
-<!-- END BODY -->
-</html>
+    <div class="details">
+        <h3>Sorry,您的操作无法完成,请稍后再试</h3>
+        @{  string tips = string.Empty;
+            if (Model != null)
+            {
+                ResultObj ro = Model as ResultObj;
+                tips = ro.Msg;
+            }
+            else
+            {
+                tips = Server.GetLastError().Message;
+            }
+        }
+        <p>
+            @tips
+            <br />
+            <a href="javascript:void(0)" style="color: #005580;font-size:13px" onclick="getHome()">返回首页</a> 或者搜索相关帮助
+        </p>
+        <form action="http://www.baidu.com/baidu" target="_blank">
+            <input name=tn type=hidden value=baidu>
+            <input class="m-wrap" size="16" type="text" name="word" value="@tips" />
+            <input type="submit" value="Search" class="btn blue">
+        </form>
+    </div>
+</div>
+<script>
+    function getHome() {
+        location.href = 'Home';
+    }
+</script>

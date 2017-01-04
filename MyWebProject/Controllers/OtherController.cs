@@ -11,7 +11,8 @@ namespace MyWebProject.Controllers
         // GET: Other
         public ActionResult Index()
         {
-            return View();
-        }
+			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false, Msg = "网站建设中,暂不支持此操作" });
+			return View();
+		}
     }
 }
