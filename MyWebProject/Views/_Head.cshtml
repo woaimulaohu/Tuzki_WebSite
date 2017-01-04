@@ -10,7 +10,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><img src="~/Content/images/HomeImg/logo.png" alt="" /></a>
+                <a class="navbar-brand" href="Home">
+                    <img src="~/Content/images/HomeImg/logo.png" alt="" />
+                    <audio name="0" id="audioPlayer" autoplay="autoplay" onended="audioNext()" preload="auto" src="">你的浏览器不支持audio标签</audio>
+                </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -28,10 +31,18 @@
 </div>
 <!--end-header-->
 <script>
+    function audioNext() {
+        $.post('Home/audioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
+            var arr = new Array();
+            arr = data.split(',');
+            $("#audioPlayer").attr("src", arr[1]);
+            $("#audioPlayer").attr("name", arr[0]);
+        });
+    }
     function tips(elementId, msg, alertLevel) {
         var html;
         elementId = '#' + elementId;
-        if ("danger"==alertLevel) {
+        if ("danger" == alertLevel) {
             html = ' <div class="alert alert-danger" id="tips" role="alert"><strong>错误!</strong>' + msg + '</div>';
         }
         if ("warning" == alertLevel) {
@@ -46,4 +57,5 @@
         $('#tips').remove();
         $(elementId).append(html);
     }
+    audioNext();
 </script>

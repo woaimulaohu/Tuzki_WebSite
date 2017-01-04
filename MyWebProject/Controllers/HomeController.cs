@@ -56,7 +56,7 @@ namespace MyWebProject.Controllers
 					homeResult.snipeetResults.Add(p);
 				}
 
-				string sql_top_comment = "SELECT "+
+				string sql_top_comment = "SELECT " +
 											"* " +
 											"FROM " +
 											"COMMENTS AS T1 " +
@@ -85,6 +85,11 @@ namespace MyWebProject.Controllers
 		public ActionResult Tips(bool IsSuccess, string Msg)
 		{
 			return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = IsSuccess, Obj = "Error", Msg = Msg });
+		}
+		public string audioNext()
+		{
+			string index = Request["index"];
+			return index + "," + "http://mp3.haoduoge.com/s/2017-01-04/1483513792.mp3";
 		}
 	}
 }
