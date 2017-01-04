@@ -86,7 +86,7 @@ namespace MyWebProject.Controllers
 		{
 			return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = IsSuccess, Obj = "Error", Msg = Msg });
 		}
-		public string audioNext()
+		public string AudioNext()
 		{
 			string index = Request["index"];
 			return index + "," + "http://mp3.haoduoge.com/s/2017-01-04/1483513792.mp3";

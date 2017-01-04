@@ -32,7 +32,7 @@
 <!--end-header-->
 <script>
     function audioNext() {
-        $.post('Home/audioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
+        $.post('Home/AudioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
             var arr = new Array();
             arr = data.split(',');
             $("#audioPlayer").attr("src", arr[1]);
