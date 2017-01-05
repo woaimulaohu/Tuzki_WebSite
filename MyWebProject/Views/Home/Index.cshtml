@@ -60,7 +60,6 @@
     <div class="clearfix"></div>
 </div>
 <!--end-provide-->
-
 <!--start-welcome-->
 <div class="welcome">
     <div class="container">
@@ -91,22 +90,30 @@
     <div class="container">
         <div class="join-main">
             <div class="col-md-3 join-left">
-                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                <svg class="icon" aria-hidden="true" style="width:90px;height:90px;" id="icon1" onmouseover="overIcon('icon1')" onmouseout="outIcon('icon1')">
+                    <use xlink:href="#icon-Xmas_C-2"></use>
+                </svg>
                 <h4>massa blandit</h4>
                 <p>Proin fermentum diam eu massa blandit, congue finibus ante pulvinar. Aliquam lacinia odio eros.</p>
             </div>
             <div class="col-md-3 join-left">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <svg class="icon" aria-hidden="true" style="width:90px;height:90px">
+                    <use xlink:href="#icon-Xmas_C-9"></use>
+                </svg>
                 <h4>congue finibus</h4>
                 <p>Proin fermentum diam eu massa blandit, congue finibus ante pulvinar. Aliquam lacinia odio eros.</p>
             </div>
             <div class="col-md-3 join-left">
-                <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                <svg class="icon" aria-hidden="true" style="width:90px;height:90px">
+                    <use xlink:href="#icon-Xmas_C-3"></use>
+                </svg>
                 <h4>Aliquam lacinia</h4>
                 <p>Proin fermentum diam eu massa blandit, congue finibus ante pulvinar. Aliquam lacinia odio eros.</p>
             </div>
             <div class="col-md-3 join-left">
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                <svg class="icon" aria-hidden="true" style="width:90px;height:90px">
+                    <use xlink:href="#icon-Wreath"></use>
+                </svg>
                 <h4>placerat ipsum</h4>
                 <p>Proin fermentum diam eu massa blandit, congue finibus ante pulvinar. Aliquam lacinia odio eros.</p>
             </div>
@@ -210,5 +217,20 @@
         $.post('Blog/DetialDirect', { 'postId': id }, function (data) {
             $("#MiddleContent").html(data);
         });
+    }
+    function overIcon(elemId) {
+        position = $("#" + elemId).position();
+        Console.log("position" + position.left + " " + position.top);
+        $("#" + elemId).css("width", "100px");
+        $("#" + elemId).css("height", "100px");
+        $("#" + elemId).css("position", "absolute");
+        $("#" + elemId).css("left", parseInt(position.left) - 10 + "px");
+        $("#" + elemId).css("top", parseInt(position.top - 10) + "px");
+        position = $("#" + elemId).position();
+        Console.log("position" + position.left + " " + position.top);
+    }
+    function outIcon(elemId) {
+        //$("#" + elemId).css("width", "90px");
+        //$("#" + elemId).css("height", "90px");
     }
 </script>
