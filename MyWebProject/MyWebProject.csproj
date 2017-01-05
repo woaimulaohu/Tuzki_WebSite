@@ -206,6 +206,8 @@
     <Content Include="Content\images\icon\qqcode.png" />
     <Content Include="Content\images\icon\wxcode.png" />
     <Content Include="Content\js\commonFunc.js" />
+    <Content Include="Content\js\demo_symbol.html" />
+    <Content Include="Content\js\iconfont.js" />
     <Content Include="Content\js\UEditor\asp\action_config.asp" />
     <Content Include="Content\js\UEditor\asp\action_crawler.asp" />
     <Content Include="Content\js\UEditor\asp\action_list.asp" />
