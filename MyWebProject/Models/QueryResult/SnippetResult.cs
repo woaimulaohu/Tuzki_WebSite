@@ -8,7 +8,7 @@ namespace MyWebProject.Models.QueryResult
 {
 	public class SnippetResult
 	{
-		public string POST_CONTENT { get; set;}
+		public string POST_CONTENT { get; set; }
 		public int POST_ID { get; set; }
 
 		public DateTime DATE { get; set; }

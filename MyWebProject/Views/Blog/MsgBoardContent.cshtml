@@ -8,59 +8,128 @@
     }
     foreach (MsgBoardResult comment in list)
     {
-        <div class="row" id="@comment.POST_ID.ToString()@comment.COMMENTS_ID.ToString()" style="border-right: 2px solid #ddd;">
-            @*https://s.gravatar.com/avatar/394c57af99397c032ce21c3c33faf7a4?s=80*@
-            <img class="img-circle" alt="" src="@comment.AVATAR_URL">
-            <div class="blog-twitter-block">
-                <div>
-                    <p style="word-break:break-all;width:280px">@comment.TEXT</p>
+        <div class="row" id="@comment.POST_ID.ToString()@comment.COMMENTS_ID.ToString()" style="margin-top:2px">
+            <div class="col-md-3" style="float:left;">
+                <div class="row">
+                    <img class="img-rounded" style="float:left" src="@comment.AVATAR_URL">
                 </div>
-                <a href="javascript:void(0)">
-                    <em>@comment.NICK_NAME</em>
-                </a>
-                <a href="javascript:void(0)">
-                    <em id="" onclick="reply(@comment.POST_ID, @comment.COMMENTS_ID)">回复</em>
-                </a>
-                <span>@comment.DATE</span>
+                <div class="row" style="font-size:x-small;word-break:break-all;text-align:center;">@comment.NICK_NAME</div>
+            </div>
+
+            <div class="col-md-9" style="float:left;padding-left:0px">
+                <div class="alert alert-info" style="margin-bottom:0px;padding-bottom:20px">
+                    <div class="row">
+                        <p style="font-size:small;word-break:break-all; word-wrap:break-word ">
+                            @comment.TEXT
+                        </p>
+                    </div>
+                    <div class="row" style="float:right;margin-right:5px">
+                        <span style="font-size:xx-small;font-style:italic">@comment.DATE</span>
+                        <a href="javascript:void(0)">
+                            <em style="font-size:x-small" onclick="reply(@comment.POST_ID, @comment.COMMENTS_ID)">回复</em>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        if (comment.REPLY != null)
-        {
-            foreach (COMMENTS m in comment.REPLY)
-            {
-                <div class="row" style="border-right: 2px solid #ddd;">
-                    <img class="img-circle" alt="" src="@m.AVATAR_URL">
-                    <div class="blog-twitter-block" style="margin-left:40px;">
-                        <div>
-                            <p style="word-break:break-all;width:200px">@m.TEXT</p>
-                        </div>
-                        <a href="#">
-                            <em>@m.NICK_NAME</em>
-                        </a>
+
+        @*<div class="row" id="@comment.POST_ID.ToString()@comment.COMMENTS_ID.ToString()" style="border-right: 2px solid #ddd;">
+                <img class="img-circle" alt="" src="@comment.AVATAR_URL">
+                <div class="blog-twitter-block">
+                    <div>
+                        <p style="word-break:break-all;width:280px">@comment.TEXT</p>
+                    </div>
+                    <a href="javascript:void(0)">
+                        <em>@comment.NICK_NAME</em>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <em id="" onclick="reply(@comment.POST_ID, @comment.COMMENTS_ID)">回复</em>
+                    </a>
+                    <span>@comment.DATE</span>
+                </div>
+            </div>*@
+
+if (comment.REPLY != null)
+{
+    foreach (COMMENTS m in comment.REPLY)
+    {
+        <div class="row" style="margin-top:2px;margin-left:20px">
+            <div class="col-md-3" style="float:left;">
+                <div class="row">
+                    <img class="img-rounded" style="float:left" src="@m.AVATAR_URL">
+                </div>
+                <div class="row" style="font-size:x-small;word-break:break-all;text-align:center;">@m.NICK_NAME</div>
+            </div>
+            <div class="col-md-9" style="float:left;padding-left:0px">
+                <div class="alert alert-success" style="margin-bottom:0px;padding-bottom:20px">
+                    <div class="row">
+                        <p style="font-size:small;word-break:break-all; word-wrap:break-word ">
+                            @m.TEXT
+                        </p>
+                    </div>
+                    <div class="row" style="float:right;margin-right:5px">
                         @{  double day = DateTime.Now.Subtract(m.DATE).TotalDays;
                             if (day > 1.0)
                             {
-                                <span>@day.ToString().Split('.')[0] 天前</span>
+                                <span style="font-size:xx-small;font-style:italic;">@day.ToString().Split('.')[0] 天前</span>
 }
                             else
                             {
                                 double hours = Math.Round(DateTime.Now.Subtract(m.DATE).TotalHours, 0);
                                 if (hours > 1)
                                 {
-                                    <span>@hours 小时前</span>
+                                    <span style="font-size:xx-small;font-style:italic;">@hours 小时前</span>
 }
                                 else
                                 {
                                     double minutes = Math.Round(DateTime.Now.Subtract(m.DATE).TotalMinutes, 0);
-                                    <span>@minutes 分钟前</span>
+                                    <span style="font-size:xx-small;font-style:italic;">@minutes 分钟前</span>
 }
                             }
                         }
                     </div>
-                </div>     }
+                </div>
+            </div>
+        </div>
+
+
+        @*<div class="row" style="border-right: 2px solid #ddd;">
+                                <img class="img-circle" alt="" src="@m.AVATAR_URL">
+                                <div class="blog-twitter-block" style="margin-left:40px;">
+                                    <div>
+                                        <p style="word-break:break-all;width:200px">@m.TEXT</p>
+                                    </div>
+                                    <a href="#">
+                                        <em>@m.NICK_NAME</em>
+                                    </a>
+                                    @{  double day = DateTime.Now.Subtract(m.DATE).TotalDays;
+                                        if (day > 1.0)
+                                        {
+                                            <span>@day.ToString().Split('.')[0] 天前</span>
+            }
+                                        else
+                                        {
+                                            double hours = Math.Round(DateTime.Now.Subtract(m.DATE).TotalHours, 0);
+                                            if (hours > 1)
+                                            {
+                                                <span>@hours 小时前</span>
+            }
+                                            else
+                                            {
+                                                double minutes = Math.Round(DateTime.Now.Subtract(m.DATE).TotalMinutes, 0);
+                                                <span>@minutes 分钟前</span>
+            }
+                                        }
+                                    }
+                                </div>
+                            </div>     }
+                                        }
+
+                                        <hr style="border-bottom:1px solid #ddd;border-top:none" />}
+
+            }*@     }
+                                }
                             }
-                          
-                            <hr style="border-bottom:1px solid #ddd;border-top:none" />}
 }
 <script>
     function reply(postId, beforCommentsId) {

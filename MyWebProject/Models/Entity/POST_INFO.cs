@@ -29,5 +29,7 @@ namespace MyWebProject.Models.Entity
 
         [StringLength(100)]
         public string SECOND_TITLE { get; set; }
+
+        public bool? IS_TOP { get; set; }
     }
 }

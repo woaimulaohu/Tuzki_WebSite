@@ -1,28 +1,29 @@
-﻿<div class="container" style="width:68%">
+﻿    <br />
+<div class="container" style="width:70%;">
     <!--博客内部导航栏和搜索框start-->
-    <br />
-    <div class="col-md-8">
-        <ul class="breadcrumb">
-            <li>
-                <a href="javascript:void(0)" onclick="SnippetOnLoad()">摘要</a>
-            </li>
-            <li>
-                <a href="#">相册</a>
-            </li>
-            <li class="active">
-                <a href="#">目录</a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-3">
-        <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-                <input id="searchWords" class="form-control" placeholder="输入搜索关键词" type="text" />
-            </div>
-            <button type="submit" class="btn btn-info" onclick="searchPost($('#searchWords').val())">搜索</button>
-        </form>
-    </div>
+    <nav class="bread-crumbs">
+        <div id="breadcrumb">
+            <ul class="breadcrumb" style="height:50px;">
+                <li style="margin-top:5px">
+                    <a href="javascript:void(0)" onclick="SnippetOnLoad()">摘要</a>
+                </li>
+                <li>
+                    <a href="#">相册</a>
+                </li>
+                <li class="active">
+                    <a href="#">目录</a>
+                </li>
+                <li style="float:right">
+                    <form class="navbar-form navbar-right" style="margin-top:0px;margin-bottom:0px" role="search">
+                        <div class="form-group">
+                            <input id="searchWords" class="form-control" placeholder="输入搜索关键词" type="text" />
+                        </div>
+                        <button type="submit" class="btn btn-info" onclick="searchPost($('#searchWords').val())">搜索</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <!--博客内部导航栏和搜索框end-->
     <!--套用博客详细内容和博客日志摘要-->
     <div class="row" id="content">

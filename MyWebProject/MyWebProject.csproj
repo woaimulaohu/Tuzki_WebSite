@@ -562,6 +562,7 @@
       <BrowseToURL>~/ErrorPage.cshtml</BrowseToURL>
     </Content>
     <Content Include="Views\Blog\DetialDirect.cshtml" />
+    <Content Include="Views\Home\ConversationMsgBoard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -7,12 +7,23 @@ namespace MyWebProject.Models.QueryResult
 {
 	public class HomeResult
 	{
+		/// <summary>
+		/// TOP4留言
+		/// </summary>
 		public List<MsgBoardResult> msgBoards { get; set; }
-		public List<SnippetResult> snipeetResults { get; set; }
+		/// <summary>
+		/// TOP3文章
+		/// </summary>
+		public List<SnippetResult> top3PostResults { get; set; }
+		/// <summary>
+		/// TOP2置顶帖
+		/// </summary>
+		public List<SnippetResult> top2PostResults { get; set; }
 		public HomeResult()
 		{
 			this.msgBoards = new List<MsgBoardResult>();
-			this.snipeetResults = new List<SnippetResult>();
+			this.top3PostResults = new List<SnippetResult>();
+			this.top2PostResults = new List<SnippetResult>();
 		}
 	}
 }
