@@ -213,7 +213,7 @@ namespace MyWebProject.Controllers
 					DATE = DateTime.Now,
 					TEXT = comment,
 					BEFOR_COMMENTS_ID = beforCommentsId,
-					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80",
+					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80&d=retro",
 				});
 				DbChangeTracker d = entity.ChangeTracker;
 				entity.SaveChanges();

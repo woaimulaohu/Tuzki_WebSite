@@ -85,8 +85,7 @@
         var lastId = $("#lastReplyId").val();
         $('#' + lastId + '_r').remove();
         $('#' + id).append('<div class="row"  id=' + id + '_r>' +
-            '<div class="col-md-2"></div>'+
-    '<div class="col-md-6"><form role="form" id="boardForm_r" style="margin-bottom:10px;">' +
+    '<div><form role="form" id="boardForm_r" style="margin-bottom:20px; margin-top: 20px;margin-left: 100px;width:350px">' +
        ' <div class="form-group">' +
          '   <input type="text" class="form-control" id="email_r" placeholder="你的email">' +
         '</div>' +
@@ -98,7 +97,6 @@
        ' </div>' +
      '   <button type="button" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ')">说完了</button>' +
    ' </form></div>' +
-    '<div class="col-md-4"></div>' +
 '</div>');
         $("#lastReplyId").val(id);
         $("#boardForm_r").blur(function () {
