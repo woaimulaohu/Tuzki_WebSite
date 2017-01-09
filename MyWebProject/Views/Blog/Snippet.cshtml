@@ -20,7 +20,7 @@
 <!--博客摘要页end-->
 <script>
     //更新摘要
-    function getSnippet(pageStartNum, pageSize) {
+    function getSnippet(pageStartNum, pageSize, isUpdataPage) {
         if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
             pageStartNum = 1;
         }
@@ -32,7 +32,15 @@
             'pageSize': pageSize
         }, function (data) {
             $("#snippetContent").html(data);
-            getSnippetPaging(pageStartNum, pageSize);
+            if (isUpdataPage == 1) {
+                getSnippetPaging(pageStartNum, pageSize);
+            }
+            $("#snippetPage li").each(function () {
+                $(this).attr("class", "");
+                if ($(this).text() == pageStartNum) {
+                    $(this).attr("class", "active");
+                }
+            });
         });
     }
     //获取页码
@@ -46,12 +54,12 @@
         var pageEndNum = pageSize + pageStartNum;
         //生成当前页码
         var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
-        var html = '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startBack) + ',' + parseInt(pageSize) + ')"><<</a></li>';
+        var html = '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startBack) + ',' + parseInt(pageSize) + ',' + 1 + ')"><<</a></li>';
         for (var i = pageStartNum; i < pageEndNum; i++) {
-            html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + i + ',' + parseInt(pageSize) + ')">' + i + '</a></li>';
+            html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + i + ',' + parseInt(pageSize) + ',' + 0 + ')">' + i + '</a></li>';
         }
         var startForward = parseInt(pageStartNum) + parseInt(pageSize);
-        html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startForward) + ',' + parseInt(pageSize) + ')">>></a></li>';
+        html += '<li><a href="javascript:void(0)" onclick="getSnippet(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' + 1 + ')">>></a></li>';
         $('#snippetPage').html(html);
     }
 

@@ -106,7 +106,45 @@ namespace MyWebProject.Controllers
 		}
 		public ActionResult ConversationMsgBoard()
 		{
-			return View();
+			int pageStartNum = 1;
+			int pageSize = 5;
+			if (Request["pageStartNum"] != null && Request["pageSize"] != null)
+			{
+				int.TryParse(Request["pageStartNum"].ToString(), out pageStartNum);
+				int.TryParse(Request["pageSize"].ToString(), out pageSize);
+			}
+			List<COMMENTS> commentsNotReplies = new List<COMMENTS>();
+			List<MsgBoardResult> listResult = new List<MsgBoardResult>();
+			using (Entity entity = new Entity())
+			{
+				//TOP10最近留言,获取文章明细中显示当前文章相关的留言的集合(不包含回复的)最近pageSize条(文章ID为0的表示大厅留言)
+				commentsNotReplies = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == 0 && c.POST_ID == 0).OrderByDescending(c => c.DATE).ToList();
+				if ((pageStartNum - 1) * pageSize > 0)
+				{
+					//本页前的跳过
+					commentsNotReplies = commentsNotReplies.Skip((pageStartNum - 1) * pageSize).ToList();
+				}
+				commentsNotReplies = commentsNotReplies.Take(pageSize).ToList();
+				foreach (COMMENTS commentsNotReply in commentsNotReplies)
+				{
+					List<COMMENTS> replyInComment = new List<COMMENTS>();
+					//检查是否有对应的回复记录
+					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderBy(c => c.DATE).ToList();
+					listResult.Add(new MsgBoardResult
+					{
+						COMMENTS_ID = commentsNotReply.COMMENTS_ID,
+						DATE = commentsNotReply.DATE,
+						NICK_NAME = commentsNotReply.NICK_NAME,
+						TEXT = commentsNotReply.TEXT,
+						EMAIL = commentsNotReply.EMAIL,
+						POST_ID = commentsNotReply.POST_ID,
+						BEFOR_COMMENTS_ID = commentsNotReply.BEFOR_COMMENTS_ID,
+						REPLY = replyInComment.Count > 0 ? replyInComment : null,
+						AVATAR_URL = commentsNotReply.AVATAR_URL
+					});
+				}
+			}
+			return View(listResult);
 		}
 		public ActionResult Typo()
 		{
