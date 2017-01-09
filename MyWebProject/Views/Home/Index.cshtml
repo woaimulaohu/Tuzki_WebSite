@@ -46,8 +46,13 @@
 <div class="provide">
     @{
         string[] strs = { "provide-one", "provide-two", "provide-tre", "provide-four" };
-        for (int i = 0; i < homeResult.msgBoards.Count; i++)
+        for (int i = 0; i < 4; i++)
         {
+            if (homeResult.msgBoards[i] == null)
+            {
+                <div class="col-md-3 provide-left @strs[i]">
+                </div>continue;
+            }
             <a href="javascript:void(0)" onclick="getDetial('@homeResult.msgBoards[i].POST_ID')">
                 <div class="col-md-3 provide-left @strs[i]">
                     <h5>@homeResult.msgBoards[i].EMAIL <span class="badge badge-info" style="float:right">@homeResult.msgBoards[i].replyCount</span></h5>
@@ -63,9 +68,15 @@
 <!--start-welcome-->
 <div class="welcome">
     <div class="container">
-        @{
-            foreach (SnippetResult sr in homeResult.top2PostResults)
+        @{    foreach (SnippetResult sr in homeResult.top2PostResults)
             {
+                if (sr == null)
+                {
+                    <div class="welcome-top">
+                        <div class="col-md-6 welcome-left">
+                        </div>
+                    </div>continue;
+                }
                 <div class="welcome-top">
                     <div class="col-md-6 welcome-left">
                         <h3>@sr.MAIN_TITLE</h3>
