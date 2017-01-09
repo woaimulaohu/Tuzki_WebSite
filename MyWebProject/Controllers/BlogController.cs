@@ -1,5 +1,4 @@
-﻿using HtmlAgilityPack;
-using MyWebProject.Models;
+﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
 using MyWebProject.Util_Pro;
@@ -12,7 +11,6 @@ using System.Data.Entity.Core.EntityClient;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -73,21 +71,11 @@ namespace MyWebProject.Controllers
 			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
 			   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
 				var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
-				HtmlDocument html = new HtmlDocument();
-				StringBuilder sb = new StringBuilder();
 				foreach (SnippetResult p in queryResult)
 				{
 					string content = HttpUtility.HtmlDecode(p.POST_CONTENT);
-					if (content.Length > 200)
-					{
-						html.LoadHtml(content);
-						HtmlNodeCollection collection = html.DocumentNode.SelectNodes("//p");
-						foreach (HtmlNode node in collection)
-						{
-							sb.Append(node.InnerText);
-						}
-						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
-					}
+					p.POST_CONTENT = content.Substring(content.IndexOf("<p>"), content.IndexOf("</p>", content.IndexOf("<p>") + 1) - content.IndexOf("<p>") + 4);
+					p.POST_CONTENT = p.POST_CONTENT.Length > 1000 ? p.POST_CONTENT.Substring(1000) + "</p>" : p.POST_CONTENT;
 					//把摘要中标签属性获取出来
 					p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
 					list.Add(p);

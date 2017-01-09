@@ -1,22 +1,17 @@
-﻿using HtmlAgilityPack;
-using log4net.Repository.Hierarchy;
-using MyWebProject.Models;
+﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 
 namespace MyWebProject.Controllers
 {
 	public class HomeController : BaseController
 	{
-		log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		public ActionResult Home()
 		{
 			return Redirect("~/Views/Main.cshtml");
@@ -25,6 +20,8 @@ namespace MyWebProject.Controllers
 		{
 			return View("~/Views/Main.cshtml", Index());
 		}
+
+
 
 		// GET: Home
 		public HomeResult Index()
@@ -48,20 +45,12 @@ namespace MyWebProject.Controllers
 							"JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
 							"ORDER BY POST_INFO.DATE DESC";
 				var queryResult = entity.Database.SqlQuery<SnippetResult>(sql_top_post).ToList();
-				HtmlDocument html = new HtmlDocument();
-				StringBuilder sb = new StringBuilder();
 				foreach (SnippetResult p in queryResult)
 				{
 					string content = HttpUtility.HtmlDecode(p.POST_CONTENT);
-					if (content.Length > 200)
+					if (p.POST_CONTENT.Length > 200)
 					{
-						html.LoadHtml(content);
-						HtmlNodeCollection collection = html.DocumentNode.SelectNodes("//p");
-						foreach (HtmlNode node in collection)
-						{
-							sb.Append(node.InnerText);
-						}
-						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
+						p.POST_CONTENT = p.POST_CONTENT.Substring(0, 180) + "……";
 					}
 					//把摘要中标签属性获取出来
 					homeResult.top3PostResults.Add(p);
