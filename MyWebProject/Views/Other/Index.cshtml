@@ -1,1 +1,9 @@
-﻿其他
+﻿<a href="https://github.com/login/oauth/authorize?client_id=1e8991731cc506dd7aa3&scope=user,public_repo">github</a>
+
+<script>
+    function gitHubLogin() {
+        $.get('https://github.com/login/oauth/authorize?client_id=1e8991731cc506dd7aa3&scope=user,public_repo', function (data) {
+            alert(data);
+        });
+    }
+</script>
