@@ -510,7 +510,7 @@
     <Content Include="Content\js\UEditor\third-party\video-js\font\vjs.woff" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
-    <None Include="Views\About\Index.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
     <Content Include="Models\script.sql" />
     <Content Include="Web.config" />
   </ItemGroup>
