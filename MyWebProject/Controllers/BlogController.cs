@@ -210,7 +210,7 @@ namespace MyWebProject.Controllers
 			string nickName = Request["nickName"];
 			int postId = 0;
 			int.TryParse(Request["postId"], out postId);
-			string email = Request["email"];
+			string avatarUrl = Request["avatarUrl"];
 			int beforCommentsId = 0;
 			int.TryParse(Request["beforCommentsId"], out beforCommentsId);
 			string comment = Request["comment"];
@@ -221,11 +221,11 @@ namespace MyWebProject.Controllers
 					COMMENTS_ID = -1,
 					POST_ID = postId,
 					NICK_NAME = nickName,
-					EMAIL = email,
 					DATE = DateTime.Now,
 					TEXT = comment,
 					BEFOR_COMMENTS_ID = beforCommentsId,
-					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80&d=retro",
+					AVATAR_URL = avatarUrl
+					//AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(avatarUrl) + "?s=80&d=retro",
 				});
 				DbChangeTracker d = entity.ChangeTracker;
 				entity.SaveChanges();

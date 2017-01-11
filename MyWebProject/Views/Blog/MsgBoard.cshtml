@@ -24,18 +24,21 @@
 <div class="row">
     <form role="form" id="boardForm" style="margin-bottom:10px">
         <div class="form-group">
-            <input type="email" class="form-control" id="email" placeholder="你的email">
-        </div>
-        <div class="form-group">
             <input type="text" class="form-control" id="nickName" placeholder="你的昵称">
         </div>
         <div class="form-group">
             <textarea class="form-control" id="comment" placeholder="我有话说"></textarea>
         </div>
+        <input id="avatarUrl" style="display:none" />
         <button type="button" class="btn btn-info" onclick="leaveComment('@postId','0')">说完了</button>
     </form>
 </div>
 <script>
+    function BoardBindUserInfo() {
+        $("#avatarUrl").val(getAvatar());
+        $("#nickName").val(getUserName());
+        $("#nickName").attr("placeholder", getUserName());
+    }
     function leaveComment(postId, beforCommentsId) {
         if ($('#nickName').val().length > 30) {
             tips('boardForm', "昵称过长", 'info');
@@ -52,14 +55,9 @@
             setTimeout("$('#tips').remove()", 5000);
             return;
         }
-        if ($('#email').val().length == 0) {
-            tips('boardForm', "支持gravatar头像功能,可以访问http://cn.gravatar.com/设置头像", 'info');
-            setTimeout("$('#tips').remove()", 5000);
-            return;
-        }
         $('#tips').remove();
         $.post('Blog/leaveComment', {
-            'email': $('#email').val(),
+            'avatarUrl': $('#avatarUrl').val(),
             'nickName': $('#nickName').val(),
             'comment': $('#comment').val(),
             'beforCommentsId': beforCommentsId,
@@ -120,4 +118,5 @@
         $('#boardPage').html(html);
     }
     getBoard('', '', '@postId', 1);
+    BoardBindUserInfo();
 </script>

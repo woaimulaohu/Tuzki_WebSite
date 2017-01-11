@@ -25,7 +25,7 @@
                     <li>
                         <a id="login" href="javascript:void(0)" onclick="jumpClick('../Other/Index')" class="hvr-bounce-to-top">登录</a>
                         <a id="login_Info" href="javascript:void(0)" style="display:none;padding-top: 27px; padding-bottom: 27px;" onclick="" class="hvr-bounce-to-top">
-                            <img id="login_avatar" class="img-rounded" style="width:50px;height:50px;text-align:center;margin-right: 0px;" src="">
+                            <img id="login_avatar" class="img-circle" style="width:50px;height:50px;text-align:center;margin-right: 0px;" src="">
                             <p id="login_nickName" style="text-align:center"></p>
                         </a>
                     </li>
@@ -37,6 +37,12 @@
 </div>
 <!--end-header-->
 <script>
+    function getUserName() {
+        return $.cookie('userInfo').split('&')[0].split('=')[1];
+    }
+    function getAvatar() {
+        return $.cookie('userInfo').split('&')[1].split('=')[1];
+    }
     function checkLogin() {
         $.post('Home/CheckLogin', function (data) {
             if (data == 'fail') {
@@ -44,8 +50,8 @@
             } else {
                 $("#login").hide();
                 $("#login_Info").show();
-                $("#login_avatar").attr("src", $.cookie('userInfo').split('&')[1].split('=')[1]);
-                $("#login_nickName").text($.cookie('userInfo').split('&')[0].split('=')[1]);
+                $("#login_avatar").attr("src", getAvatar());
+                $("#login_nickName").text(getUserName());
             }
         });
     }

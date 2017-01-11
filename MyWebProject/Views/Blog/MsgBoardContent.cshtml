@@ -138,9 +138,7 @@ if (comment.REPLY != null)
         $('#' + lastId + '_r').remove();
         $('#' + id).append('<div class="row" id=' + id + '_r>' +
     '<form role="form" id="boardForm_r" style="margin-bottom:10px">' +
-       ' <div class="form-group">' +
-         '   <input type="text" class="form-control" id="email_r" placeholder="你的email">' +
-        '</div>' +
+    '    <input id="avatarUrl_r" style="display:none" />' +
         '<div class="form-group">' +
         '    <input type="text" class="form-control" id="nickName_r" placeholder="你的昵称">' +
        ' </div>' +
@@ -150,6 +148,10 @@ if (comment.REPLY != null)
      '   <button type="button" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ')">说完了</button>' +
    ' </form>' +
 '</div>');
+        $("#avatarUrl_r").val(getAvatar());
+        $("#nickName_r").val(getUserName());
+        $("#nickName_r").attr("placeholder", getUserName());
+
         $("#lastReplyId").val(id);
         $("#boardForm_r").blur(function () {
             $('#' + id + '_r').remove();
@@ -175,15 +177,10 @@ if (comment.REPLY != null)
             setTimeout("$('#tips').remove()", 5000);
             return;
         }
-        if ($('#email_r').val().length == 0) {
-            tips('boardForm_r', "不想留email就胡乱填吧", 'info');
-            setTimeout("$('#tips').remove()", 5000);
-            return;
-        }
         $('#tips').remove();
 
         $.post('Blog/leaveComment', {
-            'email': $('#email_r').val(),
+            "avatarUrl": $('#avatarUrl_r').val(),
             'nickName': $('#nickName_r').val(),
             'comment': $('#comment_r').val(),
             'beforCommentsId': beforCommentsId,
