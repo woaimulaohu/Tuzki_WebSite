@@ -41,7 +41,8 @@
         return $.cookie('userInfo').split('&')[0].split('=')[1];
     }
     function getAvatar() {
-        return $.cookie('userInfo').split('&')[1].split('=')[1];
+        var avatar = $.cookie('userInfo').substr($.cookie('userInfo').indexOf('&') + 1);
+        return avatar.substr(avatar.indexOf('=') + 1, avatar.length - avatar.indexOf('='));
     }
     function checkLogin() {
         $.post('Home/CheckLogin', function (data) {

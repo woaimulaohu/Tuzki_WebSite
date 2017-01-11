@@ -1,5 +1,6 @@
 ﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
+using MyWebProject.Util_Pro;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,24 @@ namespace MyWebProject.Controllers
 				});
 				entity.SaveChanges();
 			}
+		}
+		public string EmailLogin()
+		{
+			string nickName = Request["nickName"];
+			string email = Request["email"];
+			using (Entity entity = new Entity())
+			{
+				entity.USER_INFO.Add(new USER_INFO
+				{
+					SESSION_ID = Session.SessionID,
+					NICK_NAME = nickName,
+					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80&d=retro",
+					USER_AUTH = 0,
+					EXPIRE_TIME = DateTime.Now.AddDays(7)
+				});
+				entity.SaveChanges();
+			}
+			return "success";
 		}
 	}
 }

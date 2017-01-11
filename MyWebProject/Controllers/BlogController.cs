@@ -225,7 +225,7 @@ namespace MyWebProject.Controllers
 					TEXT = comment,
 					BEFOR_COMMENTS_ID = beforCommentsId,
 					AVATAR_URL = avatarUrl
-					//AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(avatarUrl) + "?s=80&d=retro",
+					
 				});
 				DbChangeTracker d = entity.ChangeTracker;
 				entity.SaveChanges();

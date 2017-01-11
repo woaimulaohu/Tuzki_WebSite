@@ -9,6 +9,7 @@
             <div class="form-group">
                 <input type="text" class="form-control" id="nickName" placeholder="你的昵称">
             </div>
+            <button type="button" class="btn btn-info" onclick="emailLogin()">登录</button>
         </form>
     </div>
     <div class="col-md-4">
@@ -32,9 +33,14 @@
     </div>
 </div>
 <script>
-    function gitHubLogin() {
-        $.get('https://github.com/login/oauth/authorize?client_id=1e8991731cc506dd7aa3&scope=user,public_repo', function (data) {
-            alert(data);
+    function emailLogin() {
+        $.post('Other/EmailLogin', {
+            'nickName': $("#nickName").val(),
+            'email':$("#email").val()
+        }, function (data) {
+            if (data == "success") {
+                getHome();
+            }
         });
     }
 </script>
