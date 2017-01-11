@@ -104,6 +104,11 @@ namespace MyWebProject.Controllers
 											"replyCount DESC " +
 											") AS T2 ON t1.COMMENTS_ID = T2.BEFOR_COMMENTS_ID";
 				homeResult.msgBoards = entity.Database.SqlQuery<MsgBoardResult>(sql_top_comment).ToList();
+				foreach (MsgBoardResult r in homeResult.msgBoards.Where(m => m.POST_ID != 0))
+				{
+					string title = entity.POST_INFO.Where(p => p.POST_ID == 1).First().MAIN_TITLE;
+					r.MAIN_TITLE = title;
+				}
 				//首页第三行区域获取置顶帖 TOP2 POST依据IS TOP判断
 				string sql_top2_post = "SELECT top 2 " +
 							"POST_CONTENT.POST_CONTENT, " +

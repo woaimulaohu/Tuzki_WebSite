@@ -24,5 +24,21 @@ namespace MyWebProject.Models.QueryResult
 		public List<COMMENTS> REPLY { get; set; }
 		public string AVATAR_URL { get; set; }
 		public int replyCount { get; set; }
+		private string main_title;
+		public string MAIN_TITLE
+		{
+			get
+			{
+				if (main_title == null)
+				{
+					return "留言板留言";
+				}
+				return main_title;
+			}
+			set
+			{
+				this.main_title = value;
+			}
+		}
 	}
 }
