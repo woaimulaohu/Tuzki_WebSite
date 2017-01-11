@@ -22,7 +22,13 @@
                     <li><a href="javascript:void(0)" onclick="jumpClick('../Blog/Index')" class="hvr-bounce-to-top">博客</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpClick('../About/Index')" class="hvr-bounce-to-top">关于</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpClick('../Management/Index')" class="hvr-bounce-to-top">管理</a></li>
-                    <li><a href="javascript:void(0)" onclick="jumpClick('../Other/Index')" class="hvr-bounce-to-top">登录</a></li>
+                    <li>
+                        <a id="login" href="javascript:void(0)" onclick="jumpClick('../Other/Index')" class="hvr-bounce-to-top">登录</a>
+                        <a id="login_Info" href="javascript:void(0)" style="display:none;padding-top: 27px; padding-bottom: 27px;" onclick="" class="hvr-bounce-to-top">
+                            <img id="login_avatar" class="img-rounded" style="width:50px;height:50px;text-align:center;margin-right: 0px;" src="">
+                            <p id="login_nickName" style="text-align:center"></p>
+                        </a>
+                    </li>
                 </ul>
                 <div class="clearfix"></div>
             </div><!-- /.navbar-collapse -->
@@ -31,6 +37,18 @@
 </div>
 <!--end-header-->
 <script>
+    function checkLogin() {
+        $.post('Home/CheckLogin', function (data) {
+            if (data == 'fail') {
+                jumpClick('../Other/Index');
+            } else {
+                $("#login").hide();
+                $("#login_Info").show();
+                $("#login_avatar").attr("src", $.cookie('userInfo').split('&')[1].split('=')[1]);
+                $("#login_nickName").text($.cookie('userInfo').split('&')[0].split('=')[1]);
+            }
+        });
+    }
     function audioNext() {
         $.post('Home/AudioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
             var arr = new Array();
@@ -58,4 +76,5 @@
         $(elementId).append(html);
     }
     audioNext();
+    checkLogin();
 </script>

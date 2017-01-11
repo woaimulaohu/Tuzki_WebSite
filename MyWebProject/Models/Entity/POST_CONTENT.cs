@@ -9,6 +9,7 @@ namespace MyWebProject.Models.Entity
     public partial class POST_CONTENT
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int POST_ID { get; set; }
 
         [Column("POST_CONTENT", TypeName = "text")]

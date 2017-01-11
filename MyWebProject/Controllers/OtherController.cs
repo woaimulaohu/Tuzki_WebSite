@@ -1,4 +1,5 @@
 ﻿using MyWebProject.Models;
+using MyWebProject.Models.Entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -47,15 +48,23 @@ namespace MyWebProject.Controllers
 			string step3Url = "https://api.github.com/user?access_token=" + access_token;
 			string json = HttpGetResult(step3Url);
 			GitHubUserInfo userInfo = JsonConvert.DeserializeObject<GitHubUserInfo>(json);
-			HttpCookie cookie = new HttpCookie("userInfo");
-			cookie.Values.Add("name", userInfo.name);
-			cookie.Values.Add("avatar_url", userInfo.avatar_url);
-			Response.SetCookie(cookie);
 #if DEBUG
 			Response.Redirect("http://localhost:7592/");
 #else
 			Response.Redirect("http://woaimulaohu.imwork.net/");
 #endif
+			using (Entity entity = new Entity())
+			{
+				entity.USER_INFO.Add(new USER_INFO
+				{
+					SESSION_ID = Session.SessionID,
+					NICK_NAME = userInfo.name,
+					AVATAR_URL = userInfo.avatar_url,
+					USER_AUTH = 0,
+					EXPIRE_TIME = DateTime.Now.AddDays(7)
+				});
+				entity.SaveChanges();
+			}
 		}
 	}
 }

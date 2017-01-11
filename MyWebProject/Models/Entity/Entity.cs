@@ -16,6 +16,7 @@ namespace MyWebProject.Models.Entity
 		public virtual DbSet<POST_CONTENT> POST_CONTENT { get; set; }
 		public virtual DbSet<POST_INFO> POST_INFO { get; set; }
 		public virtual DbSet<TAG_INFO> TAG_INFO { get; set; }
+		public virtual DbSet<USER_INFO> USER_INFO { get; set; }
 		public virtual DbSet<CONFIG> CONFIG { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

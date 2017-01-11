@@ -11,7 +11,6 @@ namespace MyWebProject.Models.Entity
         [Key]
         public int POST_ID { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime DATE { get; set; }
 
         [Required]

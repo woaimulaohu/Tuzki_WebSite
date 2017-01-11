@@ -187,6 +187,7 @@
     <Content Include="Content\images\icon\icon_email.png" />
     <Content Include="Content\images\icon\icon_email_white.png" />
     <Content Include="Content\images\icon\icon_facebook.png" />
+    <Content Include="Content\images\icon\icon_github.png" />
     <Content Include="Content\images\icon\icon_github_white.png" />
     <Content Include="Content\images\icon\icon_Google.png" />
     <Content Include="Content\images\icon\icon_linkedin.png" />
@@ -510,6 +511,8 @@
     <Content Include="Content\js\UEditor\third-party\video-js\font\vjs.woff" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
+    <Content Include="Content\js\jquery.cookie-1.4.1.min.js" />
+    <Content Include="Content\js\jquery.cookie.js" />
     <Content Include="Views\About\Index.cshtml" />
     <Content Include="Models\script.sql" />
     <Content Include="Web.config" />
@@ -531,6 +534,7 @@
     <Compile Include="Models\Entity\POST_CONTENT.cs" />
     <Compile Include="Models\Entity\POST_INFO.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
+    <Compile Include="Models\Entity\USER_INFO.cs" />
     <Compile Include="Models\GitHubUserInfo.cs" />
     <Compile Include="Models\QueryResult\HomeResult.cs" />
     <Compile Include="Models\QueryResult\MsgBoardResult.cs" />

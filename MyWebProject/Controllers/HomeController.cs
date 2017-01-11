@@ -23,7 +23,26 @@ namespace MyWebProject.Controllers
 			return View("~/Views/Main.cshtml", Index());
 		}
 
-
+		public string CheckLogin()
+		{
+			string sessionId = Session.SessionID;
+			using (Entity entity = new Entity())
+			{
+				List<USER_INFO> list = entity.USER_INFO.Where(u => u.SESSION_ID == sessionId).ToList();
+				if (list.Count > 0)
+				{
+					HttpCookie cookie = new HttpCookie("userInfo");
+					cookie.Values.Add("name", list.First().NICK_NAME);
+					cookie.Values.Add("avatar_url", list.First().AVATAR_URL);
+					Response.SetCookie(cookie);
+					return "success";
+				}
+				else
+				{
+					return "fail";
+				}
+			}
+		}
 
 		// GET: Home
 		public HomeResult Index()
