@@ -101,6 +101,8 @@ namespace MyWebProject.Controllers
 			List<SnippetResult> list = new List<SnippetResult>();
 			using (Entity entity = new Entity())
 			{
+				entity.POST_INFO.Where(p=>p.POST_ID==postId).First().VIEW_COUNT+=1;
+				entity.SaveChanges();
 				//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
 				string sql = "SELECT " +
 			   "POST_CONTENT.POST_CONTENT," +

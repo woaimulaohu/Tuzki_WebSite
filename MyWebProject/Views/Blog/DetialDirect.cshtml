@@ -34,6 +34,24 @@
 </div>
 
 <script type="text/javascript">
+    //首次加载摘要整个页面布局
+    function SnippetOnLoad() {
+        $.post('Blog/Snippet', function (data) {
+            $("#content").html(data);
+            //uParse('.snippetContent', {
+            //    rootPath: '../Content/js/UEditor/third-party'
+            //})
+            getSnippet('', '', 1);
+            MessageBoardOnLoad();
+        });
+    }
+    //加载留言板布局
+    function MessageBoardOnLoad() {
+        $.post('Blog/MsgBoard', function (data) {
+            $('#MsgBoardArea').html(data);
+            getBoardPaging();
+        });
+    }
     //根据关键词查找文章
     function searchPost(keyWords) {
         if (isNullOrEmpty(keyWords)) {
