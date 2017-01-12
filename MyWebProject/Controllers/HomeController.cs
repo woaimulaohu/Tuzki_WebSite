@@ -25,14 +25,15 @@ namespace MyWebProject.Controllers
 
 		public string CheckLogin()
 		{
-			string sessionId = Session.SessionID;
+			string token = Request["token"];
 			using (Entity entity = new Entity())
 			{
-				List<USER_INFO> list = entity.USER_INFO.Where(u => u.SESSION_ID == sessionId).ToList();
+				List<USER_INFO> list = entity.USER_INFO.Where(u => u.TOKEN == token).ToList();
 				if (list.Count > 0)
 				{
 					HttpCookie cookie = new HttpCookie("userInfo");
-					cookie.Values.Add("name", list.First().NICK_NAME);
+					//有中文,cookie需要转utf8,不然IE中cookie显示为乱码
+					cookie.Values.Add("name", HttpUtility.UrlEncode(list.First().NICK_NAME, Encoding.UTF8));
 					cookie.Values.Add("avatar_url", list.First().AVATAR_URL);
 					Response.SetCookie(cookie);
 					return "success";

@@ -48,24 +48,48 @@ namespace MyWebProject.Controllers
 			string access_token = HttpGetResult(step2Url).Split('&')[0].Split('=')[1];
 			string step3Url = "https://api.github.com/user?access_token=" + access_token;
 			string json = HttpGetResult(step3Url);
-			GitHubUserInfo userInfo = JsonConvert.DeserializeObject<GitHubUserInfo>(json);
+			GitHubUserInfo gitInfo = JsonConvert.DeserializeObject<GitHubUserInfo>(json);
+
+			using (Entity entity = new Entity())
+			{
+				List<USER_INFO> list = entity.USER_INFO.Where<USER_INFO>(u => u.GITHUB_ID == gitInfo.id).ToList();
+				if (list.Count > 0)
+				{
+					USER_INFO user = list.First();
+					user.AVATAR_URL = gitInfo.avatar_url;
+					user.EXPIRE_TIME = DateTime.Now.AddDays(7);
+					user.NICK_NAME = gitInfo.name;
+					entity.SaveChanges();
+					HttpCookie cookie = new HttpCookie("token");
+					cookie.Value = user.TOKEN;
+					cookie.Expires = user.EXPIRE_TIME;
+					Response.SetCookie(cookie);
+				}
+				else
+				{
+					DateTime expireTime = DateTime.Now.AddDays(7);
+					string token = Util.CommonUtil.MD5_Encode(gitInfo.id + "" + expireTime);
+					entity.USER_INFO.Add(new USER_INFO
+					{
+						NICK_NAME = gitInfo.name,
+						AVATAR_URL = gitInfo.avatar_url,
+						GITHUB_ID = gitInfo.id,
+						USER_AUTH = 0,//用户权限0黑名单,1一般,2管理员
+						EXPIRE_TIME = expireTime,
+						TOKEN = token
+					});
+					entity.SaveChanges();
+					HttpCookie cookie = new HttpCookie("token");
+					cookie.Value = token;
+					cookie.Expires = expireTime;
+					Response.SetCookie(cookie);
+				}
+			}
 #if DEBUG
 			Response.Redirect("http://localhost:7592/");
 #else
 			Response.Redirect("http://woaimulaohu.imwork.net/");
 #endif
-			using (Entity entity = new Entity())
-			{
-				entity.USER_INFO.Add(new USER_INFO
-				{
-					SESSION_ID = Session.SessionID,
-					NICK_NAME = userInfo.name,
-					AVATAR_URL = userInfo.avatar_url,
-					USER_AUTH = 0,
-					EXPIRE_TIME = DateTime.Now.AddDays(7)
-				});
-				entity.SaveChanges();
-			}
 		}
 		public string EmailLogin()
 		{
@@ -75,7 +99,6 @@ namespace MyWebProject.Controllers
 			{
 				entity.USER_INFO.Add(new USER_INFO
 				{
-					SESSION_ID = Session.SessionID,
 					NICK_NAME = nickName,
 					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80&d=retro",
 					USER_AUTH = 0,

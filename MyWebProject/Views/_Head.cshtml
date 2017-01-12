@@ -45,7 +45,7 @@
         return avatar.substr(avatar.indexOf('=') + 1, avatar.length - avatar.indexOf('='));
     }
     function checkLogin() {
-        $.post('Home/CheckLogin', function (data) {
+        $.post('Home/CheckLogin',{'token': $.cookie('token')}, function (data) {
             if (data == 'fail') {
                 jumpClick('../Other/Index');
             } else {
