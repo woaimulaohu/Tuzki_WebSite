@@ -57,7 +57,6 @@ namespace MyWebProject.Controllers
 				{
 					USER_INFO user = list.First();
 					user.AVATAR_URL = gitInfo.avatar_url;
-					user.EXPIRE_TIME = DateTime.Now.AddDays(7);
 					user.NICK_NAME = gitInfo.name;
 					entity.SaveChanges();
 					HttpCookie cookie = new HttpCookie("token");

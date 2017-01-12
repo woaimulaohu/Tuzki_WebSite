@@ -149,7 +149,8 @@
     </div>
 </div>
 <script>
-    function BoardBindUserInfo() {
+
+    window.onload = function BoardBindUserInfo() {
         $("#avatarUrl").val(getAvatar());
         $("#nickName").val(getUserName());
         $("#nickName").attr("placeholder", getUserName());
@@ -219,13 +220,13 @@
             setTimeout("$('#tips').remove()", 5000);
             return;
         }
-       
+
         $('#tips').remove();
         $.post('Blog/leaveComment', {
             'nickName': $('#nickName').val(),
             'comment': $('#comment').val(),
             'beforCommentsId': beforCommentsId,
-            "avatarUrl":$('#avatarUrl').val(),
+            "avatarUrl": $('#avatarUrl').val(),
             'postId': postId,
         }, function (data) {
             getBoard('', '', postId);
@@ -255,5 +256,5 @@
         //$("#" + elemId).css("height", "90px");
     }
     getBoard('', '', '0', 1);
-   
+
 </script>
