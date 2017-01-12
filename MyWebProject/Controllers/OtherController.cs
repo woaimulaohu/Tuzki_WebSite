@@ -75,6 +75,7 @@ namespace MyWebProject.Controllers
 						GITHUB_ID = gitInfo.id,
 						USER_AUTH = 0,//用户权限0黑名单,1一般,2管理员
 						EXPIRE_TIME = expireTime,
+						GITHUB_LOG_IN_ACCOUNT = gitInfo.login,
 						TOKEN = token
 					});
 					entity.SaveChanges();
@@ -94,6 +95,7 @@ namespace MyWebProject.Controllers
 		{
 			string nickName = Request["nickName"];
 			string email = Request["email"];
+			string token = Util.CommonUtil.MD5_Encode(nickName + "" + email);
 			using (Entity entity = new Entity())
 			{
 				entity.USER_INFO.Add(new USER_INFO
@@ -101,9 +103,14 @@ namespace MyWebProject.Controllers
 					NICK_NAME = nickName,
 					AVATAR_URL = "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(email) + "?s=80&d=retro",
 					USER_AUTH = 0,
-					EXPIRE_TIME = DateTime.Now.AddDays(7)
+					EXPIRE_TIME = DateTime.Now.AddDays(7),
+					TOKEN = token
 				});
 				entity.SaveChanges();
+				HttpCookie cookie = new HttpCookie("token");
+				cookie.Value = token;
+				cookie.Expires = DateTime.Now.AddDays(7);
+				Response.SetCookie(cookie);
 			}
 			return "success";
 		}

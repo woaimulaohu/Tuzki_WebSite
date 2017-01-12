@@ -31,5 +31,8 @@ namespace MyWebProject.Models.Entity
 
         [StringLength(50)]
         public string TOKEN { get; set; }
+
+        [StringLength(50)]
+        public string GITHUB_LOG_IN_ACCOUNT { get; set; }
     }
 }
