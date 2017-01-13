@@ -1,6 +1,7 @@
 ﻿<!--blog正文区域-->
 @using MyWebProject.Models.QueryResult;
 @using MyWebProject.Models.Entity
+
 <div class="col-md-8">
     <!--blog正文-->
     <div class="row">
@@ -31,10 +32,10 @@
                             </li>
                         </ul>
                         <hr style="color:black" />
-                        <p style="color:black">
+                        <div id="postContent">
                             @Html.Raw(System.Web.HttpUtility.HtmlDecode(s.POST_CONTENT))
-                            <input style="visibility:collapse" id="postId" value="@s.POST_ID" />
-                        </p>}
+                        </div>
+                        <input style="visibility:collapse" id="postId" value="@s.POST_ID" />}
                 }
             </div>
         </div>
@@ -54,4 +55,8 @@
         });
     }
     getBoardInDetial();
+    function a() {
+        $('#postContent').children().css('color', 'black');
+    }
+    a();
 </script>
