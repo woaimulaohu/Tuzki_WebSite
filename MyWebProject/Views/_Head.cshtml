@@ -22,11 +22,20 @@
                     <li><a href="javascript:void(0)" onclick="jumpClick('../Blog/Index')" class="hvr-bounce-to-top">博客</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpClick('../About/Index')" class="hvr-bounce-to-top">关于</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpClick('../Management/Index')" class="hvr-bounce-to-top">管理</a></li>
-                    <li>
+                    <li style="height:126px">
                         <a id="login" href="javascript:void(0)" onclick="jumpClick('../Other/Index')" class="hvr-bounce-to-top">登录</a>
-                        <a id="login_Info" href="javascript:void(0)" style="display:none;padding-top: 27px; padding-bottom: 27px;" onclick="" class="hvr-bounce-to-top">
-                            <img id="login_avatar" class="img-circle" style="width:50px;height:50px;text-align:center;margin-right: 0px;" src="">
-                            <p id="login_nickName" style="text-align:center"></p>
+                        <a id="login_Info" href="javascript:void(0)" onclick="quitLogin()" style="display:none;height:100%" class="hvr-bounce-to-top">
+                            <ul class="list-unstyled" style="margin-left:20px;margin-top: 40px;">
+                                <li style="margin-top: -50px;">
+                                    <img id="login_avatar" class="img-circle" style="width:50px;height:50px;text-align:center;margin-right: 0px;margin-bottom:25px" src="">
+                                </li>
+                                <li>
+                                    <p id="login_nickName" style="white-space:nowrap;margin-top:-30px"></p>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled" style="float:right;margin-right:20px">
+                                <li style="white-space:nowrap"><p>退出</p></li>
+                            </ul>
                         </a>
                     </li>
                 </ul>
@@ -37,6 +46,11 @@
 </div>
 <!--end-header-->
 <script>
+    function quitLogin() {
+        $.cookie('userInfo', null);
+        $.cookie('token', null);
+        getHome();
+    }
     function getUserName() {
         return $.cookie('userInfo').split('&')[0].split('=')[1];
     }
