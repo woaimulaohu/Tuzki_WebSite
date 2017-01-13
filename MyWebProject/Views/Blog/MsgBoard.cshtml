@@ -34,7 +34,7 @@
     </form>
 </div>
 <script>
-    function BoardBindUserInfo() {
+   window.onload= function BoardBindUserInfo() {
         $("#avatarUrl").val(getAvatar());
         $("#nickName").val(getUserName());
         $("#nickName").attr("placeholder", getUserName());
@@ -118,5 +118,4 @@
         $('#boardPage').html(html);
     }
     getBoard('', '', '@postId', 1);
-    BoardBindUserInfo();
 </script>
