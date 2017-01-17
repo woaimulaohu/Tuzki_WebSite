@@ -166,6 +166,7 @@
     <Content Include="Content\js\emoji\emojionearea.min.css" />
     <Content Include="Content\js\emoji\emojionearea.min.js" />
     <Content Include="Content\js\iconfont.js" />
+    <Content Include="Content\js\MyScript.js" />
     <Content Include="Content\js\UEditor\asp\action_config.asp" />
     <Content Include="Content\js\UEditor\asp\action_crawler.asp" />
     <Content Include="Content\js\UEditor\asp\action_list.asp" />

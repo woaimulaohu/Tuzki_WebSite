@@ -156,102 +156,30 @@
                 <div class="form-group">
                     <textarea class="form-control" id="comment" placeholder="我有话说"></textarea>
                 </div>
-                <button type="button" class="btn btn-info" onclick="leaveComment('0','0')">说完了</button>
+                <button type="button" class="btn btn-info" onclick="leaveComment('0','0','Home/ConversationMsgBoard')">说完了</button>
             </form>
         </div>
     </div>
 </div>
 <script>
-
+    function emojiInit() {
+        $("#comment").emojioneArea({
+            autoHideFilters: true
+        });
+    }
     window.onload = function BoardBindUserInfo() {
         $("#avatarUrl").val(getAvatar());
         $("#nickName").val(getUserName());
         $("#nickName").attr("placeholder", getUserName());
+        emojiInit();
     }
-    //更新留言板
-    function getBoard(pageStartNum, pageSize, postId, isUpdataPage) {
-        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
-            pageStartNum = 1;
-        }
-        if (isNullOrEmpty(pageSize)) {
-            pageSize = 5;
-        }
-        $.post('Home/ConversationMsgBoard', {
-            'pageStartNum': pageStartNum,
-            'pageSize': pageSize,
-            'postId': postId
-        }, function (data) {
-            $("#MsgBoard").html(data);
-            if (isUpdataPage == 1) {
-                getBoardPaging(pageStartNum, pageSize, postId);
-            }
-            $("#boardPage li").each(function () {
-                $(this).attr("class", "");
-                if ($(this).text() == pageStartNum) {
-                    $(this).attr("class", "active");
-                }
-            });
-        });
-    }
-    //获取页码
-    function getBoardPaging(pageStartNum, pageSize, postId) {
-        if (isNullOrEmpty(pageStartNum) || pageStartNum < 1) {
-            pageStartNum = 1;
-        }
-        if (isNullOrEmpty(pageSize)) {
-            pageSize = 5;
-        }
-        var pageEndNum = pageSize + pageStartNum;
-        //生成当前页码
-        var startBack = parseInt(pageStartNum) - parseInt(pageSize) < 0 ? 1 : parseInt(pageStartNum) - parseInt(pageSize);
-        var html = '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startBack) + ',' + parseInt(pageSize) + ',' + postId + ',' + 1 + ')"><<</a></li>';
-        for (var i = pageStartNum; i < pageEndNum; i++) {
-            if (i == pageStartNum) {
-                html += '<li class="active"><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ',' + postId + ',' + 0 + ')">' + i + '</a></li>';
-            } else {
-                html += '<li><a href="javascript:void(0)" onclick="getBoard(' + i + ',' + parseInt(pageSize) + ',' + postId + ',' + 0 + ')">' + i + '</a></li>';
-            }
-        }
-        var startForward = parseInt(pageStartNum) + parseInt(pageSize);
-        html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' + postId + ',' + 1 + ')">>></a></li>';
-        $('#boardPage').html(html);
-    }
-    function leaveComment(postId, beforCommentsId) {
-        if ($('#nickName').val().length > 30) {
-            tips('boardForm', "昵称过长", 'info');
-            setTimeout("$('#tips').remove()", 5000);
-            return;
-        }
-        if ($('#nickName').val().length == 0) {
-            tips('boardForm', "不想给自己来个炫酷的昵称么", 'info');
-            setTimeout("$('#tips').remove()", 5000);
-            return;
-        }
-        if ($('#comment').val().length == 0) {
-            tips('boardForm', "不想说点什么么", 'info');
-            setTimeout("$('#tips').remove()", 5000);
-            return;
-        }
-
-        $('#tips').remove();
-        $.post('Blog/leaveComment', {
-            'nickName': $('#nickName').val(),
-            'comment': $('#comment').val(),
-            'beforCommentsId': beforCommentsId,
-            "avatarUrl": $('#avatarUrl').val(),
-            'postId': postId,
-        }, function (data) {
-            getBoard('', '', postId);
-            tips('boardForm', "感谢你的留言", 'success');
-            setTimeout("$('#tips').remove()", 5000);
-            $('#comment').val('')
-        });
-    }
+   
     function getDetial(id) {
         $.post('Blog/DetialDirect', { 'postId': id }, function (data) {
             $("#MiddleContent").html(data);
         });
     }
+    //加载矢量图
     function overIcon(elemId) {
         position = $("#" + elemId).position();
         Console.log("position" + position.left + " " + position.top);
@@ -267,6 +195,5 @@
         //$("#" + elemId).css("width", "90px");
         //$("#" + elemId).css("height", "90px");
     }
-    getBoard('', '', '0', 1);
-
+    getBoard('', '', '0', 1, 'Home/ConversationMsgBoard');
 </script>

@@ -164,7 +164,7 @@ namespace MyWebProject.Controllers
 				{
 					List<COMMENTS> replyInComment = new List<COMMENTS>();
 					//检查是否有对应的回复记录
-					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderBy(c => c.DATE).ToList();
+					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderByDescending(c => c.DATE).ToList();
 					listResult.Add(new MsgBoardResult
 					{
 						COMMENTS_ID = commentsNotReply.COMMENTS_ID,

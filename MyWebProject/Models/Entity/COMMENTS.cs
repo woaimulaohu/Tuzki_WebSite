@@ -16,8 +16,8 @@ namespace MyWebProject.Models.Entity
         [StringLength(30)]
         public string NICK_NAME { get; set; }
 
+        [Column(TypeName = "text")]
         [Required]
-        [StringLength(500)]
         public string TEXT { get; set; }
 
         [StringLength(100)]

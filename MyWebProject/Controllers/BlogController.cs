@@ -101,7 +101,7 @@ namespace MyWebProject.Controllers
 			List<SnippetResult> list = new List<SnippetResult>();
 			using (Entity entity = new Entity())
 			{
-				entity.POST_INFO.Where(p=>p.POST_ID==postId).First().VIEW_COUNT+=1;
+				entity.POST_INFO.Where(p => p.POST_ID == postId).First().VIEW_COUNT += 1;
 				entity.SaveChanges();
 				//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
 				string sql = "SELECT " +
@@ -186,7 +186,7 @@ namespace MyWebProject.Controllers
 				{
 					List<COMMENTS> replyInComment = new List<COMMENTS>();
 					//检查是否有对应的回复记录
-					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderBy(c => c.DATE).ToList();
+					replyInComment = entity.COMMENTS.Where(c => c.BEFOR_COMMENTS_ID == commentsNotReply.COMMENTS_ID && c.COMMENTS_ID != commentsNotReply.COMMENTS_ID && c.BEFOR_COMMENTS_ID != 0).OrderByDescending(c => c.DATE).ToList();
 					listResult.Add(new MsgBoardResult
 					{
 						COMMENTS_ID = commentsNotReply.COMMENTS_ID,
@@ -207,6 +207,7 @@ namespace MyWebProject.Controllers
 		/// 将留言信息插入数据库
 		/// </summary>
 		/// <returns></returns>
+		[ValidateInput(false)]
 		public string leaveComment()
 		{
 			string nickName = Request["nickName"];
@@ -227,7 +228,7 @@ namespace MyWebProject.Controllers
 					TEXT = comment,
 					BEFOR_COMMENTS_ID = beforCommentsId,
 					AVATAR_URL = avatarUrl
-					
+
 				});
 				DbChangeTracker d = entity.ChangeTracker;
 				entity.SaveChanges();

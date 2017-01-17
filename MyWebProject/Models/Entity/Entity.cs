@@ -22,6 +22,10 @@ namespace MyWebProject.Models.Entity
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<COMMENTS>()
+				.Property(e => e.TEXT)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<COMMENTS>()
 				.Property(e => e.EMAIL)
 				.IsUnicode(false);
 

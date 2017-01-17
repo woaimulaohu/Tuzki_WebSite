@@ -37,7 +37,10 @@ namespace MyWebProject.Controllers
 			// Pipes the stream to a higher level stream reader with the required encoding format. 
 			return new StreamReader(receiveStream, Encoding.UTF8).ReadToEnd();
 		}
+		public void TencentAccountLogin()
+		{
 
+		}
 		/// <summary>
 		/// 第三方登录方式github
 		/// </summary>
