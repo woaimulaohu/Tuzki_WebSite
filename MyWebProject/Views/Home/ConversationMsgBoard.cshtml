@@ -20,7 +20,7 @@
                 <div class="col-md-9" style="float:left">
                     <div class="alert alert-info" style="margin-bottom:0px;padding-bottom:20px">
                         <div class="row" style="padding-left: 15px; padding-right: 15px;">
-                            <p style="word-break:break-all; word-wrap:break-word ">
+                            <p style="word-break:break-all;font-size:small; word-wrap:break-word;float:left ">
                                 @Html.Raw(System.Web.HttpUtility.UrlDecode(comment.TEXT))
                             </p>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="col-md-9" style="float:right">
                             <div class="alert alert-success" style="margin-bottom:0px;padding-bottom:20px">
                                 <div class="row" style="padding-left: 15px; padding-right: 15px;">
-                                    <p style="font-size:small;word-break:break-all; word-wrap:break-word ">
+                                    <p style="font-size:small;word-wrap:break-word;;float:left ;word-break:break-all">
                                       @Html.Raw(System.Web.HttpUtility.UrlDecode(m.TEXT))
                                     </p>
                                 </div>
@@ -80,6 +80,10 @@
     }
 </div>
 <script>
-   
+    function emojiInit() {
+        $("#comment").emojioneArea({
+            autoHideFilters: true
+        });
+    }
 </script>
 

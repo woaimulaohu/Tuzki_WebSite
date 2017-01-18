@@ -65,9 +65,11 @@ function leaveComment(postId, beforCommentsId, action) {
         return;
     }
     $('#tips').remove();
+    $('.emojioneemoji').css("width", "22px");
+    $('.emojioneemoji').css("height", "22px");
     $.post('Blog/leaveComment', {
         'nickName': $('#nickName').val(),
-        'comment': encodeURI($('#comment').val()),
+        'comment': encodeURI($('#comment').next().children(".emojionearea-editor").html()),
         'beforCommentsId': beforCommentsId,
         "avatarUrl": $('#avatarUrl').val(),
         'postId': postId,
@@ -86,17 +88,16 @@ function reply(postId, beforCommentsId, action) {
     var lastId = $("#lastReplyId").val();
     $('#' + lastId + '_r').remove();
     $('#' + id).append('<div class="row"  id=' + id + '_r>' +
-'<div><form role="form" id="boardForm_r" style="margin-bottom:20px; margin-top: 20px;margin-left: 100px;width:350px">' +
-'    <input id="avatarUrl_r" style="display:none" />' +
+'<form role="form" id="boardForm_r" style="margin-bottom:20px; margin-top: 20px;margin-left: 100px;width:350px">' +
+'<input id="avatarUrl_r" style="display:none" />' +
     '<div class="form-group">' +
-    '    <input type="text" class="form-control" id="nickName_r" placeholder="你的昵称">' +
-   ' </div>' +
-   ' <div class="form-group">' +
-    '    <textarea class="form-control" id="comment_r" placeholder="我有话说"></textarea>' +
-   ' </div>' +
- '   <button type="button" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ',\'' + action + '\')">说完了</button>' +
-' </form></div>' +
-'</div>');
+    '<input type="text" class="form-control" id="nickName_r" placeholder="你的昵称">' +
+   '</div>' +
+   '<div class="form-group">' +
+    '<textarea class="form-control" id="comment_r" placeholder="我有话说"></textarea>' +
+   '</div>' +
+ '<button type="button" class="btn btn-info" onclick="leaveReply(' + postId + ',' + beforCommentsId + ',\'' + action + '\')">说完了</button>' +
+'</form></div>');
     $("#avatarUrl_r").val(getAvatar());
     $("#nickName_r").val(getUserName());
     $("#nickName_r").attr("placeholder", getUserName());
@@ -129,11 +130,12 @@ function leaveReply(postId, beforCommentsId, action) {
         return;
     }
     $('#tips').remove();
-
+    $('.emojioneemoji').css("width", "22px");
+    $('.emojioneemoji').css("height", "22px");
     $.post('Blog/leaveComment', {
         "avatarUrl": $('#avatarUrl_r').val(),
         'nickName': $('#nickName_r').val(),
-        'comment': encodeURI($('#comment_r').val()),
+        'comment': encodeURI($('#comment_r').next().children(".emojionearea-editor").html()),
         'beforCommentsId': beforCommentsId,
         'postId': postId,
     }, function (data) {

@@ -22,14 +22,14 @@
 </div>
 <input id="lastReplyId" style="visibility:collapse" value="">
 <div class="row">
-    <form role="form" id="boardForm" style="margin-bottom:10px">
+    <form role="form" id="boardForm" style="margin-bottom:10px;">
+        <input id="avatarUrl" style="display:none" />
         <div class="form-group">
             <input type="text" class="form-control" id="nickName" placeholder="你的昵称">
         </div>
         <div class="form-group">
             <textarea class="form-control" id="comment" placeholder="我有话说"></textarea>
         </div>
-        <input id="avatarUrl" style="display:none" />
         <button type="button" class="btn btn-info" onclick="leaveComment('@postId','0','Blog/MsgBoardContent')">说完了</button>
     </form>
 </div>
