@@ -46,10 +46,12 @@
         for (int i = 0; i < homeResult.msgBoards.Count; i++)
         {
             <a href="javascript:void(0)" onclick="getDetial('@homeResult.msgBoards[i].POST_ID')">
-                <div class="col-md-3 provide-left @strs[i]">
-                    <h3>@homeResult.msgBoards[i].MAIN_TITLE</h3>
-                    <h2>@homeResult.msgBoards[i].NICK_NAME <span class="badge badge-info" style="float:right">@homeResult.msgBoards[i].replyCount</span></h2>
-                    <p>@homeResult.msgBoards[i].TEXT</p>
+                <div class="col-md-3 provide-left @strs[i]" style="height:150px">
+                    <h4 style="color:#ffffff">@homeResult.msgBoards[i].MAIN_TITLE</h4>
+                    <h3 style="color:rgba(0, 38, 128, 0.72)">@homeResult.msgBoards[i].NICK_NAME <span class="badge badge-info" style="float:right">@homeResult.msgBoards[i].replyCount</span></h3>
+                    <p>
+                        @Html.Raw(System.Web.HttpUtility.UrlDecode(homeResult.msgBoards[i].TEXT))
+                    </p>
                 </div>
             </a>
         }
@@ -58,14 +60,15 @@
             for (int j = homeResult.msgBoards.Count; j < 4; j++)
             {
                 <a href="javascript:void(0)">
-                    <div class="col-md-3 provide-left @strs[j]">
-                        <h3>预留</h3>
-                        <h2>预留<span class="badge badge-info" style="float:right">1</span></h2>
+                    <div class="col-md-3 provide-left @strs[j]" style="height:150px">
+                        <h4 style="color:#ffffff">预留</h4>
+                        <h3 style="color:rgba(0, 38, 128, 0.72)">预留<span class="badge badge-info" style="float:right">1</span></h3>
                         <p>预留</p>
                     </div>
                 </a>
 }
         }
+
     }
     <div class="clearfix"></div>
 </div>
@@ -173,8 +176,12 @@
         $("#nickName").attr("placeholder", getUserName());
         emojiInit();
     }
-   
+
     function getDetial(id) {
+        if (id == 0) {
+            location.href = "#ConversationBoard";
+            return;
+        }
         $.post('Blog/DetialDirect', { 'postId': id }, function (data) {
             $("#MiddleContent").html(data);
         });

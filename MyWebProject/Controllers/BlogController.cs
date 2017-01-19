@@ -37,6 +37,10 @@ namespace MyWebProject.Controllers
 		public ActionResult DetialDirect()
 		{
 			object postId = Request["postId"].ToString();
+			if (postId.Equals("0"))
+			{
+				return SnippetContent();
+			}
 			return View(postId);
 		}
 		/// <summary>
