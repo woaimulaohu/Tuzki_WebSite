@@ -46,56 +46,6 @@
 </div>
 <!--end-header-->
 <script>
-    function quitLogin() {
-        $.cookie('userInfo', null);
-        $.cookie('token', null);
-        getHome();
-    }
-    function getUserName() {
-        return $.cookie('userInfo').split('&')[0].split('=')[1];
-    }
-    function getAvatar() {
-        var avatar = $.cookie('userInfo').substr($.cookie('userInfo').indexOf('&') + 1);
-        return avatar.substr(avatar.indexOf('=') + 1, avatar.length - avatar.indexOf('='));
-    }
-    function checkLogin() {
-        $.post('Home/CheckLogin', { 'token': $.cookie('token') }, function (data) {
-            if (data == 'fail') {
-                jumpClick('../Other/Index');
-            } else {
-                $("#login").hide();
-                $("#login_Info").show();
-                $("#login_avatar").attr("src", getAvatar());
-                $("#login_nickName").text(getUserName());
-            }
-        });
-    }
-    function audioNext() {
-        $.post('Home/AudioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
-            var arr = new Array();
-            arr = data.split(',');
-            $("#audioPlayer").attr("src", arr[1]);
-            $("#audioPlayer").attr("name", arr[0]);
-        });
-    }
-    function tips(elementId, msg, alertLevel) {
-        var html;
-        elementId = '#' + elementId;
-        if ("danger" == alertLevel) {
-            html = ' <div class="alert alert-danger" id="tips" role="alert"><strong>错误!</strong>' + msg + '</div>';
-        }
-        if ("warning" == alertLevel) {
-            html = ' <div class="alert alert-warning" id="tips" role="alert"><strong>警告!</strong>' + msg + '</div>';
-        }
-        if ("success" == alertLevel) {
-            html = ' <div class="alert alert-success" id="tips" role="alert"><strong>成功!</strong>' + msg + '</div>';
-        }
-        if ("info" == alertLevel) {
-            html = ' <div class="alert alert-info" id="tips" role="alert"><strong>提示!</strong>' + msg + '</div>';
-        }
-        $('#tips').remove();
-        $(elementId).append(html);
-    }
     audioNext();
     checkLogin();
 </script>

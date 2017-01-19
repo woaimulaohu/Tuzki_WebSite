@@ -48,6 +48,7 @@ function getBoardPaging(pageStartNum, pageSize, postId, action) {
     html += '<li><a href="javascript:void(0)" onclick="getBoard(' + parseInt(startForward) + ',' + parseInt(pageSize) + ',' + postId + ',' + 1 + ",'" + action + "'" + ')">>></a></li>';
     $('#boardPage').html(html);
 }
+//留言
 function leaveComment(postId, beforCommentsId, action) {
     if ($('#nickName').val().length > 30) {
         tips('boardForm', "昵称过长", 'info');
@@ -83,6 +84,7 @@ function leaveComment(postId, beforCommentsId, action) {
 //--------------留言板相关--end----------------------
 
 //-------------指定留言回复--start--------------------
+//回复某一条留言弹出留言框
 function reply(postId, beforCommentsId, action) {
     var id = postId + '' + beforCommentsId;
     var lastId = $("#lastReplyId").val();
@@ -112,7 +114,7 @@ function reply(postId, beforCommentsId, action) {
         autoHideFilters: true
     });
 }
-
+//回复指定留言确定按钮触发
 function leaveReply(postId, beforCommentsId, action) {
     if ($('#nickName_r').val().length > 30) {
         tips('boardForm_r', "昵称过长", 'info');
@@ -145,4 +147,61 @@ function leaveReply(postId, beforCommentsId, action) {
     });
 }
 //-------------指定留言回复--end--------------------
-
+//-------------登录相关----start--------------------
+//退出登录
+function quitLogin() {
+    $.cookie('userInfo', null);
+    $.cookie('token', null);
+    getHome();
+}
+//获取cookie用户名
+function getUserName() {
+    return $.cookie('userInfo').split('&')[0].split('=')[1];
+}
+//获取cookie用户头像
+function getAvatar() {
+    var avatar = $.cookie('userInfo').substr($.cookie('userInfo').indexOf('&') + 1);
+    return avatar.substr(avatar.indexOf('=') + 1, avatar.length - avatar.indexOf('='));
+}
+//检查是否登录(登录成功会在cookie中保存token)
+function checkLogin() {
+    $.post('Home/CheckLogin', { 'token': $.cookie('token') }, function (data) {
+        if (data == 'fail') {
+            jumpClick('../Other/Index');
+        } else {
+            $("#login").hide();
+            $("#login_Info").show();
+            $("#login_avatar").attr("src", getAvatar());
+            $("#login_nickName").text(getUserName());
+        }
+    });
+}
+//播放下一首歌曲
+function audioNext() {
+    $.post('Home/AudioNext?index=' + $("#audioPlayer").attr("name"), function (data) {
+        var arr = new Array();
+        arr = data.split(',');
+        $("#audioPlayer").attr("src", arr[1]);
+        $("#audioPlayer").attr("name", arr[0]);
+    });
+}
+//浮动提示框
+function tips(elementId, msg, alertLevel) {
+    var html;
+    elementId = '#' + elementId;
+    if ("danger" == alertLevel) {
+        html = ' <div class="alert alert-danger" id="tips" role="alert"><strong>错误!</strong>' + msg + '</div>';
+    }
+    if ("warning" == alertLevel) {
+        html = ' <div class="alert alert-warning" id="tips" role="alert"><strong>警告!</strong>' + msg + '</div>';
+    }
+    if ("success" == alertLevel) {
+        html = ' <div class="alert alert-success" id="tips" role="alert"><strong>成功!</strong>' + msg + '</div>';
+    }
+    if ("info" == alertLevel) {
+        html = ' <div class="alert alert-info" id="tips" role="alert"><strong>提示!</strong>' + msg + '</div>';
+    }
+    $('#tips').remove();
+    $(elementId).append(html);
+}
+//-------------登录相关----end--------------------

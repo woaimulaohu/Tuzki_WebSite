@@ -48,11 +48,13 @@
                 $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
             });
         });
+        //导航栏跳转到对应模块
         function jumpClick(target) {
             $.post(target, function (data) {
                 $("#MiddleContent").html(data);
             });
         }
+        //直接跳转到首页
         function getHome() {
             location.href = 'Home';
         }
