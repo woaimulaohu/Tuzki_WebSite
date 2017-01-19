@@ -485,6 +485,7 @@
     <Compile Include="Models\Entity\COMMENTS.cs" />
     <Compile Include="Models\Entity\CONFIG.cs" />
     <Compile Include="Models\Entity\Entity.cs" />
+    <Compile Include="Models\Entity\MENU.cs" />
     <Compile Include="Models\Entity\POST_CONTENT.cs" />
     <Compile Include="Models\Entity\POST_INFO.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
@@ -524,6 +525,12 @@
     </Content>
     <Content Include="Views\Blog\DetialDirect.cshtml" />
     <Content Include="Views\Home\ConversationMsgBoard.cshtml" />
+    <Content Include="Views\Management\Menu.cshtml" />
+    <Content Include="Views\Management\Statistics.cshtml" />
+    <Content Include="Views\Management\PostManage.cshtml" />
+    <Content Include="Views\Management\CommentManage.cshtml" />
+    <Content Include="Views\Management\ConfigManage.cshtml" />
+    <Content Include="Views\Management\UserManage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

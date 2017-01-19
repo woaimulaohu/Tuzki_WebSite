@@ -18,6 +18,7 @@ namespace MyWebProject.Models.Entity
 		public virtual DbSet<TAG_INFO> TAG_INFO { get; set; }
 		public virtual DbSet<USER_INFO> USER_INFO { get; set; }
 		public virtual DbSet<CONFIG> CONFIG { get; set; }
+		public virtual DbSet<MENU> MENU { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

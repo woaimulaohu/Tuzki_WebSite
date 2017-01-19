@@ -1,0 +1,104 @@
+﻿@using MyWebProject.Models.QueryResult;
+@using MyWebProject.Models.Entity;
+@{
+    List<SnippetResult> list = Model as List<SnippetResult>;
+}
+<div style="border:1px solid rgba(128, 128, 128, 0.41);margin-left: -15px; margin-right: -15px;">
+    <div class="row" style="margin-left: 0px; margin-right: 0px;">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr class="success">
+                    <th>主标题</th>
+                    <th>副标题</th>
+                    <th>标签</th>
+                    <th>正文</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SnippetResult s in list)
+                {
+                    <tr>
+                        <td style="max-width:100px">@s.MAIN_TITLE</td>
+                        <td style="max-width:100px">@s.SECOND_TITLE</td>
+                        <td style="max-width:100px">
+                            @foreach (TAG_INFO t in s.tag_info)
+                            {
+                                <a href="javascript:void(0)" onclick="searchPost('@t.TAG_NAME')"><span class="label label-primary">@t.TAG_NAME</span></a> }
+                        </td>
+                        <td style="max-width:300px">@s.POST_CONTENT</td>
+                        <td style="max-width:100px">
+                            <div class="btn-group">
+                                <button class="btn btn-default">Action</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">操作</a>
+                                    </li>
+                                    <li class="disabled">
+                                        <a href="#">另一操作</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="#">其它</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>}
+            </tbody>
+        </table>
+    </div>
+    <div class="row" style="margin-left: 5px; margin-right: 5px;">
+        <div class="fixed-table-pagination">
+            <div class="pull-left pagination-detail">
+                <span class="pagination-info">显示</span>
+                <span class="page-list">
+                    <span class="btn-group dropup">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="page-size">10</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="active"><a href="javascript:void(0)">10</a></li>
+                            <li><a href="javascript:void(0)">25</a></li>
+                            <li><a href="javascript:void(0)">50</a></li>
+                            <li><a href="javascript:void(0)">100</a></li>
+                        </ul>
+                    </span>行/页
+                </span>
+            </div>
+            <div class="pull-right pagination" style="margin-top: 0px; margin-bottom: 0px;">
+                <ul class="pagination" style="margin-top: 0px; margin-bottom: 0px;">
+                    <li class="page-first disabled"><a href="javascript:void(0)">&lt;&lt;</a></li>
+                    <li class="page-pre disabled"><a href="javascript:void(0)">&lt;</a></li>
+                    <li class="page-number active disabled"><a href="javascript:void(0)">1</a></li>
+                    <li class="page-number"><a href="javascript:void(0)">2</a></li>
+                    <li class="page-number"><a href="javascript:void(0)">3</a></li>
+                    <li class="page-next"><a href="javascript:void(0)">&gt;</a></li>
+                    <li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div style="visibility:hidden" id="UEedit">
+    </div>
+</div>
+
+<!--百度富文本开始-->
+<!-- 配置文件 -->
+<script type="text/javascript" src="~/Content/js/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="~/Content/js/UEditor/ueditor.all.js"></script>
+<!--百度富文本结束-->
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    function load() {
+        //需要配置ueditor.config.js中UE编辑器路径
+        //var URL = window.UEDITOR_HOME_URL || getUEBasePath()||'./Content/js/UEditor/';
+        UE.getEditor('UEedit');
+    }
+    load();
+</script>

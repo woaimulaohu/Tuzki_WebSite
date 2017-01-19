@@ -1,1 +1,23 @@
-﻿管理
+﻿<
+<!--start-contact-->
+<div class="container" style="width:70%">
+    <div class="row">
+        <div class="panel-heading">
+            <div class="page-header">
+                <h1>
+                    博客管理 <small>Subtext for header</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2" id="menu"></div>
+        <div class="col-md-10" id="grid"></div>
+    </div>
+</div>
+<script>
+    function getMenu() {
+        $.post("Management/Menu", function (data) { $("#menu").html(data); });
+    }
+    getMenu();
+</script>
