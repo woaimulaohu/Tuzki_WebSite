@@ -12,7 +12,7 @@
                     <th>副标题</th>
                     <th>标签</th>
                     <th>正文</th>
-                    <th>操作</th>
+                    <th>编辑</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,18 +29,22 @@
                         <td style="max-width:300px">@s.POST_CONTENT</td>
                         <td style="max-width:100px">
                             <div class="btn-group">
-                                <button class="btn btn-default">Action</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                <button class="btn btn-default">选项</button>
+                                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">操作</a>
+                                        <a href="javascript:void(0)">修改</a>
                                     </li>
-                                    <li class="disabled">
-                                        <a href="#">另一操作</a>
+                                    <li>
+                                        <a href="javascript:void(0)">隐藏</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="#">其它</a>
+                                        <a href="javascript:void(0)">新增</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">删除</a>
                                     </li>
                                 </ul>
                             </div>
@@ -51,37 +55,29 @@
     </div>
     <div class="row" style="margin-left: 5px; margin-right: 5px;">
         <div class="fixed-table-pagination">
-            <div class="pull-left pagination-detail">
+            <div class="pull-left pagination-detail" style="font-size:small">
                 <span class="pagination-info">显示</span>
                 <span class="page-list">
-                    <span class="btn-group dropup">
+                    <span class="btn-group-sm dropup">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="page-size">10</span>
+                            <span id="pageSize" class="page-size">@ViewData["pageSize"]</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li class="active"><a href="javascript:void(0)">10</a></li>
-                            <li><a href="javascript:void(0)">25</a></li>
-                            <li><a href="javascript:void(0)">50</a></li>
-                            <li><a href="javascript:void(0)">100</a></li>
+                            <li class="active"><a href="javascript:void(0)" onclick="modifyPageSize(10)">10</a></li>
+                            <li><a href="javascript:void(0)" onclick="modifyPageSize(25)">25</a></li>
+                            <li><a href="javascript:void(0)" onclick="modifyPageSize(50)">50</a></li>
                         </ul>
                     </span>行/页
                 </span>
             </div>
             <div class="pull-right pagination" style="margin-top: 0px; margin-bottom: 0px;">
-                <ul class="pagination" style="margin-top: 0px; margin-bottom: 0px;">
-                    <li class="page-first disabled"><a href="javascript:void(0)">&lt;&lt;</a></li>
-                    <li class="page-pre disabled"><a href="javascript:void(0)">&lt;</a></li>
-                    <li class="page-number active disabled"><a href="javascript:void(0)">1</a></li>
-                    <li class="page-number"><a href="javascript:void(0)">2</a></li>
-                    <li class="page-number"><a href="javascript:void(0)">3</a></li>
-                    <li class="page-next"><a href="javascript:void(0)">&gt;</a></li>
-                    <li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li>
-                </ul>
+                <ul class="pagination-small" style="margin-top: 0px; margin-bottom: 0px;"></ul>
             </div>
         </div>
     </div>
 </div>
+<input style="visibility:collapse" id="saveStartPage" value="@ViewData["saveStartPage"]" />
 <div class="row">
     <div style="visibility:hidden" id="UEedit">
     </div>
@@ -95,7 +91,35 @@
 <!--百度富文本结束-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    function modifyPageSize(size) {
+        $("#pageSize").html(size);
+        getManagerDataGrid($("#saveStartPage").val());
+    }
+    function getManagerDataGrid(pageStart) {
+        var menuId = $(".list-group-item.active").attr("id");
+        var pageSize = $("#pageSize").html();
+        pageSize = parseInt(pageSize) == 0 ? 10 : pageSize;
+        pageStart = parseInt(pageStart) == 0 || parseInt(pageStart) < 0 ? 1 : pageStart;
+        $.post("Management/Grid", {
+            "pageSize": pageSize,
+            "pageStartNum": pageStart,
+            "menuId": menuId
+        }, function (data) { $("#grid").html(data); setPagination(pageStart) });
+    }
+    function setPagination(pageStart) {
+        if (isNullOrEmpty(pageStart) || pageStart < 1) {
+            pageStart = 1;
+        }
+        //生成当前页码
+        var html = '<li><a href="javascript:void(0)" onclick="getManagerDataGrid(' + parseInt(pageStart - 5) + ')"><<</a></li>';
+        for (var i = 0; i < 5; i++) {
+            html += '<li><a href="javascript:void(0)" onclick="getManagerDataGrid(' + (parseInt(pageStart) + parseInt(i)) + ')">' + (parseInt(pageStart) + i) + '</a></li>';
+        }
+        html += '<li><a href="javascript:void(0)" onclick="getManagerDataGrid(' + (parseInt(pageStart) + 5) + ')">>></a></li>';
+        $('.pagination-small').html(html);
+    }
     function load() {
+        setPagination($("#saveStartPage").val());
         //需要配置ueditor.config.js中UE编辑器路径
         //var URL = window.UEDITOR_HOME_URL || getUEBasePath()||'./Content/js/UEditor/';
         UE.getEditor('UEedit');

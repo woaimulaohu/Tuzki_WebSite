@@ -35,9 +35,19 @@ namespace MyWebProject.Controllers
 			}
 			switch (viewName)
 			{
-				case "PostManage": return View("~/Views/Management/" + viewName + ".cshtml", base.getSnippet(Request));
+				case "PostManage": postManage(); return View("~/Views/Management/" + viewName + ".cshtml", base.getSnippet(Request));
 			}
 			return null;
+		}
+		private void postManage()
+		{
+			int pageSize, pageStart;
+			int.TryParse(Request["pageStartNum"], out pageStart);
+			int.TryParse(Request["pageSize"], out pageSize);
+			pageSize = pageSize == 0 ? 10 : pageSize;
+			pageStart = pageStart == 0|| pageStart<0 ? 1 : pageStart;
+			ViewData.Add("saveStartPage", pageStart);
+			ViewData.Add("pageSize", pageSize);
 		}
 	}
 }
