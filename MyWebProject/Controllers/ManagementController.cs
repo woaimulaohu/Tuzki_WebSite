@@ -45,9 +45,20 @@ namespace MyWebProject.Controllers
 			int.TryParse(Request["pageStartNum"], out pageStart);
 			int.TryParse(Request["pageSize"], out pageSize);
 			pageSize = pageSize == 0 ? 10 : pageSize;
-			pageStart = pageStart == 0|| pageStart<0 ? 1 : pageStart;
+			pageStart = pageStart == 0 || pageStart < 0 ? 1 : pageStart;
 			ViewData.Add("saveStartPage", pageStart);
 			ViewData.Add("pageSize", pageSize);
+		}
+		public string delPost()
+		{
+			int postId = int.Parse(Request["postId"]);
+			using (Entity entity = new Entity())
+			{
+				entity.POST_INFO.Remove(entity.POST_INFO.Where(p => p.POST_ID == postId).First());
+				entity.POST_CONTENT.Remove(entity.POST_CONTENT.Where(p => p.POST_ID == postId).First());
+				entity.SaveChanges();
+			}
+			return "success";
 		}
 	}
 }

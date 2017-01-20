@@ -33,18 +33,18 @@
                                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="javascript:void(0)">修改</a>
+                                        <a href="javascript:void(0)" onclick="modify('mod',@s.POST_ID)">修改</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">隐藏</a>
+                                        <a href="javascript:void(0)" onclick="modifyHidOrDel('hid',@s.POST_ID)">隐藏</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">新增</a>
+                                        <a href="javascript:void(0)" onclick="modify('add',@s.POST_ID)">新增</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)">删除</a>
+                                        <a href="javascript:void(0)" onclick="delPost(@s.POST_ID)">删除</a>
                                     </li>
                                 </ul>
                             </div>
@@ -91,6 +91,17 @@
 <!--百度富文本结束-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    function delPost(postId) {
+        if (window.confirm("确认删除?")) {
+            $.post('Management/delPost', {
+                'postId': postId
+            }, function () {
+                getManagerDataGrid($("#saveStartPage").val());
+            });
+        } else {
+            return;
+        }
+    }
     function modifyPageSize(size) {
         $("#pageSize").html(size);
         getManagerDataGrid($("#saveStartPage").val());

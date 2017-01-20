@@ -63,7 +63,8 @@ namespace MyWebProject.Controllers
 			using (Entity entity = new Entity())
 			{
 				//conn.ConnectionString = "Server= 127.0.0.1\\SQLEXPRESS;DataDase= MyWebSite;user id=WebManager ;password= ;";
-				string sql = "SELECT " +
+				string sql = "SELECT * FROM (SELECT " +
+			   "ROW_NUMBER () OVER (ORDER BY POST_INFO. DATE DESC) AS rowNum," +
 			   "POST_CONTENT.POST_CONTENT," +
 			   "POST_INFO.DATE," +
 			   "POST_INFO.POST_ID," +
@@ -75,8 +76,8 @@ namespace MyWebProject.Controllers
 			   "POST_INFO.TAG_ID " +
 			   "FROM " +
 			   "POST_INFO " +
-			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
-			   "AND POST_CONTENT.POST_ID BETWEEN {0} AND {1}";
+			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID ) AS t " +
+			   "WHERE t.rowNum BETWEEN {0} AND {1}";
 				var queryResult = entity.Database.SqlQuery<SnippetResult>(string.Format(sql, (pageStartNum - 1) * pageSize, (pageStartNum - 1) * pageSize + pageSize)).ToList();
 				HtmlDocument html = new HtmlDocument();
 				StringBuilder sb = new StringBuilder();
