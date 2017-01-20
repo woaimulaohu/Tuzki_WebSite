@@ -64,7 +64,7 @@ namespace MyWebProject.Controllers
 					entity.SaveChanges();
 					HttpCookie cookie = new HttpCookie("token");
 					cookie.Value = user.TOKEN;
-					cookie.Expires = user.EXPIRE_TIME;
+					cookie.Expires = user.EXPIRE_TIME.AddDays(7);
 					Response.SetCookie(cookie);
 				}
 				else
