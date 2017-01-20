@@ -33,15 +33,15 @@
                                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="javascript:void(0)" onclick="modify('mod',@s.POST_ID)">修改</a>
+                                        <a href="javascript:void(0)" onclick="modPost(@s.POST_ID)">修改</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" onclick="modifyHidOrDel('hid',@s.POST_ID)">隐藏</a>
+                                        <a href="javascript:void(0)">隐藏</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" onclick="modify('add',@s.POST_ID)">新增</a>
+                                        <a href="javascript:void(0)" onclick="modPost(@s.POST_ID)">新增</a>
                                     </li>
                                     <li>
                                         <a href="javascript:void(0)" onclick="delPost(@s.POST_ID)">删除</a>
@@ -78,9 +78,18 @@
     </div>
 </div>
 <input style="visibility:collapse" id="saveStartPage" value="@ViewData["saveStartPage"]" />
-<div class="row">
-    <div style="visibility:hidden" id="UEedit">
+<div id="ueDiv" class="row" style="visibility:hidden;border:1px solid rgba(128, 128, 128, 0.41);">
+    <div class="row" style="height:40px;">
+        &nbsp;  &nbsp;&nbsp;  &nbsp;主标题 : <input style="margin-top: 5px;" id="postTitle" />
+        副标题 : <input style="margin-top: 5px;" id="postSecondTitle" />
     </div>
+    <a name="UEedit"></a>
+    <div id="UEedit" style="min-height:400px">
+    </div>
+    <h3 class="b3">
+        <a class="pull-right label label-primary" style="margin-right:5px;margin-bottom:10px" href="javascript:void(0)" onclick="savePost()">保存</a>
+        <a class="pull-right label label-default" style="margin-right:5px;margin-bottom:10px" href="javascript:void(0)" onclick="cancelSavePost()">取消</a>
+    </h3>
 </div>
 
 <!--百度富文本开始-->
@@ -88,9 +97,26 @@
 <script type="text/javascript" src="~/Content/js/UEditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="~/Content/js/UEditor/ueditor.all.js"></script>
+<!--定义百度富文本绑定的变量进行修改-->
+<script type="text/javascript">
+    //需要配置ueditor.config.js中UE编辑器路径
+    //var URL = window.UEDITOR_HOME_URL || getUEBasePath()||'./Content/js/UEditor/';
+    var editor = UE.getEditor('UEedit');
+</script>
 <!--百度富文本结束-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    function savePost() {
+
+    }
+    function modPost(postId) {
+        $.post('Management/modPost?postId=' + postId, function (data) {
+            var json = eval("(" + data + ")");
+            $("#ueDiv").css("visibility", "visible");
+            location.href = "#UEedit";
+            editor.setContent(json[0].POST_CONTENT);//上面定义的富文本变量editor
+        });
+    }
     function delPost(postId) {
         if (window.confirm("确认删除?")) {
             $.post('Management/delPost', {
@@ -131,9 +157,6 @@
     }
     function load() {
         setPagination($("#saveStartPage").val());
-        //需要配置ueditor.config.js中UE编辑器路径
-        //var URL = window.UEDITOR_HOME_URL || getUEBasePath()||'./Content/js/UEditor/';
-        UE.getEditor('UEedit');
     }
     load();
 </script>

@@ -1,5 +1,6 @@
 ﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,10 @@ namespace MyWebProject.Controllers
 				entity.SaveChanges();
 			}
 			return "success";
+		}
+		public string modPost()
+		{
+			return JsonConvert.SerializeObject(base.getDetial(Request));
 		}
 	}
 }
