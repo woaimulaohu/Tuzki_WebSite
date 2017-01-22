@@ -16,6 +16,10 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
+		/// <summary>
+		/// 从数据库生成菜单列表
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Menu()
 		{
 			List<MENU> list = new List<MENU>();
@@ -25,6 +29,10 @@ namespace MyWebProject.Controllers
 			}
 			return View(list);
 		}
+		/// <summary>
+		/// 获取文章列表
+		/// </summary>
+		/// <returns></returns>
 		public ActionResult Grid()
 		{
 			int menuId;
@@ -40,6 +48,9 @@ namespace MyWebProject.Controllers
 			}
 			return null;
 		}
+		/// <summary>
+		/// 因为采用每次重新刷新子页面的方式,所以选择的页码什么的参数需要前台传给后台,再由后台重新生成页面时重新返回给前台,用到了DataView k=>v
+		/// </summary>
 		private void postManage()
 		{
 			int pageSize, pageStart;
@@ -50,6 +61,10 @@ namespace MyWebProject.Controllers
 			ViewData.Add("saveStartPage", pageStart);
 			ViewData.Add("pageSize", pageSize);
 		}
+		/// <summary>
+		/// 删除文章
+		/// </summary>
+		/// <returns></returns>
 		public string delPost()
 		{
 			int postId = int.Parse(Request["postId"]);
@@ -61,6 +76,10 @@ namespace MyWebProject.Controllers
 			}
 			return "success";
 		}
+		/// <summary>
+		/// 添加文章
+		/// </summary>
+		/// <returns></returns>
 		public string addPost()
 		{
 			using (Entity entity = new Entity())
@@ -69,7 +88,11 @@ namespace MyWebProject.Controllers
 				return JsonConvert.SerializeObject(list);
 			}
 		}
-		public string getPostList()
+		/// <summary>
+		/// 获取文章明细信息,用于绑定到富文本编辑器
+		/// </summary>
+		/// <returns></returns>
+		public string getPostDetial()
 		{
 			object obj = new object();
 			using (Entity entity = new Entity())
@@ -79,6 +102,10 @@ namespace MyWebProject.Controllers
 			}
 			return JsonConvert.SerializeObject(obj);
 		}
+		/// <summary>
+		/// 修改文章->保存
+		/// </summary>
+		/// <returns></returns>
 		[ValidateInput(false)]
 		public string saveModifyPost()
 		{
@@ -117,7 +144,7 @@ namespace MyWebProject.Controllers
 					});
 					entity.SaveChanges();
 					List<POST_INFO> list = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).ToList();
-					postid = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).First().POST_ID;
+					postid = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).OrderByDescending(p => p.DATE).First().POST_ID;
 					entity.POST_CONTENT.Add(new POST_CONTENT
 					{
 						POST_CONTENT1 = postContent,
