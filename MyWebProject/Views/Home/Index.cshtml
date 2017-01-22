@@ -76,16 +76,16 @@
 <!--start-welcome-->
 <div class="welcome">
     <div class="container">
-        @{    foreach (SnippetResult sr in homeResult.top2PostResults)
-            {
-                if (sr == null)
+        <div class="welcome-top">
+            @{    foreach (SnippetResult sr in homeResult.top2PostResults)
                 {
-                    <div class="welcome-top">
-                        <div class="col-md-6 welcome-left">
-                        </div>
-                    </div>continue;
-                }
-                <div class="welcome-top">
+                    if (sr == null)
+                    {
+                        <div class="welcome-top">
+                            <div class="col-md-6 welcome-left">
+                            </div>
+                        </div>continue;
+                    }
                     <div class="col-md-6 welcome-left">
                         <h3>@sr.MAIN_TITLE</h3>
                         <h4>@sr.SECOND_TITLE</h4>
@@ -93,9 +93,9 @@
                         <div class="w-btn">
                             <a href="#" class="hvr-shutter-out-horizontal" onclick="getDetial('@sr.POST_ID')">查看</a>
                         </div>
-                    </div>
-                </div>}
-        }
+                    </div>}
+            }
+        </div>
 
         <div class="clearfix"></div>
     </div>

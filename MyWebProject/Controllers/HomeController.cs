@@ -129,9 +129,15 @@ namespace MyWebProject.Controllers
 				foreach (SnippetResult p in top2PostResults)
 				{
 					string content = HttpUtility.HtmlDecode(p.POST_CONTENT);
-					if (p.POST_CONTENT.Length > 200)
+					if (content.Length > 200)
 					{
-						p.POST_CONTENT = p.POST_CONTENT.Substring(0, 180) + "……";
+						html.LoadHtml(p.POST_CONTENT);
+						HtmlNodeCollection coll = html.DocumentNode.SelectNodes("//p");
+						foreach (HtmlNode node in coll)
+						{
+							sb.Append(node.InnerText);
+						}
+						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
 					}
 					//把摘要中标签属性获取出来
 					homeResult.top2PostResults.Add(p);
