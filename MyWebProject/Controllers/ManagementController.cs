@@ -85,7 +85,7 @@ namespace MyWebProject.Controllers
 			string postTitle = Request["postTitle"];
 			string postSecondTitle = Request["postSecondTitle"];
 			string tags = Request["tags"];
-			string isTop = Request["isTop"];
+			bool isTop = Request["isTop"].Equals("0") ? false : true;
 			int selectPostId;
 			int.TryParse(Request["selectPostId"], out selectPostId);
 			string postContent = HttpUtility.UrlDecode(Request["postContent"]);
@@ -98,6 +98,7 @@ namespace MyWebProject.Controllers
 					info.MAIN_TITLE = postTitle;
 					info.SECOND_TITLE = postSecondTitle;
 					info.TAG_ID = tags;
+					info.IS_TOP = isTop;
 					entity.POST_CONTENT.Where(p => p.POST_ID == selectPostId).First().POST_CONTENT1 = postContent;
 				}
 				else
@@ -112,7 +113,7 @@ namespace MyWebProject.Controllers
 						REPRODUCED_COUNT = 0,
 						TAG_ID = tags,
 						VIEW_COUNT = 0,
-						IS_TOP = isTop.Equals("0") ? false : true
+						IS_TOP = isTop
 					});
 					entity.SaveChanges();
 					List<POST_INFO> list = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).ToList();

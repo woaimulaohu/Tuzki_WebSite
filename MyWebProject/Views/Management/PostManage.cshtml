@@ -82,6 +82,8 @@
     <div class="row" style="height:40px;margin-bottom:20px">
         &nbsp;  &nbsp;&nbsp;  &nbsp;主标题 : <input id="postTitle" />
         副标题 : <input id="postSecondTitle" />
+        &nbsp;置顶 :
+        <a href="javascript:void(0)" onclick="changeTop()"><span id="isTopPost" class="label label-default">否</span></a>
         &nbsp;标签 : &nbsp;
         <div class="btn-group btn-group-xs">
             <ul class="pagination pagination-sm" id="tagSelect"></ul>
@@ -111,6 +113,15 @@
 <!--百度富文本结束-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    function changeTop() {
+        if ($("#isTopPost").html() == '否') {
+            $("#isTopPost").html('是');
+            $("#isTopPost").attr("class", "label label-success");
+        } else {
+            $("#isTopPost").html('否');
+            $("#isTopPost").attr("class", "label label-default");
+        }
+    }
     function changeSelectedStatus(tag) {
         var attr = $(tag).parent().attr("class")
         if (attr == "active") {
@@ -131,7 +142,7 @@
             'postSecondTitle': $("#postSecondTitle").val(),
             'tags': tags,
             'selectPostId': $("#selectPostId").val(),
-            'isTop':'0',
+            'isTop': $("#isTopPost").html() == '否' ? '0' : '1',
             'postContent': encodeURI(editor.getContent())
         }, function (data) {
             if (data != "success") {
@@ -167,6 +178,13 @@
             location.href = "#UEedit";
             editor.setContent(json.detial.POST_CONTENT);//上面定义的富文本变量editor
             $("#postTitle").val(json.detial.MAIN_TITLE.trim());
+            if (json.detial.IS_TOP) {
+                $("#isTopPost").html('是');
+                $("#isTopPost").attr("class", "label label-success");
+            } else {
+                $("#isTopPost").html('否');
+                $("#isTopPost").attr("class", "label label-default");
+            }
             $("#postSecondTitle").val(json.detial.SECOND_TITLE.trim());
             var selectedTags = new Array();
             selectedTags = json.detial.TAG_ID.split(",");

@@ -13,6 +13,7 @@ namespace MyWebProject.Models.QueryResult
 
 		public DateTime DATE { get; set; }
 
+		public bool IS_TOP { get; set; }
 		public string MAIN_TITLE { get; set; }
 
 		public string SECOND_TITLE { get; set; }

@@ -126,7 +126,8 @@ namespace MyWebProject.Controllers
 			   "POST_INFO.SECOND_TITLE," +
 			   "POST_INFO.VIEW_COUNT, " +
 			   "POST_INFO.TAG_ID, " +
-			   "POST_INFO.POST_ID " +
+			   "POST_INFO.POST_ID, " +
+			   "POST_INFO.IS_TOP " +
 			   "FROM " +
 			   "POST_INFO " +
 			   "JOIN POST_CONTENT ON POST_CONTENT.POST_ID = POST_INFO.POST_ID " +
