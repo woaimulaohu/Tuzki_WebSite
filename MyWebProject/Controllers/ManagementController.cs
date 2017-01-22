@@ -61,9 +61,71 @@ namespace MyWebProject.Controllers
 			}
 			return "success";
 		}
-		public string modPost()
+		public string addPost()
 		{
-			return JsonConvert.SerializeObject(base.getDetial(Request));
+			using (Entity entity = new Entity())
+			{
+				List<TAG_INFO> list = entity.TAG_INFO.Where(t => t.TAG_ID > 0).ToList();
+				return JsonConvert.SerializeObject(list);
+			}
+		}
+		public string getPostList()
+		{
+			object obj = new object();
+			using (Entity entity = new Entity())
+			{
+				List<TAG_INFO> list = entity.TAG_INFO.Where(t => t.TAG_ID != 0).ToList<TAG_INFO>();
+				obj = new { tagInfo = list, detial = base.getDetial(Request).First() };
+			}
+			return JsonConvert.SerializeObject(obj);
+		}
+		[ValidateInput(false)]
+		public string saveModifyPost()
+		{
+			string postTitle = Request["postTitle"];
+			string postSecondTitle = Request["postSecondTitle"];
+			string tags = Request["tags"];
+			string isTop = Request["isTop"];
+			int selectPostId;
+			int.TryParse(Request["selectPostId"], out selectPostId);
+			string postContent = HttpUtility.UrlDecode(Request["postContent"]);
+			int successCount = 0;
+			using (Entity entity = new Entity())
+			{
+				if (entity.POST_INFO.Where(p => p.POST_ID == selectPostId).Count() > 0)
+				{
+					POST_INFO info = entity.POST_INFO.Where(p => p.POST_ID == selectPostId).First();
+					info.MAIN_TITLE = postTitle;
+					info.SECOND_TITLE = postSecondTitle;
+					info.TAG_ID = tags;
+					entity.POST_CONTENT.Where(p => p.POST_ID == selectPostId).First().POST_CONTENT1 = postContent;
+				}
+				else
+				{
+					int postid;
+					entity.POST_INFO.Add(new POST_INFO
+					{
+						DATE = DateTime.Now,
+						MAIN_TITLE = postTitle,
+						SECOND_TITLE = postSecondTitle,
+						PRAISE_COUNT = 0,
+						REPRODUCED_COUNT = 0,
+						TAG_ID = tags,
+						VIEW_COUNT = 0,
+						IS_TOP = isTop.Equals("0") ? false : true
+					});
+					entity.SaveChanges();
+					List<POST_INFO> list = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).ToList();
+					postid = entity.POST_INFO.Where(p => p.MAIN_TITLE.Equals(postTitle) && p.SECOND_TITLE.Equals(postSecondTitle)).First().POST_ID;
+					entity.POST_CONTENT.Add(new POST_CONTENT
+					{
+						POST_CONTENT1 = postContent,
+						POST_ID = postid
+					});
+				}
+				successCount = entity.SaveChanges();
+			}
+			return successCount > 0 ? "success" : "fail";
 		}
 	}
 }

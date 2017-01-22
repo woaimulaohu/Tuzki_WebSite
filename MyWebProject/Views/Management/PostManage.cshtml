@@ -41,7 +41,7 @@
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" onclick="modPost(@s.POST_ID)">新增</a>
+                                        <a href="javascript:void(0)" onclick="addPost()">新增</a>
                                     </li>
                                     <li>
                                         <a href="javascript:void(0)" onclick="delPost(@s.POST_ID)">删除</a>
@@ -79,9 +79,13 @@
 </div>
 <input style="visibility:collapse" id="saveStartPage" value="@ViewData["saveStartPage"]" />
 <div id="ueDiv" class="row" style="visibility:hidden;border:1px solid rgba(128, 128, 128, 0.41);">
-    <div class="row" style="height:40px;">
-        &nbsp;  &nbsp;&nbsp;  &nbsp;主标题 : <input style="margin-top: 5px;" id="postTitle" />
-        副标题 : <input style="margin-top: 5px;" id="postSecondTitle" />
+    <div class="row" style="height:40px;margin-bottom:20px">
+        &nbsp;  &nbsp;&nbsp;  &nbsp;主标题 : <input id="postTitle" />
+        副标题 : <input id="postSecondTitle" />
+        &nbsp;标签 : &nbsp;
+        <div class="btn-group btn-group-xs">
+            <ul class="pagination pagination-sm" id="tagSelect"></ul>
+        </div>
     </div>
     <a name="UEedit"></a>
     <div id="UEedit" style="min-height:400px">
@@ -90,6 +94,7 @@
         <a class="pull-right label label-primary" style="margin-right:5px;margin-bottom:10px" href="javascript:void(0)" onclick="savePost()">保存</a>
         <a class="pull-right label label-default" style="margin-right:5px;margin-bottom:10px" href="javascript:void(0)" onclick="cancelSavePost()">取消</a>
     </h3>
+    <input id="selectPostId" style="visibility:collapse" />
 </div>
 
 <!--百度富文本开始-->
@@ -106,15 +111,67 @@
 <!--百度富文本结束-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    function changeSelectedStatus(tag) {
+        var attr = $(tag).parent().attr("class")
+        if (attr == "active") {
+            $(tag).parent().attr("class", "")
+        } else {
+            $(tag).parent().attr("class", "active")
+        }
+    }
     function savePost() {
-
+        var tags = "";
+        $("#tagSelect .active").each(function () {
+            tags += $(this).val() + ',';
+        });
+        if (tags == "") { alert("未选择tag标签"); return; }
+        tags = tags.substring(0, tags.length - 1);
+        $.post('Management/saveModifyPost', {
+            'postTitle': $("#postTitle").val(),
+            'postSecondTitle': $("#postSecondTitle").val(),
+            'tags': tags,
+            'selectPostId': $("#selectPostId").val(),
+            'isTop':'0',
+            'postContent': encodeURI(editor.getContent())
+        }, function (data) {
+            if (data != "success") {
+                alert("保存失败!");
+            } else {
+                alert("保存成功!");
+                getManagerDataGrid($("#saveStartPage").val());
+            }
+        });
+    }
+    function setTagArry(tagArray, selectedTags) {
+        $("#tagSelect").children().remove();
+        for (var i = 0; i < tagArray.length; i++) {
+            if ($.inArray(tagArray[i].TAG_ID + '', selectedTags) > -1) {
+                $("#tagSelect").append('<li class="active" value="' + tagArray[i].TAG_ID + '"><a href="javascript:void(0)" onclick="changeSelectedStatus(this)">' + tagArray[i].TAG_NAME + '</a></li>')
+            } else {
+                $("#tagSelect").append('<li class="" value="' + tagArray[i].TAG_ID + '"><a href="javascript:void(0)" onclick="changeSelectedStatus(this)">' + tagArray[i].TAG_NAME + '</a></li>')
+            }
+        }
+    }
+    function addPost() {
+        location.href = "#UEedit";
+        $.post('Management/addPost', function (json) {
+            var json = eval("(" + json + ")");
+            setTagArry(json);
+            $("#ueDiv").css("visibility", "visible");
+        });
     }
     function modPost(postId) {
-        $.post('Management/modPost?postId=' + postId, function (data) {
+        $.post('Management/getPostList?postId=' + postId, function (data) {
             var json = eval("(" + data + ")");
             $("#ueDiv").css("visibility", "visible");
             location.href = "#UEedit";
-            editor.setContent(json[0].POST_CONTENT);//上面定义的富文本变量editor
+            editor.setContent(json.detial.POST_CONTENT);//上面定义的富文本变量editor
+            $("#postTitle").val(json.detial.MAIN_TITLE.trim());
+            $("#postSecondTitle").val(json.detial.SECOND_TITLE.trim());
+            var selectedTags = new Array();
+            selectedTags = json.detial.TAG_ID.split(",");
+            setTagArry(json.tagInfo, selectedTags);
+            $("#selectPostId").val(postId)
         });
     }
     function delPost(postId) {
