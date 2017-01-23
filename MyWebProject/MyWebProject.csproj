@@ -488,6 +488,7 @@
     <Compile Include="Models\Entity\MENU.cs" />
     <Compile Include="Models\Entity\POST_CONTENT.cs" />
     <Compile Include="Models\Entity\POST_INFO.cs" />
+    <Compile Include="Models\Entity\STATISTICS.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
     <Compile Include="Models\Entity\USER_INFO.cs" />
     <Compile Include="Models\GitHubUserInfo.cs" />

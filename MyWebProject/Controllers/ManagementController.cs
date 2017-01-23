@@ -14,7 +14,18 @@ namespace MyWebProject.Controllers
 		// GET: Management
 		public ActionResult Index()
 		{
-			return View();
+			using (Entity entity = new Entity())
+			{
+				string token = Request.Cookies.Get("token").Value;
+				if (entity.USER_INFO.Where(u => u.TOKEN == token).First().USER_AUTH == 2)
+				{
+					return View();
+				}
+				else
+				{
+					return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = false, Obj = "Error", Msg = "非管理员禁止访问!" });
+				}
+			}
 		}
 		/// <summary>
 		/// 从数据库生成菜单列表
@@ -30,7 +41,7 @@ namespace MyWebProject.Controllers
 			return View(list);
 		}
 		/// <summary>
-		/// 获取文章列表
+		/// 根据菜单ID获取右侧表格
 		/// </summary>
 		/// <returns></returns>
 		public ActionResult Grid()
@@ -45,12 +56,26 @@ namespace MyWebProject.Controllers
 			switch (viewName)
 			{
 				case "PostManage": postManage(); return View("~/Views/Management/" + viewName + ".cshtml", base.getSnippet(Request));
+				case "ConfigManage": return View("~/Views/Management/" + viewName + ".cshtml", ConfigManage());
 			}
 			return null;
 		}
+		private List<CONFIG> ConfigManage()
+		{
+			List<CONFIG> list = new List<CONFIG>();
+			using (Entity entity = new Entity())
+			{
+				list = entity.CONFIG.Where(c => c.ID > 0).ToList();
+			}
+			return list;
+		}
+
+
+		///---------------------------文章管理相关--start------------------------------------------------------
 		/// <summary>
 		/// 因为采用每次重新刷新子页面的方式,所以选择的页码什么的参数需要前台传给后台,再由后台重新生成页面时重新返回给前台,用到了DataView k=>v
 		/// </summary>
+		#region
 		private void postManage()
 		{
 			int pageSize, pageStart;
@@ -61,10 +86,12 @@ namespace MyWebProject.Controllers
 			ViewData.Add("saveStartPage", pageStart);
 			ViewData.Add("pageSize", pageSize);
 		}
+		#endregion
 		/// <summary>
 		/// 删除文章
 		/// </summary>
 		/// <returns></returns>
+		#region
 		public string delPost()
 		{
 			int postId = int.Parse(Request["postId"]);
@@ -76,10 +103,12 @@ namespace MyWebProject.Controllers
 			}
 			return "success";
 		}
+		#endregion
 		/// <summary>
 		/// 添加文章
 		/// </summary>
 		/// <returns></returns>
+		#region
 		public string addPost()
 		{
 			using (Entity entity = new Entity())
@@ -88,10 +117,13 @@ namespace MyWebProject.Controllers
 				return JsonConvert.SerializeObject(list);
 			}
 		}
+		#endregion
+
 		/// <summary>
 		/// 获取文章明细信息,用于绑定到富文本编辑器
 		/// </summary>
 		/// <returns></returns>
+		#region
 		public string getPostDetial()
 		{
 			object obj = new object();
@@ -102,11 +134,13 @@ namespace MyWebProject.Controllers
 			}
 			return JsonConvert.SerializeObject(obj);
 		}
+		#endregion
 		/// <summary>
 		/// 修改文章->保存
 		/// </summary>
 		/// <returns></returns>
 		[ValidateInput(false)]
+		#region
 		public string saveModifyPost()
 		{
 			string postTitle = Request["postTitle"];
@@ -155,5 +189,7 @@ namespace MyWebProject.Controllers
 			}
 			return successCount > 0 ? "success" : "fail";
 		}
+		#endregion
+		///---------------------------文章管理相关--end------------------------------------------------------
 	}
 }

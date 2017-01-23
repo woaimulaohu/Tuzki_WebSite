@@ -13,7 +13,7 @@
     <style>
         .page-404 {
             text-align: center;
-            padding-top:100px;
+            padding-top: 100px;
         }
 
         .btn.blue {
@@ -171,11 +171,11 @@
                 tips = Server.GetLastError().Message;
             }
         }
-        <p>
+        <p style="color:red;font-weight:600">
             @tips
             <br />
-            <a href="javascript:void(0)" style="color: #005580;font-size:13px" onclick="getHome()">返回首页</a> 或者搜索相关帮助
         </p>
+        <a href="javascript:void(0)" style="color: #005580;font-size:13px" onclick="getHome()">返回首页</a> 或者搜索相关帮助
         <form action="http://www.baidu.com/baidu" target="_blank">
             <input name=tn type=hidden value=baidu>
             <input class="m-wrap" size="16" type="text" name="word" value="@tips" />

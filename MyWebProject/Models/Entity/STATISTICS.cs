@@ -6,18 +6,12 @@ namespace MyWebProject.Models.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("CONFIG")]
-    public partial class CONFIG
+    public partial class STATISTICS
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
-
         [Key]
-        [StringLength(30)]
+        [StringLength(50)]
         public string KEY_NAME { get; set; }
 
-        [Required]
-        [StringLength(30)]
-        public string VALUE { get; set; }
+        public int VALUE { get; set; }
     }
 }

@@ -1,2 +1,98 @@
-﻿
-配置管理
+﻿@using MyWebProject.Models.Entity;
+<div>
+    <ul class="list-inline" style="margin-bottom:5px"></ul>
+</div>
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th style="max-width:200px">
+                <a class="label label-default" onclick="selectAll()" href="javascript:void(0)">全选</a>
+            </th>
+            <th>编号</th>
+            <th>名称</th>
+            <th>数值</th>
+            <th>
+                <a class="label label-success" onclick="add()" href="javascript:void(0)">新增</a>
+                <a class="label label-info" onclick="saveAll()" href="javascript:void(0)">保存</a>
+                <a class="label label-danger" onclick="delAll()" href="javascript:void(0)">批量删除</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{List<CONFIG> list = Model as List<CONFIG>;
+            foreach (CONFIG c in list)
+            {
+                <tr id="cfg_@c.ID">
+                    <td style="width:80px"><input id="check_@c.ID" type="checkbox" class="checkbox" /></td>
+                    <td style="width:80px">@c.ID</td>
+                    <td style="width:80px"><input id="key_@c.ID" class="input-sm" type="text" value="@c.KEY_NAME.Trim()" disabled="disabled" /></td>
+                    <td style="width:80px"><input id="val_@c.ID" class="input-sm" type="text" value="@c.VALUE.Trim()" disabled="disabled" /></td>
+                    <td>
+                        <a class="label label-warning" id="mod_@c.ID" href="javascript:void(0)" onclick="mod(@c.ID)">修改</a>
+                        <a style="margin-left:5px" class="label label-danger" href="javascript:void(0)" onclick="del(@c.ID,true)">删除</a>
+                    </td>
+                </tr>}
+        }
+    </tbody>
+</table>
+<input id="tempSerial" value="1" style="visibility:collapse" />
+<script>
+    function saveAll() {
+
+    }
+    function mod(id) {
+        if ($("#check_" + id).prop("checked") == true) {
+            $("#check_" + id).prop("checked", false);
+            $("#key_" + id).prop("disabled", true);
+            $("#val_" + id).prop("disabled", true);
+            $("#mod_" + id).html("修改");
+            return;
+        }
+        $("#key_" + id).prop("disabled", false);
+        $("#val_" + id).prop("disabled", false);
+        $("#check_" + id).prop("checked", true);
+        $("#mod_" + id).html("取消修改");
+    }
+    function delAll() {
+        if (!window.confirm("全部删除?")) {
+            return;
+        }
+        var str = "";
+        $(".checkbox").each(function () {
+            if ($(this).prop("checked") == true) {
+                str += $(this).attr("id").split('_')[1] + ',';
+                del($(this).attr("id").split('_')[1], false);
+            }
+        });
+        str = str.substr(0, str.length - 1);
+    }
+    function del(id, flag) {
+        if (flag == true || flag == 'true') {
+            if (!window.confirm("确认删除?")) {
+                return;
+            }
+        }
+        $("#cfg_" + id).remove();
+    }
+    function add() {
+        var tempSerial = new String(parseInt($("#tempSerial").val() - 1000));
+        $("tbody").append('<tr id="cfg_' + tempSerial + '">' +
+                   '<td style="width:80px"><input id="check_' + tempSerial + '" type="checkbox" class="checkbox" checked="checked"/></td>' +
+                   '<td style="width:80px">#</td>' +
+                   '<td style="width:80px"><input id="key_' + tempSerial + '" class="input-sm" type="text" value=""/></td>' +
+                   '<td style="width:80px"><input id="val_' + tempSerial + '" class="input-sm" type="text" value=""/></td>' +
+                   '<td>' +
+                   '<a style="margin-left:5px" class="label label-danger" href="javascript:void(0)" onclick="del(' + tempSerial + ',true)">删除</a>' +
+                   '</td>' +
+                '</tr>}');
+        $("#tempSerial").val(parseInt($("#tempSerial").val()) + 1);
+    }
+    function selectAll() {
+        //新版本JQUERY用attr设置true/false有问题,改用prop
+        if ($(".checkbox").prop("checked") == true) {
+            $(".checkbox").prop("checked", false);
+            return;
+        }
+        $(".checkbox").prop("checked", true);
+    }
+</script>

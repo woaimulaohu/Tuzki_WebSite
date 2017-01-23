@@ -34,7 +34,7 @@ namespace MyWebProject
 		{
 			var ex = Server.GetLastError();
 			logger.Error(ex); //记录日志信息  
-			Server.ClearError();//处理后要清除本次异常记录
+			Server.ClearError();//处理后要清除本次异常记录,否则下次再取lastError会将本次再取出
 
 		}
 		protected void Session_Start(object sender, EventArgs e)

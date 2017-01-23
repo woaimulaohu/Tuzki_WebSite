@@ -76,7 +76,7 @@ namespace MyWebProject.Controllers
 						NICK_NAME = gitInfo.name,
 						AVATAR_URL = gitInfo.avatar_url,
 						GITHUB_ID = gitInfo.id,
-						USER_AUTH = 0,//用户权限0黑名单,1一般,2管理员
+						USER_AUTH = "16289008".Equals(gitInfo.id) ? 2 : 0,//用户权限0一般,1特别访客,2管理员,3黑名单
 						EXPIRE_TIME = expireTime,
 						GITHUB_LOG_IN_ACCOUNT = gitInfo.login,
 						TOKEN = token
