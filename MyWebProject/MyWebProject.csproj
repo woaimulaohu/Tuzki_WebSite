@@ -492,6 +492,7 @@
     <Compile Include="Models\Entity\TAG_INFO.cs" />
     <Compile Include="Models\Entity\USER_INFO.cs" />
     <Compile Include="Models\GitHubUserInfo.cs" />
+    <Compile Include="Models\Modal.cs" />
     <Compile Include="Models\QueryResult\HomeResult.cs" />
     <Compile Include="Models\QueryResult\MsgBoardResult.cs" />
     <Compile Include="Models\QueryResult\SnippetResult.cs" />
@@ -532,6 +533,7 @@
     <Content Include="Views\Management\CommentManage.cshtml" />
     <Content Include="Views\Management\ConfigManage.cshtml" />
     <Content Include="Views\Management\UserManage.cshtml" />
+    <Content Include="Views\Home\Modal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -35,14 +35,6 @@ namespace MyWebProject.Models.Entity
 				.Property(e => e.AVATAR_URL)
 				.IsUnicode(false);
 
-			modelBuilder.Entity<CONFIG>()
-				.Property(e => e.KEY_NAME)
-				.IsFixedLength();
-
-			modelBuilder.Entity<CONFIG>()
-				.Property(e => e.VALUE)
-				.IsFixedLength();
-
 			modelBuilder.Entity<POST_CONTENT>()
 				.Property(e => e.POST_CONTENT1)
 				.IsUnicode(false);

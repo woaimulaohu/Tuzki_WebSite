@@ -38,7 +38,26 @@
 <input id="tempSerial" value="1" style="visibility:collapse" />
 <script>
     function saveAll() {
-
+        var array = new Array();
+        $(".checkbox").each(function () {
+            if ($(this).prop("checked")) {
+                var id = $(this).attr("id").split('_')[1];
+                var obj = new Object();
+                obj.KEY_NAME = $("#key_" + id).val();
+                obj.VALUE = $("#val_" + id).val();
+                obj.ID = id;
+                array.push(obj);
+            }
+        });
+        $.post("Management/configSaveAll", {
+            'json': JSON.stringify(array)
+        }, function (data) {
+            if (data == 'success') {
+                selectMenu($("#menuId").val());
+            } else {
+                alert("保存失败!检查是否有同名参数");
+            }
+        });
     }
     function mod(id) {
         if ($("#check_" + id).prop("checked") == true) {
@@ -72,7 +91,10 @@
                 return;
             }
         }
-        $("#cfg_" + id).remove();
+        $.post("Management/configDel?id=" + id, function (data) {
+            selectMenu($("#menuId").val());
+            $("#cfg_" + id).remove();
+        });
     }
     function add() {
         var tempSerial = new String(parseInt($("#tempSerial").val() - 1000));

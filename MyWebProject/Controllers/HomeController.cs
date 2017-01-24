@@ -191,6 +191,20 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult modal()
+		{
+			List<dynamic> list = new List<dynamic>();
+			list.Add(new CONFIG { KEY_NAME = "k1", VALUE = "v1", ID = 1 });
+			list.Add(new CONFIG { KEY_NAME = "k2", VALUE = "v2", ID = 2 });
+			Modal modal = new Modal()
+			{
+				tips = "tips",
+				listData = list,
+			};
+			return View(modal);
+		}
+
 		public ActionResult Tips(bool IsSuccess, string Msg)
 		{
 			return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = IsSuccess, Obj = "Error", Msg = Msg });

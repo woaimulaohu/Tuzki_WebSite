@@ -13,11 +13,11 @@ namespace MyWebProject.Models.Entity
         public int ID { get; set; }
 
         [Key]
-        [StringLength(30)]
+        [StringLength(50)]
         public string KEY_NAME { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(50)]
         public string VALUE { get; set; }
     }
 }

@@ -1,1 +1,151 @@
-﻿用户管理
+﻿@using MyWebProject.Models.Entity;
+<div>
+    <ul class="list-inline" style="margin-bottom:5px"></ul>
+</div>
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th style="max-width:200px">
+                <a class="label label-default" onclick="selectAll()" href="javascript:void(0)">全选</a>
+            </th>
+            <th>昵称</th>
+            <th>权限</th>
+            <th>过期</th>
+            <th>GitHubId</th>
+            <th>QQid</th>
+            <th>token</th>
+            <th>GitHub账号</th>
+            <th>
+                <a class="label label-success" onclick="add()" href="javascript:void(0)">新增</a>
+                <a class="label label-info" onclick="saveAll()" href="javascript:void(0)">保存</a>
+                <a class="label label-danger" onclick="delAll()" href="javascript:void(0)">批量删除</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{List<USER_INFO> list = Model as List<USER_INFO>;
+            foreach (USER_INFO u in list)
+            {
+                <tr id="cfg_@u.USER_ID">
+                    <td><input style="width:30px" id="check_@u.USER_ID" type="checkbox" class="checkbox" /></td>
+                    <td><input style="width:100px" id="NICK_NAME_@u.USER_ID" class="input-sm" type="text" value="@u.NICK_NAME" disabled="disabled" /></td>
+                    <td><input style="width:50px" id="USER_AUTH_@u.USER_ID" class="input-sm" type="text" value="@u.USER_AUTH" disabled="disabled" /></td>
+                    <td><input style="width:150px" id="EXPIRE_TIME_@u.USER_ID" class="input-sm" type="text" value="@u.EXPIRE_TIME" disabled="disabled" /></td>
+                    <td><input style="width:90px" id="GITHUB_ID_@u.USER_ID" class="input-sm" type="text" value="@u.GITHUB_ID" disabled="disabled" /></td>
+                    <td><input style="width:90px" id="QQ_ID_@u.USER_ID" class="input-sm" type="text" value="@u.QQ_ID" disabled="disabled" /></td>
+                    <td><input style="width:150px" id="TOKEN_@u.USER_ID" class="input-sm" type="text" value="@u.TOKEN.Trim()" disabled="disabled" /></td>
+                    <td><input style="width:100px" id="GITHUB_LOG_IN_ACCOUNT_@u.USER_ID" class="input-sm" type="text" value="@u.GITHUB_LOG_IN_ACCOUNT" disabled="disabled" /></td>
+                    <td>
+                        <a class="label label-warning" id="mod_@u.USER_ID" href="javascript:void(0)" onclick="mod()">修改</a>
+                        <a style="margin-left:5px" class="label label-danger" href="javascript:void(0)" onclick="del(@u.USER_ID,true)">删除</a>
+                    </td>
+                </tr>}
+        }
+    </tbody>
+</table>
+<input id="tempSerial" value="1" style="visibility:collapse" />
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" onclick="mod()" data-target="#myModal">
+    Launch demo modal
+</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+
+<script>
+    function saveAll() {
+        var array = new Array();
+        $(".checkbox").each(function () {
+            if ($(this).prop("checked")) {
+                var id = $(this).attr("id").split('_')[1];
+                var obj = new Object();
+                obj.KEY_NAME = $("#key_" + id).val();
+                obj.VALUE = $("#val_" + id).val();
+                obj.ID = id;
+                array.push(obj);
+            }
+        });
+        $.post("Management/configSaveAll", {
+            'json': JSON.stringify(array)
+        }, function (data) {
+            if (data == 'success') {
+                selectMenu($("#menuId").val());
+            } else {
+                alert("保存失败!检查是否有同名参数");
+            }
+        });
+    }
+    function mod() {
+        //$('#myModal').modal('show');
+        //var location = (window.location + '').split('/');
+        //var basePath = location[0] + '//' + location[2] + '/' + location[3];
+        //alert(basePath);
+        //$("#myModal").modal({
+        //    remote: basePath+"Modal.cshtml",//可以填写一个url，会调用jquery load方法加载数据
+        //    backdrop: "static",//指定一个静态背景，当用户点击背景处，modal界面不会消失
+        //    s
+        //    keyboard: true//当按下esc键时，modal框消失
+        //});
+        $('#myModal').children().remove();
+        $.post('Home/modal', function (data) {
+            $('#myModal').append(data);
+            $('#myModal').modal('show');
+        });
+
+        //if ($("#check_" + id).prop("checked") == true) {
+        //    $("#check_" + id).prop("checked", false);
+        //    $("#key_" + id).prop("disabled", true);
+        //    $("#val_" + id).prop("disabled", true);
+        //    $("#mod_" + id).html("修改");
+        //    return;
+        //}
+        //$("#key_" + id).prop("disabled", false);
+        //$("#val_" + id).prop("disabled", false);
+        //$("#check_" + id).prop("checked", true);
+        //$("#mod_" + id).html("取消修改");
+    }
+    function delAll() {
+        if (!window.confirm("全部删除?")) {
+            return;
+        }
+        var str = "";
+        $(".checkbox").each(function () {
+            if ($(this).prop("checked") == true) {
+                str += $(this).attr("id").split('_')[1] + ',';
+                del($(this).attr("id").split('_')[1], false);
+            }
+        });
+        str = str.substr(0, str.length - 1);
+    }
+    function del(id, flag) {
+        if (flag == true || flag == 'true') {
+            if (!window.confirm("确认删除?")) {
+                return;
+            }
+        }
+        $.post("Management/configDel?id=" + id, function (data) {
+            selectMenu($("#menuId").val());
+            $("#cfg_" + id).remove();
+        });
+    }
+    function add() {
+        var tempSerial = new String(parseInt($("#tempSerial").val() - 1000));
+        $("tbody").append('<tr id="cfg_' + tempSerial + '">' +
+                   '<td style="width:80px"><input id="check_' + tempSerial + '" type="checkbox" class="checkbox" checked="checked"/></td>' +
+                   '<td style="width:80px">#</td>' +
+                   '<td style="width:80px"><input id="key_' + tempSerial + '" class="input-sm" type="text" value=""/></td>' +
+                   '<td style="width:80px"><input id="val_' + tempSerial + '" class="input-sm" type="text" value=""/></td>' +
+                   '<td>' +
+                   '<a style="margin-left:5px" class="label label-danger" href="javascript:void(0)" onclick="del(' + tempSerial + ',true)">删除</a>' +
+                   '</td>' +
+                '</tr>}');
+        $("#tempSerial").val(parseInt($("#tempSerial").val()) + 1);
+    }
+    function selectAll() {
+        //新版本JQUERY用attr设置true/false有问题,改用prop
+        if ($(".checkbox").prop("checked") == true) {
+            $(".checkbox").prop("checked", false);
+            return;
+        }
+        $(".checkbox").prop("checked", true);
+    }
+</script>

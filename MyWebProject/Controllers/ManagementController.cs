@@ -57,9 +57,25 @@ namespace MyWebProject.Controllers
 			{
 				case "PostManage": postManage(); return View("~/Views/Management/" + viewName + ".cshtml", base.getSnippet(Request));
 				case "ConfigManage": return View("~/Views/Management/" + viewName + ".cshtml", ConfigManage());
+				case "UserManage": return View("~/Views/Management/" + viewName + ".cshtml", UserManage());
 			}
 			return null;
 		}
+		private List<USER_INFO> UserManage()
+		{
+			using (Entity entity = new Entity())
+			{
+				return entity.USER_INFO.Where(u => u.USER_ID > 0).ToList();
+			}
+		}
+
+
+		//-----------------------------配置管理相关--start----------------------------------------------------
+		/// <summary>
+		/// 初始化配置管理菜单返回的数据
+		/// </summary>
+		/// <returns></returns>
+		#region
 		private List<CONFIG> ConfigManage()
 		{
 			List<CONFIG> list = new List<CONFIG>();
@@ -69,6 +85,56 @@ namespace MyWebProject.Controllers
 			}
 			return list;
 		}
+		#endregion
+
+		/// <summary>
+		/// 配置管理中删除配置数据
+		/// </summary>
+		#region
+		public void configDel()
+		{
+			int id = int.Parse(Request["id"]);
+			using (Entity entity = new Entity())
+			{
+				entity.CONFIG.Remove(entity.CONFIG.Where(c => c.ID == id).First());
+				entity.SaveChanges();
+			}
+		}
+		#endregion
+		/// <summary>
+		/// 配置管理保存数据
+		/// </summary>
+		/// <returns></returns>
+		#region
+		public string configSaveAll()
+		{
+			string json = Request["json"];
+			List<CONFIG> configs = JsonConvert.DeserializeObject<List<CONFIG>>(json);
+			using (Entity entity = new Entity())
+			{
+				foreach (CONFIG cfg in configs)
+				{
+					List<CONFIG> ef = entity.CONFIG.Where(c => c.ID == cfg.ID).ToList();
+					if (ef.Count() > 0)
+					{
+						entity.CONFIG.Remove(entity.CONFIG.Where(c => c.ID == cfg.ID).First());
+						entity.SaveChanges();
+					}
+					entity.CONFIG.Add(new CONFIG
+					{
+						KEY_NAME = cfg.KEY_NAME,
+						VALUE = cfg.VALUE
+					});
+				}
+				if (entity.SaveChanges() < configs.Count)
+				{
+					return "fail";
+				}
+			}
+			return "success";
+		}
+		#endregion
+		//-----------------------------配置管理相关--end----------------------------------------------------
 
 
 		///---------------------------文章管理相关--start------------------------------------------------------

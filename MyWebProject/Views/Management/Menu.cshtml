@@ -7,13 +7,15 @@
             <a href="javascript:void(0)" id="@menu.MENU_ID" onclick="selectMenu('@menu.MENU_ID')" class="list-group-item"><span class="glyphicon glyphicon-@menu.MENU_ICON" style="font-size: 15px">&nbsp;@menu.MENU_NAME</span></a>
         }
     }
+    <input id="menuId" value="" style="visibility:collapse" />
 </div>
 <script>
     function selectMenu(menuId) {
+        $("#menuId").val(menuId);
         $("#menuList a").each(function () {
             $(this).attr("class", "list-group-item");
         });
         $("#" + menuId).attr("class", "list-group-item active");
-        $.post("Management/Grid?menuId=" + menuId, function (data) { $("#grid").html(data);});
+        $.post("Management/Grid?menuId=" + menuId, function (data) { $("#grid").html(data); });
     }
 </script>
