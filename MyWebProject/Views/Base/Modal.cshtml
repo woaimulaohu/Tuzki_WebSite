@@ -9,10 +9,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">@modal.tips</h4>
             </div>
+
             <div id="modalBody" class="modal-body">
                 <table class="table table-hover table-condensed">
                     <thead>
-                        <tr><th>名称</th><th>值</th></tr>
+                        <tr><th>键</th><th>值</th></tr>
                     <thead>
                     <tbody>
                         @foreach (dynamic d in modal.listData)
@@ -21,7 +22,7 @@
                             <tr class="modalTr">
                                 @foreach (PropertyInfo pi in peroperties)
                                 {
-                                    <td><input style="max-width:500px;font-size:smaller" value="@pi.GetValue(d)" /> </td>
+                                    <td><input style="width:100%;font-size:smaller" value="@pi.GetValue(d)" /> </td>
 }
                             </tr>}
                     </tbody>
