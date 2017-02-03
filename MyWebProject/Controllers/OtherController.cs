@@ -70,7 +70,7 @@ namespace MyWebProject.Controllers
 				else
 				{
 					DateTime expireTime = DateTime.Now.AddDays(7);
-					string token = Util.CommonUtil.MD5_Encode(gitInfo.id + "" + expireTime);
+					string token = Util.CommonUtil.MD5_Encode(gitInfo.id + "" + gitInfo.name+""+ expireTime);
 					entity.USER_INFO.Add(new USER_INFO
 					{
 						NICK_NAME = gitInfo.name,
