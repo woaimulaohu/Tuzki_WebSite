@@ -12,7 +12,7 @@ namespace MyWebProject.Models
 		{
 			this.listData = new List<dynamic>();
 		}
-		public string jsFunctionName { get; set; }
+		public string saveFuncTionName { get; set; }
 		public string tips { get; set; }
 		public List<dynamic> listData { get; set; }
 	}

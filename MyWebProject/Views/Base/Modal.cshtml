@@ -1,0 +1,62 @@
+﻿@using MyWebProject.Models;
+@using System.Reflection;
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">*@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        @{  Modal modal = Model as Modal;
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">@modal.tips</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr><th>名称</th><th>值</th></tr>
+                    <thead>
+                    <tbody>
+                        @foreach (dynamic d in modal.listData)
+                        {
+                            PropertyInfo[] peroperties = d.GetType().GetProperties();
+                            <tr class="modalTr">
+                                @foreach (PropertyInfo pi in peroperties)
+                                {
+                                    <td><input style="max-width:500px;font-size:smaller" value="@pi.GetValue(d)" /> </td>
+}
+                            </tr>}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div style="float:left;color:red" id="modalTips"></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveModal()">保存</button>
+            </div>    }
+    </div>
+    <input id="saveFuncTionName" type="text" value="@modal.saveFuncTionName" hidden="hidden" />
+</div>
+<script>
+    function saveModal() {
+        var json = [];
+        $(".modalTr").each(function () {
+            json.push({
+                key: $(this).find('td').children().first().val(),
+                val: $(this).find('td').children().last().val()
+            });
+        });
+        $.post($("#saveFuncTionName").val(), { 'json': JSON.stringify(json) }, function (result) {
+            if (result == 'success') {
+                $("#modalTips").html("保存成功!");
+            }
+        });
+    }
+    $(function () {
+        $('#myModal').on('hide.bs.modal', function () {
+            //解决模态框关闭后遮罩背景不消失的问题
+            setTimeout(function () {
+                selectMenu($("#menuId").val());//js虽然单线程往下执行，但当遇到样式渲染、dom操作时，就有同步异步的问题
+            }, 500);
+        })
+    });
+</script>
+@*</div>*@

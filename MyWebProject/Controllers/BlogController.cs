@@ -107,9 +107,7 @@ namespace MyWebProject.Controllers
 					TEXT = comment,
 					BEFOR_COMMENTS_ID = beforCommentsId,
 					AVATAR_URL = avatarUrl
-
 				});
-				DbChangeTracker d = entity.ChangeTracker;
 				entity.SaveChanges();
 			}
 			return "success";

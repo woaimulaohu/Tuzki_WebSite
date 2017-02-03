@@ -1,9 +1,12 @@
 ﻿using MyWebProject.Models;
 using MyWebProject.Models.Entity;
+using MyWebProject.Util_Pro;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -61,6 +64,7 @@ namespace MyWebProject.Controllers
 			}
 			return null;
 		}
+		//-----------------------------用户管理相关--start----------------------------------------------------
 		private List<USER_INFO> UserManage()
 		{
 			using (Entity entity = new Entity())
@@ -68,6 +72,112 @@ namespace MyWebProject.Controllers
 				return entity.USER_INFO.Where(u => u.USER_ID > 0).ToList();
 			}
 		}
+
+		public ActionResult ModUserInfo()
+		{
+			int userId = int.Parse(Request["userId"]);
+			List<USER_INFO> list = new List<USER_INFO>();
+			List<dynamic> dynamicList = new List<dynamic>();
+			using (Entity entity = new Entity())
+			{
+				list = entity.USER_INFO.Where(u => u.USER_ID == userId).ToList();
+			}
+			foreach (USER_INFO u in list)
+			{
+				PropertyInfo[] peroperties = u.GetType().GetProperties();
+				foreach (PropertyInfo pi in peroperties)
+				{
+					if (pi.Name.Equals("TOKEN"))
+					{
+						continue;
+					}
+					string val = pi.GetValue(u) + "";//规避为null的情况,所以不用tostring
+					dynamicList.Add(new { pi.Name, val });
+				}
+			}
+			return base.modal(dynamicList, "修改用户信息", "Management/SaveUserInfo");
+		}
+		public ActionResult AddUserInfo()
+		{
+			List<dynamic> dynamicList = new List<dynamic>();
+			USER_INFO u = new USER_INFO();
+			PropertyInfo[] peroperties = u.GetType().GetProperties();
+			foreach (PropertyInfo pi in peroperties)
+			{
+				dynamicList.Add(new { pi.Name, string.Empty });
+			}
+			return base.modal(dynamicList, "新增用户信息", "Management/AddUser");
+		}
+		public string AddUser()
+		{
+			string json = Request["json"];
+			JArray ja = (JArray)JsonConvert.DeserializeObject(json);
+			Dictionary<string, string> dic = new Dictionary<string, string>();
+			foreach (var obj in ja)
+			{
+				string key = obj["key"].ToString();
+				string val = obj["val"].ToString();
+				dic.Add(key, val);
+			}
+
+			using (Entity entity = new Entity())
+			{
+				DateTime expire = DateTime.Now.AddDays(7);
+				DateTime.TryParse(string.IsNullOrEmpty(dic["EXPIRE_TIME"]) ? expire.ToString() : dic["EXPIRE_TIME"], out expire);
+				int auth = 0;
+				int.TryParse(dic["USER_AUTH"], out auth);
+				entity.USER_INFO.Add(new USER_INFO
+				{
+					AVATAR_URL = string.IsNullOrEmpty(dic["AVATAR_URL"]) ? "https://s.gravatar.com/avatar/" + Util.CommonUtil.MD5_Encode(expire.ToString()) + "?s=80&d=retro" : dic["AVATAR_URL"],
+					EXPIRE_TIME = expire,
+					NICK_NAME = dic.ContainsKey("NICK_NAME") ? dic["NICK_NAME"] : expire.ToString(),
+					TOKEN = Util.CommonUtil.MD5_Encode(expire.ToString()),
+					USER_AUTH = auth
+				});
+				entity.SaveChanges();
+			}
+			return "success";
+		}
+		public string SaveUserInfo()
+		{
+			string json = Request["json"];
+			USER_INFO info = new USER_INFO();
+			PropertyInfo[] peroperties = info.GetType().GetProperties();
+			JArray ja = (JArray)JsonConvert.DeserializeObject(json);
+			foreach (var obj in ja)
+			{
+				string key = obj["key"].ToString();
+				string val = obj["val"].ToString();
+				foreach (PropertyInfo pi in peroperties)
+				{
+					if (pi.Name.Equals(key))
+					{
+						pi.SetValue(info, Convert.ChangeType(val, pi.PropertyType));
+						break;
+					}
+				}
+			}
+			using (Entity entity = new Entity())
+			{
+				USER_INFO user = entity.USER_INFO.Where(u => u.USER_ID == info.USER_ID).First();
+				user.EXPIRE_TIME = info.EXPIRE_TIME;
+				user.NICK_NAME = info.NICK_NAME;
+				user.USER_AUTH = info.USER_AUTH;
+				entity.SaveChanges();
+			}
+			return "success";
+		}
+		public string UserDel()
+		{
+			int userId = int.Parse(Request["userId"]);
+			using (Entity entity = new Entity())
+			{
+				entity.USER_INFO.Remove(entity.USER_INFO.Where(u => u.USER_ID == userId).First());
+				entity.SaveChanges();
+			}
+			return "success";
+		}
+		//-----------------------------用户管理相关--end----------------------------------------------------
 
 
 		//-----------------------------配置管理相关--start----------------------------------------------------

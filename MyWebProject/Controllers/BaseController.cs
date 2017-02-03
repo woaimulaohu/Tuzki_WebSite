@@ -44,6 +44,22 @@ namespace MyWebProject.Controllers
 			Response.RedirectToRoute(new { action = "Tips", controller = "Home", IsSuccess = false, Msg = "程序出现异常" });
 		}
 		/// <summary>
+		/// 输出模态框
+		/// </summary>
+		/// <param name="list"></param>
+		/// <param name="tips"></param>
+		/// <returns></returns>
+		public ActionResult modal(List<dynamic> list, string tips, string saveFuncTionName)
+		{
+			Modal modal = new Modal()
+			{
+				tips = tips,
+				saveFuncTionName = saveFuncTionName,
+				listData = list,
+			};
+			return View("~/Views/Base/Modal.cshtml", modal);
+		}
+		/// <summary>
 		/// 获取博客文章的摘要
 		/// </summary>
 		/// <param name="Request"></param>
