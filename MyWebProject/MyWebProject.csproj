@@ -534,6 +534,7 @@
     <Content Include="Views\Management\ConfigManage.cshtml" />
     <Content Include="Views\Management\UserManage.cshtml" />
     <Content Include="Views\Base\Modal.cshtml" />
+    <Content Include="Views\Blog\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
