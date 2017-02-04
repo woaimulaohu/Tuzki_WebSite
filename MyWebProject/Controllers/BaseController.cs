@@ -113,6 +113,7 @@ namespace MyWebProject.Controllers
 					//把摘要中标签属性获取出来
 					p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();
 					list.Add(p);
+					sb.Clear();
 				}
 				return list;
 			}

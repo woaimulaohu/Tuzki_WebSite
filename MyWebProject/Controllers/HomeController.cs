@@ -84,6 +84,7 @@ namespace MyWebProject.Controllers
 					}
 					//把摘要中标签属性获取出来
 					homeResult.top3PostResults.Add(p);
+					sb.Clear();
 				}
 
 				//首页第二行区域获取TOP4 COMMENTS
