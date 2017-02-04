@@ -164,7 +164,16 @@
         </div>
     </div>
 </div>
+<div id="gitHistory">
+
+</div>
 <script>
+    function loadGitHistory() {
+        //repository - content
+        $.get('Home/loadGitHistory', function (html) {
+            $('#gitHistory').html(html);
+        });
+    }
     function emojiInit() {
         $("#comment").emojioneArea({
             autoHideFilters: true
@@ -175,6 +184,7 @@
         $("#nickName").val(getUserName());
         $("#nickName").attr("placeholder", getUserName());
         emojiInit();
+        loadGitHistory();
     }
 
     function getDetial(id) {

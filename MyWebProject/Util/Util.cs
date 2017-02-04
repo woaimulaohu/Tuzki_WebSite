@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -92,6 +93,20 @@ namespace MyWebProject.Util_Pro
 			public static string MD5_Encode(string Sourcein)
 			{
 				return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(Sourcein, "MD5").ToLower();
+			}
+			public static string HttpGetResult(string reqUrl)
+			{
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(reqUrl);
+				req.Method = "GET";
+				req.Timeout = 40 * 1000;
+				//必须加上UserAgent信息,值为Developer Settings-->OAuth Application-->Application name
+				req.UserAgent = "Personal web page";
+				req.ContentType = "application/x-www-form-urlencoded";
+				HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
+				// Get the stream associated with the response.
+				Stream receiveStream = rsp.GetResponseStream();
+				// Pipes the stream to a higher level stream reader with the required encoding format. 
+				return new StreamReader(receiveStream, Encoding.UTF8).ReadToEnd();
 			}
 		}
 

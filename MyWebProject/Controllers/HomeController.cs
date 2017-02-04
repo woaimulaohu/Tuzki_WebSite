@@ -2,6 +2,7 @@
 using MyWebProject.Models;
 using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
+using MyWebProject.Util_Pro;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
@@ -14,6 +15,7 @@ namespace MyWebProject.Controllers
 {
 	public class HomeController : BaseController
 	{
+		log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		public ActionResult Home()
 		{
 			return Redirect("~/Views/Main.cshtml");
@@ -80,7 +82,7 @@ namespace MyWebProject.Controllers
 						{
 							sb.Append(node.InnerText);
 						}
-						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
+						p.POST_CONTENT = sb.ToString().Substring(0, sb.Length > 180 ? 180 - 1 : sb.Length - 1) + "……";
 					}
 					//把摘要中标签属性获取出来
 					homeResult.top3PostResults.Add(p);
@@ -138,7 +140,7 @@ namespace MyWebProject.Controllers
 						{
 							sb.Append(node.InnerText);
 						}
-						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
+						p.POST_CONTENT = sb.ToString().Substring(0, sb.Length > 180 ? 180 - 1 : sb.Length - 1) + "……";
 					}
 					//把摘要中标签属性获取出来
 					homeResult.top2PostResults.Add(p);
@@ -188,9 +190,33 @@ namespace MyWebProject.Controllers
 			}
 			return View(listResult);
 		}
-		public ActionResult Typo()
+
+		public string loadGitHistory()
 		{
-			return View();
+			string gitHtml = Util.CommonUtil.HttpGetResult("https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject");
+			HtmlDocument html = new HtmlDocument();
+			StringBuilder sb = new StringBuilder();
+			html.LoadHtml(HttpUtility.HtmlDecode(gitHtml));
+			HtmlNodeCollection coll = html.DocumentNode.SelectNodes("//div");
+			foreach (HtmlNode node in coll)
+			{
+				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("commit-group-title")).Count() > 0)
+				{
+					sb.Append("<div class=\"alert alert-info\" style=\"margin-bottom:0px;padding-bottom:20px\">" +
+							  "<div class=\"row\" style=\"padding-left: 15px; padding-right: 15px;\">" +
+							  "<p style=\"word-break:break-all;font-size:small; word-wrap:break-word;float:left \">");
+					sb.Append(node.InnerText);
+					sb.Append("</p></br>");
+				}
+				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("table-list-cell")).Count() > 0)
+				{
+					sb.Append("<p style =\"word-break:break-all;font-size:small; word-wrap:break-word;float:left \">");
+					sb.Append(node.ChildNodes[1].ChildNodes[1].Attributes.Where(a => a.Name.Equals("title")).First().Value);
+					sb.Append("</p></br>");
+					sb.Append("</div></div>");
+				}
+			}
+			return sb.ToString();
 		}
 		public ActionResult Tips(bool IsSuccess, string Msg)
 		{

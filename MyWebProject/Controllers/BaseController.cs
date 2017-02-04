@@ -108,7 +108,7 @@ namespace MyWebProject.Controllers
 						{
 							sb.Append(node.InnerText);
 						}
-						p.POST_CONTENT = sb.ToString().Substring(0, 180) + "……";
+						p.POST_CONTENT = sb.ToString().Substring(0, sb.Length > 180 ? 180 - 1 : sb.Length - 1) + "……";
 					}
 					//把摘要中标签属性获取出来
 					p.tag_info = entity.Database.SqlQuery<TAG_INFO>("select * from TAG_INFO where TAG_ID in (" + p.TAG_ID + " )").ToList();

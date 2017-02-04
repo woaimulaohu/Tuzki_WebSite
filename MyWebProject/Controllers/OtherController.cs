@@ -23,20 +23,7 @@ namespace MyWebProject.Controllers
 		{
 			return View();
 		}
-		private string HttpGetResult(string reqUrl)
-		{
-			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(reqUrl);
-			req.Method = "GET";
-			req.Timeout = 40 * 1000;
-			//必须加上UserAgent信息,值为Developer Settings-->OAuth Application-->Application name
-			req.UserAgent = "Personal web page";
-			req.ContentType = "application/x-www-form-urlencoded";
-			HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
-			// Get the stream associated with the response.
-			Stream receiveStream = rsp.GetResponseStream();
-			// Pipes the stream to a higher level stream reader with the required encoding format. 
-			return new StreamReader(receiveStream, Encoding.UTF8).ReadToEnd();
-		}
+		
 		public void TencentAccountLogin()
 		{
 
@@ -48,9 +35,9 @@ namespace MyWebProject.Controllers
 		{
 			string code = Request["code"];
 			string step2Url = "https://github.com/login/oauth/access_token?client_id=1e8991731cc506dd7aa3&client_secret=b5e72132d8c5eadda8100e368ae2718907c5ecda&code=" + code;
-			string access_token = HttpGetResult(step2Url).Split('&')[0].Split('=')[1];
+			string access_token = Util.CommonUtil.HttpGetResult(step2Url).Split('&')[0].Split('=')[1];
 			string step3Url = "https://api.github.com/user?access_token=" + access_token;
-			string json = HttpGetResult(step3Url);
+			string json = Util.CommonUtil.HttpGetResult(step3Url);
 			GitHubUserInfo gitInfo = JsonConvert.DeserializeObject<GitHubUserInfo>(json);
 
 			using (Entity entity = new Entity())
