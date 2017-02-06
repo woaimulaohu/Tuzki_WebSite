@@ -8,6 +8,9 @@
                     <a href="javascript:void(0)" onclick="SnippetOnLoad()">摘要</a>
                 </li>
                 <li>
+                    <a href="javascript:void(0)" onclick="firstLoadGitHistory()">开发日志</a>
+                </li>
+                <li>
                     <a href="#">相册</a>
                 </li>
                 <li class="active">
@@ -47,6 +50,7 @@
     <div class="row" id="content">
 
     </div>
+    </br>
 </div>
 
 <script type="text/javascript">
@@ -81,6 +85,23 @@
         });
     }
 
+    function firstLoadGitHistory() {
+        showLoading('gitHub访问慢请耐心等待');
+        //repository - content
+        $.get('Home/loadGitHistory', function (html) {
+            $('#content').empty();
+            $('#content').append('<div style="margin-left: 20px;"><h4>开发日志 : </h4><a href="https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject" target="_blank">https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject</a></div>');
+            $('#content').append(html);
+            //hideLoading();
+        });
+    }
+    function loadGitHistory(after, page) {
+        //repository - content
+        $.get('Home/loadGitHistory?after=' + after + '&page=' + page, function (html) {
+            $("#historyMore").remove();
+            $('#content').append(html);
+        });
+    }
     //JS首次加载时调用摘要
     SnippetOnLoad();
 

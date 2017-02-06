@@ -146,6 +146,9 @@
     <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\images\HomeImg\banner.jpg" />
+    <Content Include="Content\images\HomeImg\loader.gif" />
+    <Content Include="Content\images\HomeImg\loader.svg" />
+    <Content Include="Content\images\HomeImg\loader2.svg" />
     <Content Include="Content\images\HomeImg\logo.png" />
     <Content Include="Content\images\HomeImg\social-icons.png" />
     <Content Include="Content\images\HomeImg\top-arrow.png" />

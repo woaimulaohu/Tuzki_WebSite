@@ -193,29 +193,50 @@ namespace MyWebProject.Controllers
 
 		public string loadGitHistory()
 		{
-			string gitHtml = Util.CommonUtil.HttpGetResult("https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject");
+			string after = string.IsNullOrEmpty(Request["after"]) ? string.Empty : "?after=" + Request["after"];
+			int page = string.IsNullOrEmpty(Request["page"]) ? 0 : int.Parse(Request["page"]);
+			string url = "https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject";
+			url += after;
+			string gitHtml = Util.CommonUtil.HttpGetResult(url);
 			HtmlDocument html = new HtmlDocument();
 			StringBuilder sb = new StringBuilder();
 			html.LoadHtml(HttpUtility.HtmlDecode(gitHtml));
 			HtmlNodeCollection coll = html.DocumentNode.SelectNodes("//div");
+			bool flag = false;
+			string nextPageTag = string.Empty;
+			int i = 1;
+			string[] style = { "success", "info", "warning" };
 			foreach (HtmlNode node in coll)
 			{
 				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("commit-group-title")).Count() > 0)
 				{
-					sb.Append("<div class=\"alert alert-info\" style=\"margin-bottom:0px;padding-bottom:20px\">" +
-							  "<div class=\"row\" style=\"padding-left: 15px; padding-right: 15px;\">" +
+					if (flag)
+					{
+						sb.Append("</div></div></br>");
+					}
+					sb.Append("<div class=\"row\" style=\"padding-left: 15px; padding-right: 15px;margin-left:5px;\">" +
+							  "<div class=\"alert alert-" + style[page % 3] + "\" style=\"margin-bottom:0px;padding-bottom:20px\">" +
 							  "<p style=\"word-break:break-all;font-size:small; word-wrap:break-word;float:left \">");
 					sb.Append(node.InnerText);
 					sb.Append("</p></br>");
+					flag = true;
+					i = 1;
 				}
 				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("table-list-cell")).Count() > 0)
 				{
 					sb.Append("<p style =\"word-break:break-all;font-size:small; word-wrap:break-word;float:left \">");
-					sb.Append(node.ChildNodes[1].ChildNodes[1].Attributes.Where(a => a.Name.Equals("title")).First().Value);
+					sb.Append("&nbsp;&nbsp;&nbsp;" + i + ")&nbsp;" + node.ChildNodes[1].ChildNodes[1].Attributes.Where(a => a.Name.Equals("title")).First().Value);
 					sb.Append("</p></br>");
-					sb.Append("</div></div>");
+					i++;
+				}
+				//pagination
+				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("pagination")).Count() > 0)
+				{
+					nextPageTag = node.ChildNodes[1].Attributes.Where(a => a.Name.Equals("href")).First().Value.Split('=')[1];
+					nextPageTag = "<a id='historyMore' href='javascript:void(0)' onclick=\"loadGitHistory('" + nextPageTag + "','" + (page + 1) + "')\">更多</a>";
 				}
 			}
+			sb.Append("</div></div></br>" + nextPageTag + "</br>");
 			return sb.ToString();
 		}
 		public ActionResult Tips(bool IsSuccess, string Msg)
