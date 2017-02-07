@@ -92,14 +92,16 @@
             $('#content').empty();
             $('#content').append('<div style="margin-left: 20px;"><h4>开发日志 : </h4><a href="https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject" target="_blank">https://github.com/woaimulaohu/Tuzki_WebSite/commits/master/MyWebProject</a></div>');
             $('#content').append(html);
-            //hideLoading();
+            hideLoading();
         });
     }
     function loadGitHistory(after, page) {
         //repository - content
+        showLoading('gitHub访问慢请耐心等待');
         $.get('Home/loadGitHistory?after=' + after + '&page=' + page, function (html) {
             $("#historyMore").remove();
             $('#content').append(html);
+            hideLoading();
         });
     }
     //JS首次加载时调用摘要

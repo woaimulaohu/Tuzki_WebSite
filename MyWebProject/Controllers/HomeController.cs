@@ -233,7 +233,7 @@ namespace MyWebProject.Controllers
 				if (node.Attributes.Where(a => a.Name.Equals("class") && a.Value.Equals("pagination")).Count() > 0)
 				{
 					nextPageTag = node.ChildNodes[1].Attributes.Where(a => a.Name.Equals("href")).First().Value.Split('=')[1];
-					nextPageTag = "<a id='historyMore' href='javascript:void(0)' onclick=\"loadGitHistory('" + nextPageTag + "','" + (page + 1) + "')\">更多</a>";
+					nextPageTag = "<a  style=\"padding-left: 15px; padding-right: 15px;margin-left:5px;\" id='historyMore' href='javascript:void(0)' onclick=\"loadGitHistory('" + nextPageTag + "','" + (page + 1) + "')\">更多</a>";
 				}
 			}
 			sb.Append("</div></div></br>" + nextPageTag + "</br>");
