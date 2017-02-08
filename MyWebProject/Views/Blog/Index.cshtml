@@ -24,19 +24,13 @@
 
                             <button type="submit" class="btn btn-info" onclick="searchPost($('#searchWords').val())">搜索</button>
                         </form>*@
-                    <form class="navbar-form navbar-right" name="f1" onsubmit="return g(this)" target="_blank" style="margin-top: 0px;margin-bottom: 0px;">
+
+                    <form class="navbar-form navbar-right" name="f1" target="_blank" style="margin-top: 0px;margin-bottom: 0px;">
                         <table bgcolor="#FFFFFF" style="font-size:9pt;">
                             <tr>
                                 <td>
-                                    <input type="text" style="max-width:200px" class="form-control" name="word" onfocus="checkHttps" size="30" maxlength="100">
+                                    <input type="text" id="bdcsMain"  style="max-width:200px" class="form-control"  size="30" maxlength="100">
                                     <input type="submit" class="btn btn-info" value="站内搜索"><br>
-                                    <input name="tn" type="hidden" value="SE_zzsearchcode_shhzc78w">
-                                    <input name="cl" type="hidden" value="3">
-                                    <input name="ct" type="hidden">
-                                    <input name="si" type="hidden" value="www.woaimulaohu.imwork.net">
-                                    <div hidden class="mt10">
-                                        <input name="s" type="radio" hidden checked> www.woaimulaohu.imwork.net
-                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -112,18 +106,5 @@
 <script>
     function checkHttps() {
         BaiduHttps.useHttps();
-    };
-    function g(formname) {
-        var data = BaiduHttps.useHttps();
-        var url = '';
-        url = data.s == 0 ? "http://www.baidu.com/baidu" : 'https://www.baidu.com/baidu' + '?ssl_s=1&ssl_c' + data.ssl_code;
-        if (formname.s[1].checked) {
-            formname.ct.value = "2097152";
-        }
-        else {
-            formname.ct.value = "0";
-        }
-        formname.action = url;
-        return true;
     };
 </script>
