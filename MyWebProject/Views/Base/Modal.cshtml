@@ -48,6 +48,8 @@
         $.post($("#saveFuncTionName").val(), { 'json': JSON.stringify(json) }, function (result) {
             if (result == 'success') {
                 $("#modalTips").html("保存成功!");
+            } else {
+                $("#modalTips").html("执行失败!");
             }
         });
     }

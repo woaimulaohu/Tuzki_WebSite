@@ -55,7 +55,7 @@
             if (data == 'success') {
                 selectMenu($("#menuId").val());
             } else {
-                alert("保存失败!检查是否有同名参数");
+                alert("保存失败!");
             }
         });
     }
@@ -92,8 +92,12 @@
             }
         }
         $.post("Management/configDel?id=" + id, function (data) {
-            selectMenu($("#menuId").val());
-            $("#cfg_" + id).remove();
+            if (data == 'success') {
+                selectMenu($("#menuId").val());
+                $("#cfg_" + id).remove();
+            } else {
+                alert("删除失败!");
+            }
         });
     }
     function add() {

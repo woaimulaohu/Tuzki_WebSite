@@ -108,8 +108,23 @@ namespace MyWebProject.Util_Pro
 				// Pipes the stream to a higher level stream reader with the required encoding format. 
 				return new StreamReader(receiveStream, Encoding.UTF8).ReadToEnd();
 			}
+			/// <summary>
+			/// 检查是否有管理员权限
+			/// </summary>
+			/// <returns></returns>
+			public static bool checkManagementAuthority(string token)
+			{
+				bool isManagerAuth = false;
+				using (Entity entity = new Entity())
+				{
+					if (entity.USER_INFO.Where(u => u.TOKEN == token).Count() > 0)
+					{
+						isManagerAuth = entity.USER_INFO.Where(u => u.TOKEN == token).First().USER_AUTH == 2 ? true : false;
+					}
+				}
+				return isManagerAuth;
+			}
 		}
-
 		public class DBUtil
 		{
 			public static void checkDB()

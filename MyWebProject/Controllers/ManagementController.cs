@@ -17,18 +17,19 @@ namespace MyWebProject.Controllers
 		// GET: Management
 		public ActionResult Index()
 		{
-			using (Entity entity = new Entity())
-			{
-				string token = Request.Cookies.Get("token").Value;
-				if (entity.USER_INFO.Where(u => u.TOKEN == token).First().USER_AUTH == 2)
-				{
-					return View();
-				}
-				else
-				{
-					return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = false, Obj = "Error", Msg = "非管理员禁止访问!" });
-				}
-			}
+			//using (Entity entity = new Entity())
+			//{
+			//	string token = Request.Cookies.Get("token").Value;
+			//	if (entity.USER_INFO.Where(u => u.TOKEN == token).First().USER_AUTH == 2)
+			//	{
+			//		return View();
+			//	}
+			//	else
+			//	{
+			//		return View("~/Views/ErrorPage.cshtml", new ResultObj { IsSuccess = false, Obj = "Error", Msg = "非管理员禁止访问!" });
+			//	}
+			//}
+			return View();
 		}
 		/// <summary>
 		/// 从数据库生成菜单列表
@@ -110,6 +111,10 @@ namespace MyWebProject.Controllers
 		}
 		public string AddUser()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			string json = Request["json"];
 			JArray ja = (JArray)JsonConvert.DeserializeObject(json);
 			Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -140,6 +145,10 @@ namespace MyWebProject.Controllers
 		}
 		public string SaveUserInfo()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			string json = Request["json"];
 			USER_INFO info = new USER_INFO();
 			PropertyInfo[] peroperties = info.GetType().GetProperties();
@@ -169,6 +178,10 @@ namespace MyWebProject.Controllers
 		}
 		public string UserDel()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			int userId = int.Parse(Request["userId"]);
 			using (Entity entity = new Entity())
 			{
@@ -218,6 +231,10 @@ namespace MyWebProject.Controllers
 		#region
 		public string configSaveAll()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			string json = Request["json"];
 			List<CONFIG> configs = JsonConvert.DeserializeObject<List<CONFIG>>(json);
 			using (Entity entity = new Entity())
@@ -270,6 +287,10 @@ namespace MyWebProject.Controllers
 		#region
 		public string delPost()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			int postId = int.Parse(Request["postId"]);
 			using (Entity entity = new Entity())
 			{
@@ -287,6 +308,10 @@ namespace MyWebProject.Controllers
 		#region
 		public string addPost()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			using (Entity entity = new Entity())
 			{
 				List<TAG_INFO> list = entity.TAG_INFO.Where(t => t.TAG_ID > 0).ToList();
@@ -319,6 +344,10 @@ namespace MyWebProject.Controllers
 		#region
 		public string saveModifyPost()
 		{
+			if (!Util.CommonUtil.checkManagementAuthority(Request["token"]))
+			{
+				return "fail";
+			}
 			string postTitle = Request["postTitle"];
 			string postSecondTitle = Request["postSecondTitle"];
 			string tags = Request["tags"];

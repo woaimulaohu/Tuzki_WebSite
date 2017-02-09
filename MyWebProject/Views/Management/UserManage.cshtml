@@ -95,6 +95,10 @@
             }
         }
         $.post("Management/UserDel?userId=" + id, function (data) {
+            if (data != "success") {
+                alert("保存失败!");
+                return;
+            }
             selectMenu($("#menuId").val());
             $("#cfg_" + id).remove();
         });

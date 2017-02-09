@@ -210,7 +210,11 @@
         if (window.confirm("确认删除?")) {
             $.post('Management/delPost', {
                 'postId': postId
-            }, function () {
+            }, function (data) {
+                if (data != "success") {
+                    alert("删除失败!");
+                    return;
+                }
                 getManagerDataGrid($("#saveStartPage").val());
             });
         } else {
