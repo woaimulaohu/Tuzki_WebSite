@@ -502,6 +502,7 @@
     <Compile Include="Models\Entity\STATISTICS.cs" />
     <Compile Include="Models\Entity\TAG_INFO.cs" />
     <Compile Include="Models\Entity\USER_INFO.cs" />
+    <Compile Include="Models\Entity\VISIT_IP.cs" />
     <Compile Include="Models\GitHubUserInfo.cs" />
     <Compile Include="Models\Modal.cs" />
     <Compile Include="Models\QueryResult\HomeResult.cs" />

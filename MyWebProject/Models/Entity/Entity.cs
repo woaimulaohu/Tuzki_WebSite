@@ -19,6 +19,7 @@ namespace MyWebProject.Models.Entity
 		public virtual DbSet<STATISTICS> STATISTICS { get; set; }
 		public virtual DbSet<TAG_INFO> TAG_INFO { get; set; }
 		public virtual DbSet<USER_INFO> USER_INFO { get; set; }
+		public virtual DbSet<VISIT_IP> VISIT_IP { get; set; }
 		public virtual DbSet<MENU> MENU { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -45,6 +46,10 @@ namespace MyWebProject.Models.Entity
 
 			modelBuilder.Entity<POST_INFO>()
 				.Property(e => e.SECOND_TITLE)
+				.IsFixedLength();
+
+			modelBuilder.Entity<VISIT_IP>()
+				.Property(e => e.IP_ADDRESS)
 				.IsFixedLength();
 		}
 	}

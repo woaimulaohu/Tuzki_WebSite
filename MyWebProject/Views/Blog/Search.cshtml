@@ -1,1 +1,30 @@
-﻿还没做 :)
+﻿@using MyWebProject.Models;
+@using Newtonsoft.Json.Linq;
+@{
+    ResultObj ro = Model as ResultObj;
+    if (!ro.IsSuccess)
+    {
+        <div class="alert alert-danger" role="alert">
+            <p>@ro.Msg</p>
+        </div>
+        return;
+    }
+    JArray result = ro.Obj as JArray;
+    foreach (JObject o in result)
+    {
+        string postId = o["postId"].ToString();
+        string postContent = o["postContent"].ToString();
+        <a href="javascript:void(0)" onclick="getDetial(@postId)">
+            <div class="alert alert-success" role="alert">
+                @Html.Raw(System.Web.HttpUtility.HtmlDecode(postContent))
+            </div>
+        </a>
+    }
+}
+<script>
+    function getDetial(id) {
+        $.post('Blog/DetialDirect', { 'postId': id }, function (data) {
+            $("#MiddleContent").html(data);
+        });
+    }
+</script>

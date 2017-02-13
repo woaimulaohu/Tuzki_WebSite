@@ -4,6 +4,7 @@ using MyWebProject.Models.Entity;
 using MyWebProject.Models.QueryResult;
 using MyWebProject.Util_Pro;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -57,10 +58,6 @@ namespace MyWebProject.Controllers
 		{
 			return View(base.getDetial(Request));
 		}
-		public ActionResult Search()
-		{
-			return View();
-		}
 		/// <summary>
 		/// 获取留言板框架页面
 		/// </summary>
@@ -111,6 +108,35 @@ namespace MyWebProject.Controllers
 				entity.SaveChanges();
 			}
 			return "success";
+		}
+		public ActionResult Search()
+		{
+			string keyWords = string.IsNullOrEmpty(Request["keyWords"]) ? "*" : Request["keyWords"];
+			string jsonStr = SearchEngine.searchGet(keyWords);
+			JObject ja = (JObject)JsonConvert.DeserializeObject(jsonStr);
+			JObject response = (JObject)JsonConvert.DeserializeObject(ja["response"].ToString());
+			if (int.Parse(response["numFound"].ToString()) < 1)
+			{
+				return View(new ResultObj() { IsSuccess = false, Msg = "未找到对应结果" });
+			}
+			JArray docs = (JArray)JsonConvert.DeserializeObject(response["docs"].ToString());
+			HtmlDocument html = new HtmlDocument();
+			StringBuilder sb = new StringBuilder();
+			foreach (JObject obj in docs)
+			{
+				string content = HttpUtility.HtmlDecode(obj["postContent"].ToString());
+				if (content.Length > 200)
+				{
+					html.LoadHtml(content);
+					HtmlNodeCollection coll = html.DocumentNode.SelectNodes("//p");
+					foreach (HtmlNode node in coll)
+					{
+						sb.Append(node.InnerText);
+					}
+					obj["postContent"] = sb.ToString().Substring(0, sb.Length > 180 ? 180 - 1 : sb.Length - 1) + "……";
+				}
+			}
+			return View(new ResultObj() { Obj = docs, IsSuccess = true });
 		}
 	}
 }

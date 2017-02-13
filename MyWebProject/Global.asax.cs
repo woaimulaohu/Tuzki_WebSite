@@ -1,8 +1,10 @@
-﻿using MyWebProject.Util_Pro;
+﻿using MyWebProject.Models.Entity;
+using MyWebProject.Util_Pro;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -39,9 +41,41 @@ namespace MyWebProject
 		}
 		protected void Session_Start(object sender, EventArgs e)
 		{
-
+			using (Entity entity = new Entity())
+			{
+				entity.VISIT_IP.Add(new VISIT_IP()
+				{
+					IP_ADDRESS = GetIPAddress(),
+					SESSION_START_TIME = DateTime.Now
+				});
+				entity.SaveChanges();
+			}
 		}
-
+		public static string GetIPAddress()
+		{
+			string ipv4 = String.Empty;
+			foreach (IPAddress IPA in Dns.GetHostAddresses(HttpContext.Current.Request.UserHostAddress))
+			{
+				if (IPA.AddressFamily.ToString() == "InterNetwork")
+				{
+					ipv4 = IPA.ToString();
+					break;
+				}
+			}
+			if (ipv4 != String.Empty)
+			{
+				return ipv4;
+			}
+			foreach (IPAddress IPA in Dns.GetHostAddresses(Dns.GetHostName()))
+			{
+				if (IPA.AddressFamily.ToString() == "InterNetwork")
+				{
+					ipv4 = IPA.ToString();
+					break;
+				}
+			}
+			return ipv4;
+		}
 		protected void Session_End(object sender, EventArgs e)
 		{
 			// 在会话结束时运行的代码。 
